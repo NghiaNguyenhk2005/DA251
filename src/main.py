@@ -10,6 +10,8 @@ pygame.display.set_caption("The se7enth code")
 font = pygame.font.SysFont(None, 60)
 
 # Colors
+RED = (255, 0, 0)
+CYAN = (0, 255, 255)
 WHITE = (255, 255, 255)
 GRAY = (100, 100, 100)
 BLACK = (0, 0, 0)
@@ -88,12 +90,15 @@ def confirm():
 
 def game_loop():
     player = pygame.Rect(375, 275, 50, 50)
+    player_size = 50
     speed = 10
     running = True
 
     while running:
-        pygame.time.delay(30)
+        clock = pygame.time.Clock()
+        clock.tick(90)  # Limits to 90 FPS   
         screen.fill(BLACK)
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -110,7 +115,19 @@ def game_loop():
         if keys[pygame.K_ESCAPE]:
             if confirm():
                 running = False
-        pygame.draw.rect(screen, (0, 255, 255), player)
+
+        if player.x - 10 < 0:
+            player.x  = 0 + 10
+        if player.x + player_size + 10 > WIDTH:
+            player.x = WIDTH - player_size - 10
+        if player.y - 10 < 0:
+            player.y = 0 + 10
+        if player.y + player_size + 10 > HEIGHT:
+            player.y = HEIGHT - player_size - 10
+
+        pygame.draw.rect(screen, CYAN, player)
+        hitbox = player.inflate(20, 20)
+        pygame.draw.rect(screen, RED, hitbox, 2)
         pygame.display.update()
 
     main_menu()
