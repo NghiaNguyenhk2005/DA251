@@ -1,0 +1,80 @@
+\section{Định hướng phát triển}
+\subsection{Định hướng kỹ thuật}
+
+\subsubsection{Phát triển trên nền tảng PC} 
+Dự án sẽ được phát triển trên nền tảng PC (máy tính cá nhân), đây là một quyết định chiến lược dựa trên đặc thù của thể loại game trinh thám. 
+
+Thị trường game trinh thám indie trên PC đang phát triển mạnh mẽ và có một cộng đồng người chơi lớn, trung thành. Các tựa game thành công như Return of the Obra Dinn hay Her Story đều chứng minh rằng PC là nền tảng lý tưởng cho những tựa game đòi hỏi sự tập trung cao độ, khả năng suy luận logic và đọc hiểu thông tin phức tạp. Điều này khác biệt so với game di động, vốn thường hướng tới các trải nghiệm giải trí nhanh, đơn giản và ít tốn thời gian.
+
+Ngoài ra, PC cũng chính là nền tảng đội ngũ sử dụng để phát triển và chạy thử các bản thử nghiệm. Tập trung phát hành cho PC trước giúp giảm thiểu rủi ro, cho phép chúng tôi dễ dàng điều chỉnh, tối ưu hóa và sửa lỗi trước khi phát hành chính thức.
+
+\subsubsection{Python}
+Python là một trong những ngôn ngữ lập trình phổ biến nhất thế giới với cú pháp đơn giản và dễ đọc. Trong các thư viện phát triển game của Python, Pygame là nổi bật nhất vì tính chuyên dụng và dễ dùng của nó. Pygame cung cấp toàn bộ các chức năng cần thiết để phát triển một sản phẩm game hoàn chỉnh: xử lý đồ họa, âm thanh, và các thiết bị đầu vào.
+
+\textbf{Lý do chọn Python và Pygame}
+\begin{itemize}
+    \item \textbf{Tốc độ phát triển:}
+    Python có cú pháp ngắn gọn và được hỗ trợ bởi rất nhiều các thư viện có sẵn. Lựa chọn Python làm ngôn ngữ phát triển giúp một đội ngũ ít nhân lực có thể xây dựng cơ chế game nhanh chóng.
+
+    \item \textbf{Phù hợp với thể loại game:}
+    Game trinh thám chủ yếu tập trung vào cốt truyện, lời thoại và mô tả các vật phẩm. Gameplay thường đơn giản và chậm rãi, không đòi hỏi phải có hiệu suất cao. Dự án của đội ngữ là game 2D, không phải game 3D phức tạp. Với việc phát triển game 2D, và không quá quan tâm về hiệu suất, Pygame và Python là hoàn toàn phù hợp.
+
+    \item \textbf{Khả năng mở rộng:}
+    Python có thể dễ dàng tích hợp các thư viện khác để thực thi những tác vụ phức tạp hơn.
+
+    \item \textbf{Cộng đồng đông đảo:}
+    Pygame là một thư viện phát triển game rất phổ biến của Python. Với cộng đồng người dùng lớn, việc tìm kiếm tài liệu hướng dẫn và hỗ trợ sẽ đơn giản và nhanh chóng.
+\end{itemize}
+
+\subsubsection{Git và Github}
+Để đảm bảo quy trình làm việc hiệu quả và chuyên nghiệp, dự án sẽ sử dụng Git để quản lý mã nguồn và GitHub làm nền tảng lưu trữ. Bộ đôi công cụ không thể thiếu trong phát triển phần mềm hiện đại.
+
+\begin{enumerate}
+    \item \textbf{Git:}
+    là một hệ thống kiểm soát phiên bản phân tán (Distributed Version Control System - DVCS) mạnh mẽ. Git cho phép toàn bộ đội ngũ phát triển theo dõi và quản lý mọi thay đổi trong mã nguồn.
+    \begin{itemize}
+        \item \textbf{Theo dõi lịch sử:}
+        Git lưu lại lịch sử của mọi thay đổi từ đầu tới cuối quá trình hiện thực dự án, giúp đội ngũ dễ dàng quay lại các phiên bản trước nếu xảy ra lỗi.
+
+        \item \textbf{Làm việc độc lập:}
+        Mỗi lập trình viên có thể làm việc trên một nhánh (branch) riêng biệt mà không ảnh hưởng đến mã nguồn chính; giúp tránh xung đột và cho phép thử nghiệm các tính năng mới một cách an toàn.
+    \end{itemize}
+
+    \item \textbf{GitHub:} 
+    là một nền tảng lưu trữ kho Git trực tuyến, giúp đội ngũ chia sẻ và phát triển dự án từ xa.
+    \begin{itemize}
+        \item \textbf{Lưu trữ và sao lưu:}
+        GitHub đóng vai trò như một kho lưu trữ từ xa, đảm bảo mã nguồn luôn được sao lưu an toàn và có thể truy cập được từ bất kỳ đâu.
+
+        \item \textbf{Cộng tác hiệu quả từ xa:}
+        GitHub cung cấp một môi trường lý tưởng cho việc cộng tác, cho phép nhiều lập trình viên cùng làm việc trên một dự án thông qua các tính năng như "pull request" để xem xét và hợp nhất mã, hoặc "issue tracker" để quản lý các lỗi và nhiệm vụ.
+
+        \item \textbf{Quản lý dự án:}
+        Ngoài việc lưu trữ mã, GitHub còn là một công cụ quản lý dự án hiệu quả, giúp đội ngũ theo dõi tiến độ công việc và thảo luận về các tính năng mới.
+    \end{itemize}
+    
+\end{enumerate}
+
+\subsection{Định hướng mở rộng}
+Để thu hút thêm người chơi cũng như nâng cao trải nghiệm người dùng. Đây là các yếu tố mở rộng mà dự án sẽ hướng tới trong tương lai.
+
+\subsubsection{Cải thiện hệ thống đồ họa và âm thanh}
+\begin{enumerate}
+    \item \textbf{Hệ thống đồ họa:}
+    Dự án sẽ tiếp tục phát triển đồ họa 2D theo phong cách cũ, nhưng với độ chi tiết cao hơn và hiệu ứng ánh sáng, đổ bóng được trau chuốt hơn. Mục tiêu là tạo ra một thế giới game không chỉ bắt mắt mà còn chân thực, hỗ trợ tốt cho việc khám phá manh mối.
+
+    \item \textbf{Hệ thống âm thanh:}
+    Âm nhạc và âm thanh môi trường sẽ được đầu tư để tạo ra bầu không khí kịch tính, bí ẩn của một vụ án trinh thám. Thêm các hiệu ứng âm thanh nhỏ (sound effects) cho mỗi hành động của người chơi và cho phép người chơi tùy chỉnh âm lượng của âm nhạc, âm thanh môi trường, và hiệu ứng để phù hợp với sở thích cá nhân.
+\end{enumerate}
+
+\subsubsection{Mở rộng cốt truyện}
+\begin{enumerate}
+    \item \textbf{Vụ án phụ:}
+    Xây dựng thêm các vụ án nhỏ, độc lập để người chơi có thêm nội dung để khám phá. Các vụ án này có thể liên quan đến vụ án chính hoặc chỉ đơn thuần là các câu chuyện trinh thám ngắn.
+
+    \item \textbf{Địa điểm, NPC và vật phẩm:}
+    Các bản cập nhật sau này sẽ thêm nhiều địa điểm mới, các nhân vật phụ với câu chuyện riêng, và các vật phẩm độc đáo để người chơi tương tác. Vừa mở rộng thế giới game, vừa làm nội dung thêm phong phú.
+\end{enumerate}
+
+\subsubsection{Phát hành bản mobile (iOS, Android)}
+Đây là bước tiếp theo để mở rộng thị trường sau khi bản PC đã ổn định. Chúng tôi sẽ tối ưu hóa giao diện và trải nghiệm người dùng để phù hợp với màn hình cảm ứng, đảm bảo game vẫn giữ được chiều sâu của thể loại trinh thám nhưng cũng dễ dàng tiếp cận trên nền tảng di động.
