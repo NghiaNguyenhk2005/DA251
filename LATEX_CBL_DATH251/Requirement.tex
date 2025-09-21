@@ -1,0 +1,59 @@
+\section{Yêu cầu phi chức năng (Non-functional requirements)}
+Các yêu cầu dưới đây mô tả các tiêu chí về chất lượng mà dự án phải đáp ứng, nhằm đảm bảo game hoạt động ổn định, hiệu quả và mang lại trải nghiệm tốt cho người dùng.
+
+\begin{enumerate}
+    \item \textbf{Hiệu năng}
+    \begin{itemize}
+        \item \textbf{Tốc độ phản hồi:} 
+        Game phải phản hồi nhanh, không giật lag. \\
+        -- \textbf{Thang đo:} 
+        Tốc độ tải màn hình không quá \textbf{10 giây}. Các thao tác tương tác của người chơi (như nhấp chuột vào một vật thể) phải có phản hồi ngay lập tức, dưới \textbf{1 giây}.
+
+        \item \textbf{Tối ưu hóa tài nguyên:}
+        Vì là một dự án 2D đơn giản không tốn phần cứng, game phải hoạt động hiệu quả trên nhiều cấu hình PC khác nhau. \\
+        -- \textbf{Thang đo:}
+        Sử dụng CPU không quá \textbf{30\%} và RAM không quá \textbf{2GB} đối với các máy tính có cấu hình tầm trung.
+    \end{itemize}
+
+    \item \textbf{Khả năng mở rộng}
+    \begin{itemize}
+        \item \textbf{Khả năng thêm nội dung:}
+        Cấu trúc game phải cho phép dễ dàng tích hợp các nội dung mới như vụ án, NPC và vật phẩm. \\
+        -- \textbf{Thang đo:} Thời gian để thêm một vụ án mới không quá \textbf{1 tháng}, bao gồm cả việc thiết kế và lập trình.
+
+        \item \textbf{Hệ thống server:}
+        Nếu game có chức năng online hoặc lưu trữ đám mây, hệ thống server phải có khả năng mở rộng để hỗ trợ số lượng người dùng đồng thời tăng lên.
+
+        -- \textbf{Thang đo:} Hệ thống có thể mở rộng để đáp ứng số lượng người dùng tăng \textbf{gấp đôi} mà không làm \textbf{giảm hiệu năng}.
+    \end{itemize}
+
+    \item \textbf{Độ tin cậy và ổn định}
+    \begin{itemize}
+        \item \textbf{Tỷ lệ lỗi:} \\
+        -- \textbf{Thang đo:} Tỷ lệ lỗi nghiêm trọng (crash, treo game) phải dưới \textbf{0.1\%} trên mỗi phiên chơi. Tỷ lệ lỗi nhỏ (visual bugs, text lỗi) phải dưới \textbf{1\%}.
+
+        \item \textbf{Khả năng khôi phục dữ liệu:}
+        Phải có cơ chế sao lưu và khôi phục dữ liệu người chơi để tránh mất tiến độ. \\
+        \textbf{-- Thang đo:} Dữ liệu người dùng phải được sao lưu tự động sau mỗi lần hoàn thành một nhiệm vụ hoặc thoát game. Tỷ lệ người chơi mất dữ liệu trong mỗi lần lưu game phải dưới \textbf{0.1\%}.
+    \end{itemize}
+
+    \item \textbf{Khả năng sử dụng}
+    \begin{itemize}
+        \item \textbf{Thiết kế giao diện (UI/UX):}
+        Giao diện phải rõ ràng, dễ hiểu. \\
+        -- \textbf{Thang đo:} Người dùng có thể tìm thấy các chức năng chính (ví dụ: mở Sổ tay, Báo cáo) trong vòng \textbf{3 lần nhấp chuột}.
+    \end{itemize}
+
+    \item \textbf{Khả năng tương thích}
+    \begin{itemize}
+        \item \textbf{Hệ điều hành:} \\
+        -- \textbf{Thang đo:} Game phải chạy được trên các hệ điều hành phổ biến, cụ thể là \textbf{3 hệ điều hành}: Window 11, MacOS, Linux.
+
+        \item \textbf{Mã nguồn (Portable Code)} \\
+        -- \textbf{Thang đo:} Tối thiểu \textbf{80\%} mã nguồn game phải phù hợp với các hệ điều hành nêu trên.
+    \end{itemize}
+
+
+\end{enumerate}
+
+
