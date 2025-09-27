@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.9.21)  27 SEP 2025 21:03
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.9.21)  27 SEP 2025 23:42
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1108,7 +1108,7 @@ File: tikzlibrarybackgrounds.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 \c@proposition=\count404
 \c@subsubsubsection=\count405
 \indent@amount=\dimen358
- (main.aux (Introduction_Acknowledge.aux) (DevelopmentOrientation.aux) (UserStory.aux) (Requirement.aux) (Device.aux) (Usecase.aux) (Mockup.aux) (Database.aux) (SoftwareArchitecture.aux) (ClassDiagram.aux) (DesignPattern.aux) (Github.aux) (Conclusion.aux))
+ (main.aux (Introduction_Acknowledge.aux) (DevelopmentOrientation.aux) (Requirement.aux) (Device.aux) (Usecase.aux) (Mockup.aux) (Database.aux) (SoftwareArchitecture.aux) (ClassDiagram.aux) (DesignPattern.aux) (Github.aux) (Conclusion.aux))
 \openout1 = `main.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 182.
@@ -1199,7 +1199,7 @@ Package hyperref Info: Link coloring ON on input line 182.
 \@outlinefile=\write4
 \openout4 = `main.out'.
 
-<image/logo.png, id=82, 438.9198pt x 418.6842pt>
+<image/logo.png, id=118, 438.9198pt x 418.6842pt>
 File: image/logo.png Graphic file (type png)
 <use image/logo.png>
 Package pdftex.def Info: image/logo.png  used on input line 196.
@@ -1293,26 +1293,31 @@ File: image/logo.png Graphic file (type png)
 Package pdftex.def Info: image/logo.png  used on input line 268.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
 [6]
-\openout2 = `UserStory.aux'.
-
-
-No file UserStory.tex.
 \openout2 = `Requirement.aux'.
 
-(Requirement.tex)
+ (Requirement.tex
 
 File: image/logo.png Graphic file (type png)
 <use image/logo.png>
-Package pdftex.def Info: image/logo.png  used on input line 270.
+Package pdftex.def Info: image/logo.png  used on input line 38.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
 [7
 
 
 
-
-
-
 ]
+
+File: image/logo.png Graphic file (type png)
+<use image/logo.png>
+Package pdftex.def Info: image/logo.png  used on input line 79.
+(pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
+[8])
+
+File: image/logo.png Graphic file (type png)
+<use image/logo.png>
+Package pdftex.def Info: image/logo.png  used on input line 269.
+(pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
+[9]
 \openout2 = `Device.aux'.
 
 
@@ -1343,26 +1348,26 @@ No file Github.tex.
 No file Conclusion.tex.
 
 enddocument/afterlastpage (AED): lastpage setting LastPage.
-(main.aux (Introduction_Acknowledge.aux) (DevelopmentOrientation.aux) (UserStory.aux) (Requirement.aux) (Device.aux) (Usecase.aux) (Mockup.aux) (Database.aux) (SoftwareArchitecture.aux) (ClassDiagram.aux) (DesignPattern.aux) (Github.aux) (Conclusion.aux))
+(main.aux (Introduction_Acknowledge.aux) (DevelopmentOrientation.aux) (Requirement.aux) (Device.aux) (Usecase.aux) (Mockup.aux) (Database.aux) (SoftwareArchitecture.aux) (ClassDiagram.aux) (DesignPattern.aux) (Github.aux) (Conclusion.aux))
  ***********
 LaTeX2e <2025-06-01> patch level 1
 L3 programming layer <2025-08-13>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: C59A2359EA88455E9062C72DCA704A34;3474.
+(rerunfilecheck)             Checksum: 1CC9EB14F072C07CE9AD50CD313305E8;5722.
  ) 
 Here is how much of TeX's memory you used:
- 38149 strings out of 468133
- 773905 string characters out of 5430712
- 1269388 words of memory out of 5000000
- 66029 multiletter control sequences out of 15000+600000
+ 38147 strings out of 468133
+ 773627 string characters out of 5430712
+ 1268784 words of memory out of 5000000
+ 66021 multiletter control sequences out of 15000+600000
  643120 words of font info for 75 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 84i,25n,87p,2556b,772s stack positions out of 10000i,1000n,20000p,200000b,200000s
- <C:\Users\nghia\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk><C:/Users/nghia/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vnbx10.pfb><C:/Users/nghia/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vnbx12.pfb><C:/Users/nghia/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vnbxti10.pfb><C:/Users/nghia/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vnr10.pfb><C:/Users/nghia/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vnr12.pfb><C:/Users/nghia/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vntt10.pfb><C:/Users/nghia/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vntt8.pfb>
-Output written on main.pdf (8 pages, 200482 bytes).
+ 84i,25n,87p,2556b,774s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ <C:\Users\nghia\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk><C:/Users/nghia/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/nghia/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vnbx10.pfb><C:/Users/nghia/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vnbx12.pfb><C:/Users/nghia/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vnbxti10.pfb><C:/Users/nghia/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vnr10.pfb><C:/Users/nghia/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vnr12.pfb><C:/Users/nghia/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vntt10.pfb><C:/Users/nghia/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vntt8.pfb>
+Output written on main.pdf (10 pages, 223274 bytes).
 PDF statistics:
- 222 PDF objects out of 1000 (max. 8388607)
- 49 named destinations out of 1000 (max. 500000)
- 170 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 283 PDF objects out of 1000 (max. 8388607)
+ 60 named destinations out of 1000 (max. 500000)
+ 242 words of extra memory for PDF output out of 10000 (max. 10000000)
 
