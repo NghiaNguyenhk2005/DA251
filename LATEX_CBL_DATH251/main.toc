@@ -16,4 +16,13 @@
 \contentsline {subsubsection}{\numberline {2.2.1}Cải thiện hệ thống đồ họa và âm thanh}{6}{subsubsection.2.2.1}%
 \contentsline {subsubsection}{\numberline {2.2.2}Mở rộng cốt truyện}{6}{subsubsection.2.2.2}%
 \contentsline {subsubsection}{\numberline {2.2.3}Phát hành bản mobile (iOS, Android)}{6}{subsubsection.2.2.3}%
-\contentsline {section}{\numberline {3}Yêu cầu phi chức năng (Non-functional requirements)}{7}{section.3}%
+\contentsline {section}{\numberline {3}Yêu cầu hệ thống (System requirements)}{7}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Yêu cầu chức năng (Functional requirements)}{7}{subsection.3.1}%
+\contentsline {subsubsection}{\numberline {3.1.1}Hệ thống hội thoại tương tác}{7}{subsubsection.3.1.1}%
+\contentsline {subsubsection}{\numberline {3.1.2}Quản lý trạng thái nhân vật và cốt truyện}{7}{subsubsection.3.1.2}%
+\contentsline {subsubsection}{\numberline {3.1.3}Giao diện người dùng}{7}{subsubsection.3.1.3}%
+\contentsline {subsubsection}{\numberline {3.1.4}Quản lý lưu và tải trò chơi}{7}{subsubsection.3.1.4}%
+\contentsline {subsubsection}{\numberline {3.1.5}Âm thanh và hiệu ứng}{8}{subsubsection.3.1.5}%
+\contentsline {subsubsection}{\numberline {3.1.6}Quản lý kịch bản và nội dung}{8}{subsubsection.3.1.6}%
+\contentsline {subsubsection}{\numberline {3.1.7}Hệ thống kết thúc đa dạng}{8}{subsubsection.3.1.7}%
+\contentsline {subsection}{\numberline {3.2}Yêu cầu phi chức năng (Non-functional requirements)}{8}{subsection.3.2}%
