@@ -1,0 +1,106 @@
+\section{Use Cases}
+\subsection{Phòng Thẩm Vấn (Interrogation Room).}
+
+\subsubsection{Sơ đồ chức năng.}
+
+\begin{figure}[h!]
+    % Lệnh \centering dùng để căn giữa nội dung bên trong môi trường figure
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/interrogation-room-usecase.png}
+    
+    \caption{Sơ đồ chức năng cho Phòng Thẩm Vấn. (Interrogation Room Usecase Diagram.)}
+    
+    \label{fig:interrogation-room-usecase-diagram}
+\end{figure}
+
+\subsubsection{Yêu cầu chức năng (Functional Requirements).}
+
+\paragraph*{UCT000: Khởi tạo Giao diện Thẩm vấn (Interrogation UI Initialization)}
+Use Case này mô tả quá trình thiết lập giao diện chính ngay sau khi Người chơi chọn nghi phạm.
+\begin{itemize}
+    \item \textbf{Actor:} Người chơi (Player).
+    \item \textbf{Mô tả:} Hệ thống chuẩn bị và hiển thị giao diện thẩm vấn chính, sẵn sàng cho Người chơi tương tác.
+    \item \textbf{Luồng sự kiện chính:}
+    \begin{enumerate}
+        \item Hệ thống nhận diện Nghi phạm được chọn.
+        \item Hệ thống tải và hiển thị ba khu vực tương tác cốt lõi: Khu vực Câu hỏi Chung, Khu vực Bằng chứng, Khu vực Đối thoại (Lời khai).
+        \item Hệ thống hiển thị biểu tượng truy cập nhanh của NPC Cố vấn và Nghi phạm.
+        \item Hệ thống chuyển trạng thái sẵn sàng cho các hành động Thẩm vấn.
+    \end{enumerate}
+\end{itemize}
+
+\paragraph*{UCA000: Thẩm Vấn Nghi Phạm (Nói chung) (General Interrogation)}
+Use Case này tập trung vào các câu hỏi mở và luồng đối thoại không liên quan trực tiếp đến việc chất vấn bằng chứng.
+\begin{itemize}
+    \item \textbf{Actor:} Người chơi (Player), NPC Nghi phạm (Suspect).
+    \item \textbf{Mục tiêu:} Sử dụng các câu hỏi chung để tìm ra mâu thuẫn hoặc thu thập thông tin mới.
+    \item \textbf{Luồng sự kiện chính:}
+    \begin{enumerate}
+        \item Người chơi chọn một Nghi phạm (\textbf{Lựa chọn Nghi phạm}).
+        \item Hệ thống thực hiện \textbf{UCT000: Khởi tạo Giao diện Thẩm vấn} (<<include>>).
+        \item Người chơi \textbf{đặt các câu hỏi mở} từ Khu vực Câu hỏi Chung.
+        \item Nghi phạm phản hồi (hiển thị trong Khu vực Đối thoại).
+        \item Người chơi theo dõi và phát hiện mâu thuẫn (Mục tiêu).
+    \end{enumerate}
+\end{itemize}
+
+\paragraph*{UCA001: Thẩm Vấn Nghi Phạm về Bằng Chứng (Evidence-Based Interrogation)}
+Use Case này tập trung vào việc chất vấn Nghi phạm bằng cách sử dụng các bằng chứng đã thu thập.
+\begin{itemize}
+    \item \textbf{Actor:} Người chơi (Player), NPC Nghi phạm (Suspect), Bằng chứng (Evidence).
+    \item \textbf{Mục tiêu:} Ép cung Nghi phạm bằng bằng chứng để làm rõ mối liên hệ của Nghi phạm với bằng chứng đó.
+    \item \textbf{Luồng sự kiện chính:}
+    \begin{enumerate}
+        \item Người chơi \textbf{chọn một bằng chứng} từ Khu vực Bằng chứng.
+        \item Hệ thống hiển thị danh sách các \textbf{câu hỏi chất vấn chuyên biệt} liên quan đến bằng chứng.
+        \item Người chơi lựa chọn câu hỏi.
+        \item Nghi phạm đưa ra lời khai phản hồi.
+        \item Hệ thống hiển thị lời khai và các mâu thuẫn được phát hiện.
+    \end{enumerate}
+\end{itemize}
+
+\paragraph*{UCI000: Tương Tác với NPC Hỗ Trợ (Mentor \& Suspect)}
+
+Các tương tác với NPC Hỗ trợ (Mentor) và Nghi Phạm (Suspect) được chuẩn hóa thông qua giao diện trò chuyện riêng. (Nội dung giữ nguyên)
+
+\begin{enumerate}
+\item\textbf{Giao diện và Tùy chọn Tương tác}
+    \begin{itemize}
+        \item \textbf{Truy cập Nhanh:} Một biểu tượng hoặc nút bấm của \textbf{Người Cố Vấn (Mentor)} và \textbf{Nghi Phạm (Suspect)} sẽ luôn hiển thị trong giao diện thẩm vấn.
+        \item \textbf{Tùy chọn:} Khi click vào biểu tượng của NPC, hai tùy chọn sẽ hiện lên: \textbf{"Đặt câu hỏi"} (cho cả Mentor và Suspect) và \textbf{"Xin chỉ dẫn"} (chỉ dành cho Mentor).
+    \end{itemize}
+
+\item\textbf{Chức năng "Đặt câu hỏi"}
+    \begin{itemize}
+        \item \textbf{Giao diện:} Quá trình trao đổi diễn ra trong một \textbf{cửa sổ trò chuyện riêng} (giống Messenger).
+        \item \textbf{Danh sách Câu hỏi:} Khi người chơi chọn tùy chọn này, một danh sách các câu hỏi được phép hỏi NPC đó sẽ hiện ra.
+        \item \textbf{Quy tắc Sử dụng:} Mỗi câu hỏi chỉ được sử dụng \textbf{một lần}; sau khi đặt, câu hỏi đó sẽ \textbf{biến mất} khỏi danh sách để tránh lặp lại.
+    \end{itemize}
+\end{enumerate}
+
+\paragraph*{UCI001: Tương Tác Bằng Chứng với Người Cố Vấn}
+
+Chức năng này cho phép người chơi tham vấn ý kiến chuyên môn từ Mentor về các bằng chứng thu thập được. (Nội dung giữ nguyên)
+
+\begin{itemize}
+    \item \textbf{Thao tác:}
+    \begin{enumerate}
+        \item Người chơi \textbf{chọn một bằng chứng} cụ thể từ khu vực Bằng chứng.
+        \item Click vào biểu tượng \textbf{Mentor}.
+        \item Chọn tùy chọn \textbf{"Đặt câu hỏi"} (hoặc một tùy chọn tương đương như "Tham vấn Bằng chứng").
+    \end{enumerate}
+    \item \textbf{Phản hồi của Mentor:} Mentor sẽ đưa ra \textbf{thông tin phân tích cơ bản}, \textbf{ý kiến chuyên môn} hoặc \textbf{bối cảnh liên quan} tới bằng chứng đó, giúp người chơi hiểu rõ hơn về giá trị pháp lý hoặc mối liên hệ của bằng chứng với vụ án.
+\end{itemize}
+
+\paragraph*{UCT001: Kết thúc Phiên Thẩm vấn (Interrogation Session Termination)}
+Chức năng này mô tả quá trình Người chơi kết thúc phiên làm việc trong phòng thẩm vấn.
+\begin{itemize}
+    \item \textbf{Actor:} Người chơi (Player).
+    \item \textbf{Mô tả:} Người chơi quyết định dừng quá trình thẩm vấn và rời khỏi giao diện.
+    \item \textbf{Luồng sự kiện chính:}
+    \begin{enumerate}
+        \item Người chơi chọn tùy chọn "Kết thúc Phiên" hoặc "Thoát" trên giao diện.
+        \item Hệ thống ghi nhận trạng thái mới nhất của lời khai, bằng chứng, và tiến trình game.
+        \item Hệ thống chuyển Người chơi trở lại giao diện điều tra chung.
+    \end{enumerate}
+\end{itemize}
