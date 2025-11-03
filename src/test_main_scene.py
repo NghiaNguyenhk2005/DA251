@@ -1,7 +1,7 @@
 import pygame
 import sys
 
-from ui.main_scene import MAIN_MENU_IMG, Button
+from ui.main_scene import MAIN_MENU_IMG, Button, MainSceneUi
 
 pygame.init()
 
@@ -27,11 +27,8 @@ def test():
                 pygame.quit()
                 sys.exit()
 
-        menu_img = pygame.image.load(MAIN_MENU_IMG)
-        menu_button = Button((10, 10), menu_img, 5)
-
-        menu_button.draw(screen)
-
+        main_scene = MainSceneUi()
+        main_scene.draw(screen)
         pygame.display.update()
 
 test()
