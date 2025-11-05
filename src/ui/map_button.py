@@ -1,17 +1,20 @@
 import pygame
 from typing import Callable, Optional
-from main_scene import Button
+from .button import Button
+from .tooltip import Tooltip
 
 MAP_SCENE_IMG = "assets/images/ui/map_scene.png"
 OFFICE_MAP_SCENE_IMG = "assets/images/ui/office-map-scene.png"
 TOA_THI_CHINH_IMG = "assets/images/ui/toa-chi-chinh.png"
+CLOSE_BUTTON_IMG = "assets/images/ui/close-button.png"
 
 
 class BuildingButton:
     """Button cho các tòa nhà trên bản đồ"""
     def __init__(self, image_path: str, position: tuple[int, int], 
                  scale: float = 1.0, building_id: str = "", 
-                 on_click: Optional[Callable[[str], None]] = None):
+                 on_click: Optional[Callable[[str], None]] = None,
+                 tooltip_text: str = ""):
         """
         Args:
             image_path: Đường dẫn đến ảnh của tòa nhà
@@ -19,6 +22,7 @@ class BuildingButton:
             scale: Tỷ lệ scale của ảnh
             building_id: ID của tòa nhà (để callback biết tòa nào được click)
             on_click: Callback function khi click vào tòa nhà
+            tooltip_text: Text to display in tooltip when hovering
         """
         self.building_id = building_id
         self.on_click = on_click
@@ -42,6 +46,9 @@ class BuildingButton:
         self.hover_overlay = pygame.Surface(self.image.get_size())
         self.hover_overlay.set_alpha(50)
         self.hover_overlay.fill((255, 255, 100))  # Màu vàng nhạt
+        
+        # Tooltip
+        self.tooltip = Tooltip(tooltip_text) if tooltip_text else None
     
     def update(self, mouse_pos: tuple[int, int], mouse_pressed: bool, popup_offset: tuple[int, int]):
         """
@@ -90,6 +97,21 @@ class BuildingButton:
             actual_rect.y += offset[1]
             pygame.draw.rect(surface, (255, 255, 0), actual_rect, 3)
 
+            if self.was_clicked:
+                pygame.draw.rect(surface, (255, 0, 0), actual_rect, 3)
+    
+    def draw_tooltip(self, surface: pygame.Surface):
+        """
+        Draw tooltip if button is hovered and tooltip exists
+        
+        Args:
+            surface: Surface to draw on
+        """
+        if self.is_hovered and self.tooltip:
+            mouse_pos = pygame.mouse.get_pos()
+            self.tooltip.draw(surface, mouse_pos)
+
+
 
 class MapPopup:
     """Popup window hiển thị bản đồ"""
@@ -128,12 +150,18 @@ class MapPopup:
         self.map_pos = (self.popup_rect.x + 20, self.popup_rect.y + 20)
         
         # Tạo nút đóng
-        self.close_button_rect = pygame.Rect(
-            self.popup_rect.right - 40,
-            self.popup_rect.top + 10,
-            30,
-            30
+        self.close_button = Button(
+            position=(self.popup_rect.right-80,self.popup_rect.top + 40),
+            image=pygame.image.load(CLOSE_BUTTON_IMG),
+            scale=2,
+            split=3
         )
+        # self.close_button_rect = pygame.Rect(
+        #     self.popup_rect.right - 40,
+        #     self.popup_rect.top + 10,
+        #     30,
+        #     30
+        # )
         
         self.is_open = False
         self.was_clicked = False
@@ -157,7 +185,8 @@ class MapPopup:
             position=(330, 70),  # Vị trí X, Y trên bản đồ
             scale=0.05,  # <-- ĐIỀU CHỈNH SCALE TẠI ĐÂY (0.1 = 10%, 0.5 = 50%, 1.0 = 100%)
             building_id="office",
-            on_click=on_click
+            on_click=on_click,
+            tooltip_text="Office Building"
         )
         buttons.append(office_button)
         print(f"[MapPopup] Office button created - Original: {office_button.original_image.get_size()}, Scaled: {office_button.image.get_size()}")
@@ -169,7 +198,8 @@ class MapPopup:
             position=(360, 220),  # Vị trí X, Y trên bản đồ
             scale=0.05,  # <-- ĐIỀU CHỈNH SCALE TẠI ĐÂY (0.1 = 10%, 0.5 = 50%, 1.0 = 100%)
             building_id="toa_thi_chinh",
-            on_click=on_click
+            on_click=on_click,
+            tooltip_text="Tòa Thi Chính"
         )
         buttons.append(toa_thi_chinh_button)
         print(f"[MapPopup] Tòa Thi Chính button created - Original: {toa_thi_chinh_button.original_image.get_size()}, Scaled: {toa_thi_chinh_button.image.get_size()}")
@@ -190,13 +220,16 @@ class MapPopup:
         if not self.is_open:
             return
         
+        # Click vào nút X để đóng
+        if self.close_button.is_clicked():
+            self.is_open = False
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
             # Click vào nút X để đóng
-            if self.close_button_rect.collidepoint(mouse_pos):
-                self.is_open = False
+            # if self.close_button.is_clicked():
+            #     self.is_open = False
             # Click bên ngoài popup để đóng
-            elif not self.popup_rect.collidepoint(mouse_pos):
+            if not self.popup_rect.collidepoint(mouse_pos):
                 self.is_open = False
     
     def update(self):
@@ -210,7 +243,7 @@ class MapPopup:
         # Cập nhật tất cả building buttons
         for button in self.building_buttons:
             button.update(mouse_pos, mouse_pressed, self.map_pos)
-    
+
     def draw(self, screen: pygame.Surface):
         """Vẽ popup nếu đang mở"""
         if not self.is_open:
@@ -230,57 +263,21 @@ class MapPopup:
         for button in self.building_buttons:
             button.draw(screen, offset=self.map_pos)
         
-        # Vẽ nút đóng (X)
-        pygame.draw.rect(screen, (220, 50, 50), self.close_button_rect)
-        pygame.draw.rect(screen, (150, 30, 30), self.close_button_rect, 2)
-        
-        # Vẽ chữ X
-        font = pygame.font.Font(None, 30)
-        close_text = font.render("X", True, (255, 255, 255))
-        text_rect = close_text.get_rect(center=self.close_button_rect.center)
-        screen.blit(close_text, text_rect)
+        # # Vẽ nút đóng (X)
+        # pygame.draw.rect(screen, (220, 50, 50), self.close_button_rect)
+        # pygame.draw.rect(screen, (150, 30, 30), self.close_button_rect, 2)
+        #
+        # # Vẽ chữ X
+        # font = pygame.font.Font(None, 30)
+        # close_text = font.render("X", True, (255, 255, 255))
+        # text_rect = close_text.get_rect(center=self.close_button_rect.center)
+        # screen.blit(close_text, text_rect)
+
+        self.close_button.draw(screen=screen)
         
         # Vẽ tooltip khi hover vào tòa nhà
         for button in self.building_buttons:
-            if button.is_hovered:
-                self._draw_tooltip(screen, button)
-    
-    def _draw_tooltip(self, screen: pygame.Surface, button: BuildingButton):
-        """Vẽ tooltip hiển thị tên tòa nhà"""
-        # Tên tòa nhà
-        building_names = {
-            "office": "Office Building",
-            "toa_thi_chinh": "Tòa Thi Chính"
-        }
-        
-        tooltip_text = building_names.get(button.building_id, button.building_id)
-        
-        # Tạo font và text
-        font = pygame.font.Font(None, 24)
-        text_surface = font.render(tooltip_text, True, (255, 255, 255))
-        
-        # Tạo background cho tooltip
-        padding = 10
-        tooltip_width = text_surface.get_width() + padding * 2
-        tooltip_height = text_surface.get_height() + padding * 2
-        
-        # Vị trí tooltip (phía trên button)
-        mouse_pos = pygame.mouse.get_pos()
-        tooltip_x = mouse_pos[0] - tooltip_width // 2
-        tooltip_y = mouse_pos[1] - tooltip_height - 10
-        
-        # Giới hạn tooltip trong màn hình
-        tooltip_x = max(5, min(tooltip_x, screen.get_width() - tooltip_width - 5))
-        tooltip_y = max(5, tooltip_y)
-        
-        tooltip_rect = pygame.Rect(tooltip_x, tooltip_y, tooltip_width, tooltip_height)
-        
-        # Vẽ tooltip
-        pygame.draw.rect(screen, (50, 50, 50), tooltip_rect)
-        pygame.draw.rect(screen, (200, 200, 200), tooltip_rect, 2)
-        
-        text_pos = (tooltip_x + padding, tooltip_y + padding)
-        screen.blit(text_surface, text_pos)
+            button.draw_tooltip(screen)
 
 
 class MapButton(Button):
