@@ -1,6 +1,8 @@
 import pygame
 
-from ui.main_scene import MainSceneUi
+from scenes.office import OfficeScene
+from ui import MainSceneUi
+from scenes import *
 
 def handle_building_click(building_id: str):
     """
@@ -43,7 +45,14 @@ def main():
     
     # Tạo clock để kiểm soát FPS
     clock = pygame.time.Clock()
-    
+
+    # Init Scenes
+    scene_dict: dict = {
+        "office": OfficeScene(screen_width=SCREEN_WIDTH, screen_height=SCREEN_HEIGHT),
+        "interrogation_room": InterrogationRoomScene(screen_width=SCREEN_WIDTH, screen_height=SCREEN_HEIGHT),
+    }
+    cur_scene:IScene = scene_dict["office"]
+
     # Khởi tạo UI với callback handler
     ui = MainSceneUi(
         screen_width=SCREEN_WIDTH, 
@@ -77,11 +86,15 @@ def main():
             ui.handle_event(event)
         
         # Cập nhật
+        cur_scene.update()
         ui.update()
         
         # Vẽ
         screen.fill((200, 200, 200))  # Background màu xám nhạt
         
+        # Draw cur.scene
+        cur_scene.draw(screen=screen)
+
         # Vẽ UI
         ui.draw(screen)
         
