@@ -51,7 +51,7 @@ def main():
         "office": OfficeScene(screen_width=SCREEN_WIDTH, screen_height=SCREEN_HEIGHT),
         "interrogation_room": InterrogationRoomScene(screen_width=SCREEN_WIDTH, screen_height=SCREEN_HEIGHT),
     }
-    cur_scene:IScene = scene_dict["office"]
+    cur_scene:IScene = scene_dict["interrogation_room"]
 
     # Khởi tạo UI với callback handler
     ui = MainSceneUi(
@@ -88,6 +88,9 @@ def main():
         # Cập nhật
         cur_scene.update()
         ui.update()
+        for building_button in ui.map_button.map_popup.building_buttons:
+            if building_button.was_clicked:
+                cur_scene = scene_dict.get(building_button.building_id, scene_dict["office"])
         
         # Vẽ
         screen.fill((200, 200, 200))  # Background màu xám nhạt
