@@ -1,7 +1,7 @@
 import pygame
 
 class Tooltip:
-    """Independent tooltip class for displaying hover information"""
+    """Class tooltip độc lập để hiển thị thông tin khi hover"""
     
     def __init__(self, text: str, font_size: int = 24, 
                  bg_color: tuple[int, int, int] = (50, 50, 50),
@@ -9,13 +9,15 @@ class Tooltip:
                  border_color: tuple[int, int, int] = (200, 200, 200),
                  padding: int = 10):
         """
+        Khởi tạo tooltip
+        
         Args:
-            text: Text to display in the tooltip
-            font_size: Font size for the text
-            bg_color: Background color (RGB)
-            text_color: Text color (RGB)
-            border_color: Border color (RGB)
-            padding: Padding around the text
+            text: Văn bản hiển thị trong tooltip
+            font_size: Kích thước font cho văn bản
+            bg_color: Màu nền (RGB)
+            text_color: Màu chữ (RGB)
+            border_color: Màu viền (RGB)
+            padding: Khoảng cách đệm xung quanh văn bản
         """
         self.text = text
         self.font_size = font_size
@@ -34,11 +36,11 @@ class Tooltip:
     
     def draw(self, screen: pygame.Surface, mouse_pos: tuple[int, int]):
         """
-        Draw the tooltip at the mouse position
+        Vẽ tooltip tại vị trí chuột
         
         Args:
-            screen: Surface to draw on
-            mouse_pos: Mouse position (x, y)
+            screen: Surface để vẽ lên
+            mouse_pos: Vị trí chuột (x, y)
         """
         # Calculate tooltip position (above and centered on mouse)
         tooltip_x = mouse_pos[0] - self.width // 2

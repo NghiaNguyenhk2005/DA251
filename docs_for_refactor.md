@@ -5,7 +5,13 @@
 ```
 src/
 ├── interfaces/          # Protocol patterns (Drawable, Updatable, DrawAndUpdateAble)
-├── ui/                  # UI components (Button, TextButton, MenuPopup, MainSceneUi)
+├── ui/                  # UI components (Button, TextButton, Tooltip)
+│   ├── button.py        # Button và TextButton classes
+│   ├── main_scenes.py   # MainSceneUi - quản lý UI chính
+│   ├── popups.py        # MapPopup và MenuPopup
+│   ├── tooltip.py       # Tooltip component
+│   └── map/
+│       └── building_button.py  # BuildingButton cho bản đồ
 ├── scenes/              # Game scenes (OfficeScene, InterrogationRoomScene)
 └── test_main_scene.py   # Main test file
 ```
@@ -36,23 +42,44 @@ from .draw_and_update import Drawable, Updatable, DrawAndUpdateAble
 
 **`Button`** (Sprite-based):
 - Dùng sprite sheet cho các state (normal/hover/clicked)
-- Params: `position`, `image`, `scale`, `split`
+- Params: `position`, `image`, `scale`, `split`, `on_click`
+- Update logic: Kiểm tra hover và click, gọi callback
 
 **`TextButton`** (Text-based):
 - Button dạng text + background màu
 - **Có rounded corners** với `border_radius` (default: 10)
-- Params: `position`, `text`, `font_size`, `padding`, colors cho 3 states, `border_radius`
+- Params: `position`, `text`, `font_size`, `padding`, colors cho 3 states, `border_radius`, `on_click`
 
-### MenuPopup (`menu_popup.py`)
+### Tooltip (`tooltip.py`)
+- Hiển thị thông tin khi hover
+- Tự động điều chỉnh vị trí để không ra ngoài màn hình
+- Params: `text`, `font_size`, `bg_color`, `text_color`, `border_color`, `padding`
+
+### BuildingButton (`map/building_button.py`)
+- Button cho các tòa nhà trên bản đồ
+- Có hover effect (vàng nhạt + viền sáng)
+- Tooltip tự động khi hover
+- Callback với `building_id` khi click
+- **Quan trọng**: Dùng `nonlocal` trong callback nếu cần modify biến của outer scope
+
+### MapPopup (`popups.py`)
+- Hiển thị bản đồ với các BuildingButton
+- Close button + click outside để đóng
+- Methods: `toggle()`, `is_open()`, `update()`, `draw()`, `handle_event()`
+- Tự động update tất cả building buttons
+
+### MenuPopup (`popups.py`)
 - 3 TextButtons: Resume, Settings, Quit
-- Methods: `toggle()`, `is_open()`, `update()`, `draw()`
-- **Gray theme hiện tại**: 
+- Methods: `toggle()`, `is_open()`, `update()`, `draw()`, `handle_event()`
+- **Gray theme**: 
   - Resume: (70, 70, 70)
   - Settings: (85, 85, 85)
   - Quit: (100, 100, 100)
 
 ### MainSceneUi (`main_scenes.py`)
-- Quản lý: `menu_button`, `map_button`, `journal_button`, `menu_popup`
+- Quản lý: `menu_button`, `map_button`, `journal_button`
+- Quản lý popups: `menu_popup`, `map_popup`
+- Nhận `on_building_click` callback để xử lý scene switching
 - Update và vẽ tất cả UI components
 
 ### Export từ `__init__.py`:
@@ -69,12 +96,17 @@ from .tooltip import Tooltip
 ### Flow chính:
 1. Init pygame + screen + clock
 2. Tạo `scene_dict` với các scenes
-3. Tạo `MainSceneUi`
-4. Game loop:
-   - Handle events → `ui.handle_event()`
+3. Định nghĩa `change_scene(building_id)` với **`nonlocal cur_scene`** (không phải `global`)
+4. Tạo `MainSceneUi` với callback `on_building_click=change_scene`
+5. Game loop:
+   - Handle events → `ui.handle_event(event)`
    - Update → `cur_scene.update()` + `ui.update()`
-   - Check scene switching qua map button clicks
-   - Draw → `cur_scene.draw()` + `ui.draw()`
+   - Draw → `screen.fill()` + `cur_scene.draw()` + `ui.draw()`
+   - Flip display + clock tick
+
+### ⚠️ Bug đã fix:
+- **`nonlocal`**: Dùng `nonlocal` cho nested functions
+- **BuildingButton `was_clicked`**: Reset flag đúng cách khi mouse released
 
 ---
 
@@ -95,7 +127,7 @@ event_handler.process_events()
 ```
 
 ### 3. UI State Manager
-Thêm method `get_scene_change_request()` vào `MainSceneUi` thay vì check trong game loop.
+Thêm method `get_scene_change_request()` vào `MainSceneUi` thay vì dùng callback trực tiếp.
 
 ### 4. Config Manager
 Tách constants (colors, paths, settings) ra `config.py`.
@@ -111,12 +143,15 @@ Tách constants (colors, paths, settings) ra `config.py`.
 - Interfaces (Drawable, Updatable, DrawAndUpdateAble)
 - Button, TextButton API
 - Game logic hiện tại
+- Tất cả docstrings đã được viết bằng tiếng Việt
 
 ### 🔧 Best Practices:
 - Dùng type hints
 - Mỗi class một trách nhiệm (Single Responsibility)
 - Keep game loop simple
 - Tách logic ra khỏi main loop
+- **Dùng `nonlocal` cho nested functions, `global` cho module-level variables**
+- Reset state flags đúng cách (không dùng `elif` khi cần check độc lập)
 
 ### 🎨 Gray Theme Colors:
 ```python
@@ -129,8 +164,9 @@ TERTIARY = (100, 100, 100) → (150, 150, 150) → (80, 80, 80)
 BORDER = (200, 200, 200)
 TEXT = (255, 255, 255)
 BACKGROUND = (200, 200, 200)
+HOVER_OVERLAY = (255, 255, 100)  # Vàng nhạt cho building buttons
 ```
 
 ---
 
-**Version**: 1.0 | **Project**: DA251 - Detective Game
+**Version**: 1.1 | **Project**: DA251 - Detective Game | **Updated**: Building buttons + Vietnamese docs

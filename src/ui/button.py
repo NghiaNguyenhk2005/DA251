@@ -1,25 +1,34 @@
 from abc import abstractmethod
+from typing import Callable, Optional
 import pygame
 
 from interfaces import Drawable, Updatable
 
 class IButton:
+    """Interface cơ bản cho các button"""
     @abstractmethod
     def was_clicked(self) -> bool: return False
     def is_pressed(self) -> bool: return False
 
 class Button(IButton, Drawable, Updatable):
-    """Interactive button with hover and click states using sprite frames"""
+    """Button tương tác với các trạng thái hover và click sử dụng sprite frames"""
     
-    def __init__(self, position: tuple[int, int], image: pygame.Surface, scale: int=1, split: int=5) -> None:
+    def __init__(
+        self, 
+        position: tuple[int, int], 
+        image: pygame.Surface, 
+        scale: int=1, split: int=5,
+        on_click: Optional[Callable[[], None]] = None
+    ) -> None:
         """
-        Initialize a button with sprite-based animation frames
+        Khởi tạo button với animation frames dựa trên sprite
         
         Args:
-            position: (x, y) position of the button on screen
-            image: Sprite sheet containing button frames (normal, hover, clicked)
-            scale: Scale factor to resize the button image
-            split: Number of frames in the sprite sheet (default: 5)
+            position: Vị trí (x, y) của button trên màn hình
+            image: Sprite sheet chứa các frame của button (normal, hover, clicked)
+            scale: Hệ số scale để thay đổi kích thước ảnh button
+            split: Số lượng frames trong sprite sheet (mặc định: 5)
+            on_click: Hàm callback khi button được click
         """
         self.frame = 0
         self.image = pygame.transform.scale(image, (int(image.get_width() * scale), int(image.get_height() * scale)))
@@ -29,15 +38,16 @@ class Button(IButton, Drawable, Updatable):
         self._is_hover = False
         self._is_pressed = False
         self._was_clicked = False
+        self.on_click = on_click
 
     def update(self, delta_time: float = 0):
         """
-        Update button state based on mouse interaction
+        Cập nhật trạng thái của button dựa trên tương tác chuột
         
-        Updates the button state based on hover and click:
-        - Checks if mouse is hovering
-        - Detects clicks (edge-triggered)
-        - Updates frame for visual state
+        Cập nhật trạng thái button dựa trên hover và click:
+        - Kiểm tra xem chuột có đang hover không
+        - Phát hiện các lần click (edge-triggered)
+        - Cập nhật frame cho trạng thái hiển thị
         """
         mouse_pos = pygame.mouse.get_pos()
         if self.rect.collidepoint(mouse_pos):
@@ -48,6 +58,7 @@ class Button(IButton, Drawable, Updatable):
                 if not self._was_clicked:
                     self._is_pressed = True
                     self._was_clicked = True
+                    if self.on_click: self.on_click()
                 else:
                     self._is_pressed = False
             else:
@@ -61,60 +72,63 @@ class Button(IButton, Drawable, Updatable):
 
     def draw(self, screen: pygame.Surface):
         """
-        Draw the button with current state
+        Vẽ button với trạng thái hiện tại
         
-        Draws the button frame based on current state:
-        - Frame 0: Normal state
-        - Frame 1: Hover state
-        - Frame 2: Clicked state
+        Vẽ frame của button dựa trên trạng thái hiện tại:
+        - Frame 0: Trạng thái bình thường
+        - Frame 1: Trạng thái hover
+        - Frame 2: Trạng thái clicked
         
         Args:
-            screen: Game's Screen - Surface to draw the button on
+            screen: Màn hình game - Surface để vẽ button lên
         """
         source_rect = pygame.Rect(self.frame * self.frame_width, 0, self.frame_width, self.frame_height)
         screen.blit(self.image, self.rect, source_rect)
 
     def handle_event(self, event: pygame.event.Event):
+        """Xử lý sự kiện pygame (hiện tại không sử dụng)"""
         pass
 
     def is_hover(self):
         """
-        Check if the mouse is hovering over the button
+        Kiểm tra xem chuột có đang hover trên button không
         
         Returns:
-            bool: True if mouse is hovering, False otherwise
+            bool: True nếu chuột đang hover, False nếu không
         """
         return self._is_hover
 
     def is_pressed(self):
         """
-        Check if the button is currently being clicked (level-based - True while held down)
+        Kiểm tra xem button có đang được click không (level-based - True khi đang giữ)
         
-        For edge detection (single-fire events), use _was_clicked attribute or was_clicked() method.
-        was_clicked is True only on the first frame of the click, not while held.
+        Để phát hiện edge (sự kiện kích hoạt một lần), sử dụng thuộc tính _was_clicked hoặc method was_clicked().
+        was_clicked chỉ True ở frame đầu tiên của click, không phải khi đang giữ.
         
         Returns:
-            bool: True if button is clicked, False otherwise
+            bool: True nếu button đang được click, False nếu không
         """
         return self._is_pressed
     
     def was_clicked(self):
         """
-        Check if the button was just clicked (edge detection - True only on first frame)
+        Kiểm tra xem button vừa được click không (edge detection - chỉ True ở frame đầu tiên)
         
-        This is useful for single-fire events like toggling, opening dialogs, etc.
-        Returns True only on the initial click, not while the button is held down.
+        Hữu ích cho các sự kiện kích hoạt một lần như toggle, mở dialog, v.v.
+        Chỉ trả về True ở lần click đầu tiên, không phải khi button đang được giữ.
         
         Returns:
-            bool: True if button was just clicked (first frame only), False otherwise
+            bool: True nếu button vừa được click (chỉ frame đầu tiên), False nếu không
         """
         return self._was_clicked
 
 
 class TextButton(IButton, Drawable, Updatable):
-    """Interactive text button with hover and click states"""
+    """Button văn bản tương tác với các trạng thái hover và click"""
     
-    def __init__(self, position: tuple[int, int], text: str, font_size: int = 32,
+    def __init__(self, position: tuple[int, int], text: str,
+                 on_click: Optional[Callable[[], None]] = None,
+                 font_size: int = 32,
                  padding: int = 10,
                  normal_bg: tuple[int, int, int] = (100, 100, 100),
                  normal_text: tuple[int, int, int] = (255, 255, 255),
@@ -126,27 +140,29 @@ class TextButton(IButton, Drawable, Updatable):
                  border_width: int = 2,
                  border_radius: int = 10) -> None:
         """
-        Initialize a text button with color-based state visualization
+        Khởi tạo text button với hiển thị trạng thái dựa trên màu sắc
         
         Args:
-            position: (x, y) position of the button on screen
-            text: Text to display on the button
-            font_size: Font size for the button text
-            padding: Padding around the text
-            normal_bg: Background color in normal state (RGB)
-            normal_text: Text color in normal state (RGB)
-            hover_bg: Background color in hover state (RGB)
-            hover_text: Text color in hover state (RGB)
-            click_bg: Background color in clicked state (RGB)
-            click_text: Text color in clicked state (RGB)
-            border_color: Border color (RGB)
-            border_width: Width of the border
-            border_radius: Radius of the rounded corners
+            position: Vị trí (x, y) của button trên màn hình
+            text: Văn bản hiển thị trên button
+            on_click: Hàm callback khi button được click
+            font_size: Kích thước font cho văn bản button
+            padding: Khoảng cách đệm xung quanh văn bản
+            normal_bg: Màu nền ở trạng thái bình thường (RGB)
+            normal_text: Màu chữ ở trạng thái bình thường (RGB)
+            hover_bg: Màu nền ở trạng thái hover (RGB)
+            hover_text: Màu chữ ở trạng thái hover (RGB)
+            click_bg: Màu nền ở trạng thái clicked (RGB)
+            click_text: Màu chữ ở trạng thái clicked (RGB)
+            border_color: Màu viền (RGB)
+            border_width: Độ dày của viền
+            border_radius: Bán kính của góc bo tròn
         """
         self.position = position
         self.text = text
         self.font_size = font_size
         self.padding = padding
+        self.on_click = on_click
         
         # State colors
         self.normal_bg = normal_bg
@@ -182,9 +198,9 @@ class TextButton(IButton, Drawable, Updatable):
 
     def update(self, delta_time: float = 0):
         """
-        Update button state based on mouse interaction
+        Cập nhật trạng thái của text button dựa trên tương tác chuột
         
-        Updates the button state and visual appearance based on hover and click
+        Cập nhật trạng thái và hiển thị của button dựa trên hover và click
         """
         mouse_pos = pygame.mouse.get_pos()
         
@@ -197,6 +213,7 @@ class TextButton(IButton, Drawable, Updatable):
                 if not self._was_clicked:
                     self._is_pressed = True
                     self._was_clicked = True
+                    if self.on_click: self.on_click()
                 else:
                     self._is_pressed = False
             else:
@@ -212,19 +229,20 @@ class TextButton(IButton, Drawable, Updatable):
             self._was_clicked = False
 
     def handle_event(self, event: pygame.event.Event):
+        """Xử lý sự kiện pygame (hiện tại không sử dụng)"""
         pass
 
     def draw(self, screen: pygame.Surface):
         """
-        Draw the text button with current state
+        Vẽ text button với trạng thái hiện tại
         
-        Draws the button appearance based on current state:
-        - Normal state: normal_bg and normal_text colors
-        - Hover state: hover_bg and hover_text colors
-        - Clicked state: click_bg and click_text colors
+        Vẽ giao diện button dựa trên trạng thái hiện tại:
+        - Trạng thái bình thường: màu normal_bg và normal_text
+        - Trạng thái hover: màu hover_bg và hover_text
+        - Trạng thái clicked: màu click_bg và click_text
         
         Args:
-            screen: Game's Screen - Surface to draw the button on
+            screen: Màn hình game - Surface để vẽ button lên
         """
         # Draw background with rounded corners
         pygame.draw.rect(screen, self._current_bg, self.rect, border_radius=self.border_radius)
@@ -240,33 +258,33 @@ class TextButton(IButton, Drawable, Updatable):
 
     def is_hover(self):
         """
-        Check if the mouse is hovering over the button
+        Kiểm tra xem chuột có đang hover trên button không
         
         Returns:
-            bool: True if mouse is hovering, False otherwise
+            bool: True nếu chuột đang hover, False nếu không
         """
         return self._is_hover
 
     def is_pressed(self):
         """
-        Check if the button is currently being clicked (level-based - True while held down)
+        Kiểm tra xem button có đang được click không (level-based - True khi đang giữ)
         
-        For edge detection (single-fire events), use _was_clicked attribute or was_clicked() method.
-        was_clicked is True only on the first frame of the click, not while held.
+        Để phát hiện edge (sự kiện kích hoạt một lần), sử dụng thuộc tính _was_clicked hoặc method was_clicked().
+        was_clicked chỉ True ở frame đầu tiên của click, không phải khi đang giữ.
         
         Returns:
-            bool: True if button is clicked, False otherwise
+            bool: True nếu button đang được click, False nếu không
         """
         return self._is_pressed
     
     def was_clicked(self):
         """
-        Check if the button was just clicked (edge detection - True only on first frame)
+        Kiểm tra xem button vừa được click không (edge detection - chỉ True ở frame đầu tiên)
         
-        This is useful for single-fire events like toggling, opening dialogs, etc.
-        Returns True only on the initial click, not while the button is held down.
+        Hữu ích cho các sự kiện kích hoạt một lần như toggle, mở dialog, v.v.
+        Chỉ trả về True ở lần click đầu tiên, không phải khi button đang được giữ.
         
         Returns:
-            bool: True if button was just clicked (first frame only), False otherwise
+            bool: True nếu button vừa được click (chỉ frame đầu tiên), False nếu không
         """
         return self._was_clicked

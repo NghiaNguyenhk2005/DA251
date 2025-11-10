@@ -1,4 +1,5 @@
 import pygame
+from pygame.event import get
 
 from scenes.office import OfficeScene
 from ui import MainSceneUi
@@ -25,10 +26,16 @@ def main():
     }
     cur_scene:DrawAndUpdateAble = scene_dict["interrogation_room"]
 
+    def change_scene(building_id: str):
+        nonlocal cur_scene
+        print(f"\n✨ Scene changed to: {building_id}\n")
+        cur_scene = scene_dict.get(building_id, scene_dict["office"])
+
     # Khởi tạo UI với callback handler
     ui = MainSceneUi(
-        screen_width=SCREEN_WIDTH, 
+        screen_width=SCREEN_WIDTH,
         screen_height=SCREEN_HEIGHT,
+        on_building_click=change_scene
     )
     
     # In hướng dẫn
@@ -59,10 +66,7 @@ def main():
         # Cập nhật
         cur_scene.update()
         ui.update()
-        for building_button in ui.map_button.map_popup.building_buttons:
-            if building_button.was_clicked:
-                cur_scene = scene_dict.get(building_button.building_id, scene_dict["office"])
-        
+
         # Vẽ
         screen.fill((200, 200, 200))  # Background màu xám nhạt
         
