@@ -3,35 +3,7 @@ import pygame
 from scenes.office import OfficeScene
 from ui import MainSceneUi
 from scenes import *
-
-def handle_building_click(building_id: str):
-    """
-    Callback handler khi click vào tòa nhà
-    
-    Args:
-        building_id: ID của tòa nhà ("office", "toa_thi_chinh", etc.)
-    """
-    print(f"\n{'='*50}")
-    print(f"🏢 BUILDING CLICKED: {building_id}")
-    print(f"{'='*50}")
-    
-    # Mapping tên đẹp cho từng tòa nhà
-    building_names = {
-        "office": "Office Building",
-        "toa_thi_chinh": "Tòa Thi Chính"
-    }
-    
-    building_name = building_names.get(building_id, building_id)
-    print(f"📍 Tên tòa nhà: {building_name}")
-    print(f"🎯 TODO: Chuyển đến scene của {building_name}")
-    print(f"{'='*50}\n")
-    
-    # TODO: Implement scene transition
-    # Ví dụ:
-    # if building_id == "office":
-    #     game.change_scene(OfficeScene())
-    # elif building_id == "toa_thi_chinh":
-    #     game.change_scene(ToaThiChinhScene())
+from interfaces import DrawAndUpdateAble
 
 def main():
     # Khởi tạo pygame
@@ -51,13 +23,12 @@ def main():
         "office": OfficeScene(screen_width=SCREEN_WIDTH, screen_height=SCREEN_HEIGHT),
         "interrogation_room": InterrogationRoomScene(screen_width=SCREEN_WIDTH, screen_height=SCREEN_HEIGHT),
     }
-    cur_scene:IScene = scene_dict["interrogation_room"]
+    cur_scene:DrawAndUpdateAble = scene_dict["interrogation_room"]
 
     # Khởi tạo UI với callback handler
     ui = MainSceneUi(
         screen_width=SCREEN_WIDTH, 
         screen_height=SCREEN_HEIGHT,
-        on_building_click=handle_building_click
     )
     
     # In hướng dẫn

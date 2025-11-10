@@ -1,9 +1,8 @@
 import pygame
 from typing import Optional
-from .i_scene import IScene
+from interfaces import Drawable, Updatable
 
-
-class OfficeScene(IScene):
+class OfficeScene(Drawable, Updatable):
     def __init__(self, screen_width: int = 800, screen_height: int = 600) -> None:
         """
         Office scene with background image
@@ -29,7 +28,7 @@ class OfficeScene(IScene):
                 # Handle exit or return to map
                 pass
     
-    def update(self) -> None:
+    def update(self, delta_time: float = 0) -> None:
         """Update scene state"""
         pass
     

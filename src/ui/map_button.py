@@ -1,122 +1,52 @@
 import pygame
-from typing import Callable, Optional
 from .button import Button
-from .tooltip import Tooltip
+from .map.building_button import *
 
 MAP_SCENE_IMG = "assets/images/ui/map_scene.png"
-OFFICE_MAP_SCENE_IMG = "assets/images/ui/office-map-scene.png"
-TOA_THI_CHINH_IMG = "assets/images/ui/toa-chi-chinh.png"
 CLOSE_BUTTON_IMG = "assets/images/ui/close-button.png"
 
-
-class BuildingButton:
-    """Button cho các tòa nhà trên bản đồ"""
-    def __init__(self, image_path: str, position: tuple[int, int], 
-                 scale: float = 1.0, building_id: str = "", 
-                 on_click: Optional[Callable[[str], None]] = None,
-                 tooltip_text: str = ""):
+class MapButton(Button):
+    """Button để mở/đóng popup bản đồ"""
+    def __init__(self, position: tuple[int, int], image: pygame.Surface, 
+            screen_width: int, screen_height: int, scale: int=1, split: int=3
+        ) -> None:
         """
         Args:
-            image_path: Đường dẫn đến ảnh của tòa nhà
-            position: Vị trí (x, y) trên bản đồ (tọa độ tương đối trong popup)
-            scale: Tỷ lệ scale của ảnh
-            building_id: ID của tòa nhà (để callback biết tòa nào được click)
-            on_click: Callback function khi click vào tòa nhà
-            tooltip_text: Text to display in tooltip when hovering
+            position: Vị trí button
+            image: Ảnh button
+            screen_width: Chiều rộng màn hình
+            screen_height: Chiều cao màn hình
+            scale: Tỷ lệ scale
+            split: Số frame trong sprite sheet
         """
-        self.building_id = building_id
-        self.on_click = on_click
-        
-        # Load và scale ảnh
-        self.original_image = pygame.image.load(image_path)
-        self.image = pygame.transform.scale(
-            self.original_image,
-            (int(self.original_image.get_width() * scale),
-             int(self.original_image.get_height() * scale))
-        )
-        
-        # Tạo rect cho collision detection
-        self.rect = self.image.get_rect(topleft=position)
-        
-        # Trạng thái
-        self.is_hovered = False
-        self.was_clicked = False
-        
-        # Hiệu ứng hover (tăng độ sáng)
-        self.hover_overlay = pygame.Surface(self.image.get_size())
-        self.hover_overlay.set_alpha(50)
-        self.hover_overlay.fill((255, 255, 100))  # Màu vàng nhạt
-        
-        # Tooltip
-        self.tooltip = Tooltip(tooltip_text) if tooltip_text else None
+        super().__init__(position, image, scale, split)
+        self.map_popup = MapPopup(screen_width, screen_height)
     
-    def update(self, mouse_pos: tuple[int, int], mouse_pressed: bool, popup_offset: tuple[int, int]):
-        """
-        Cập nhật trạng thái của button
+    def update(self, delta_time: float = 0):
+        super().update()
+        """Cập nhật trạng thái button và xử lý click"""
+        # Kiểm tra nếu button được click (chuyển từ không click sang click)
+        if self.is_pressed():
+            self.map_popup.toggle()
         
-        Args:
-            mouse_pos: Vị trí chuột
-            mouse_pressed: Chuột có đang được nhấn không
-            popup_offset: Offset của popup (để tính toán vị trí thực tế)
-        """
-        # Tính toán vị trí thực tế của button trên màn hình
-        actual_rect = self.rect.copy()
-        actual_rect.x += popup_offset[0]
-        actual_rect.y += popup_offset[1]
-        
-        # Kiểm tra hover
-        self.is_hovered = actual_rect.collidepoint(mouse_pos)
-        
-        # Kiểm tra click
-        if self.is_hovered and mouse_pressed and not self.was_clicked:
-            self.was_clicked = True
-            if self.on_click:
-                self.on_click(self.building_id)
-        elif not mouse_pressed:
-            self.was_clicked = False
+        # Cập nhật building buttons trong popup
+        self.map_popup.update()
     
-    def draw(self, surface: pygame.Surface, offset: tuple[int, int] = (0, 0)):
-        """
-        Vẽ building button
-        
-        Args:
-            surface: Surface để vẽ lên
-            offset: Offset vị trí (thường là vị trí của bản đồ trong popup)
-        """
-        # Vẽ ảnh tòa nhà
-        draw_pos = (self.rect.x + offset[0], self.rect.y + offset[1])
-        surface.blit(self.image, draw_pos)
-        
-        # Vẽ hiệu ứng hover
-        if self.is_hovered:
-            surface.blit(self.hover_overlay, draw_pos)
-            
-            # Vẽ viền sáng khi hover
-            actual_rect = self.rect.copy()
-            actual_rect.x += offset[0]
-            actual_rect.y += offset[1]
-            pygame.draw.rect(surface, (255, 255, 0), actual_rect, 3)
-
-            if self.was_clicked:
-                pygame.draw.rect(surface, (255, 0, 0), actual_rect, 3)
+    def handle_event(self, event):
+        """Xử lý sự kiện cho popup"""
+        self.map_popup.handle_event(event)
     
-    def draw_tooltip(self, surface: pygame.Surface):
-        """
-        Draw tooltip if button is hovered and tooltip exists
+    def draw(self, screen: pygame.Surface):
+        """Vẽ button và popup (nếu đang mở)"""
+        # Vẽ button
+        super().draw(screen)
         
-        Args:
-            surface: Surface to draw on
-        """
-        if self.is_hovered and self.tooltip:
-            mouse_pos = pygame.mouse.get_pos()
-            self.tooltip.draw(surface, mouse_pos)
-
-
+        # Vẽ popup nếu đang mở
+        self.map_popup.draw(screen)
 
 class MapPopup:
     """Popup window hiển thị bản đồ"""
-    def __init__(self, screen_width: int, screen_height: int, 
-                 on_building_click: Optional[Callable[[str], None]] = None):
+    def __init__(self, screen_width: int, screen_height: int):
         """
         Args:
             screen_width: Chiều rộng màn hình
@@ -156,20 +86,13 @@ class MapPopup:
             scale=2,
             split=3
         )
-        # self.close_button_rect = pygame.Rect(
-        #     self.popup_rect.right - 40,
-        #     self.popup_rect.top + 10,
-        #     30,
-        #     30
-        # )
-        
         self.is_open = False
         self.was_clicked = False
         
         # Khởi tạo các building buttons
-        self.building_buttons = self._create_building_buttons(on_building_click)
+        self.building_buttons = self._create_building_buttons()
     
-    def _create_building_buttons(self, on_click: Optional[Callable[[str], None]]) -> list[BuildingButton]:
+    def _create_building_buttons(self) -> list[BuildingButton]:
         """
         Tạo các building buttons trên bản đồ
         
@@ -185,7 +108,6 @@ class MapPopup:
             position=(330, 70),  # Vị trí X, Y trên bản đồ
             scale=0.05,  # <-- ĐIỀU CHỈNH SCALE TẠI ĐÂY (0.1 = 10%, 0.5 = 50%, 1.0 = 100%)
             building_id="office",
-            on_click=on_click,
             tooltip_text="Office Building"
         )
         buttons.append(office_button)
@@ -198,8 +120,7 @@ class MapPopup:
             position=(360, 220),  # Vị trí X, Y trên bản đồ
             scale=0.05,  # <-- ĐIỀU CHỈNH SCALE TẠI ĐÂY (0.1 = 10%, 0.5 = 50%, 1.0 = 100%)
             building_id="toa_thi_chinh",
-            on_click=on_click,
-            tooltip_text="Tòa Thi Chính"
+            tooltip_text="Tòa Thị Chính"
         )
         buttons.append(toa_thi_chinh_button)
         print(f"[MapPopup] Tòa Thi Chính button created - Original: {toa_thi_chinh_button.original_image.get_size()}, Scaled: {toa_thi_chinh_button.image.get_size()}")
@@ -220,15 +141,12 @@ class MapPopup:
         if not self.is_open:
             return
         
-        # Click vào nút X để đóng
-        if self.close_button.is_clicked():
+        # Click vào nút "close_button" để đóng
+        if self.close_button.was_clicked():
             self.is_open = False
+        # Click bên ngoài popup để đóng
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
-            # Click vào nút X để đóng
-            # if self.close_button.is_clicked():
-            #     self.is_open = False
-            # Click bên ngoài popup để đóng
             if not self.popup_rect.collidepoint(mouse_pos):
                 self.is_open = False
     
@@ -239,6 +157,8 @@ class MapPopup:
         
         mouse_pos = pygame.mouse.get_pos()
         mouse_pressed = pygame.mouse.get_pressed()[0]
+        
+        self.close_button.update()
         
         # Cập nhật tất cả building buttons
         for button in self.building_buttons:
@@ -278,48 +198,3 @@ class MapPopup:
         # Vẽ tooltip khi hover vào tòa nhà
         for button in self.building_buttons:
             button.draw_tooltip(screen)
-
-
-class MapButton(Button):
-    """Button để mở/đóng popup bản đồ"""
-    def __init__(self, position: tuple[int, int], image: pygame.Surface, 
-                 screen_width: int, screen_height: int, scale: int=1, split: int=3,
-                 on_building_click: Optional[Callable[[str], None]] = None) -> None:
-        """
-        Args:
-            position: Vị trí button
-            image: Ảnh button
-            screen_width: Chiều rộng màn hình
-            screen_height: Chiều cao màn hình
-            scale: Tỷ lệ scale
-            split: Số frame trong sprite sheet
-            on_building_click: Callback khi click vào tòa nhà trên bản đồ
-        """
-        super().__init__(position, image, scale, split)
-        self.map_popup = MapPopup(screen_width, screen_height, on_building_click)
-        self.was_clicked = False
-    
-    def update(self):
-        """Cập nhật trạng thái button và xử lý click"""
-        # Kiểm tra nếu button được click (chuyển từ không click sang click)
-        if self.is_clicked() and not self.was_clicked:
-            self.map_popup.toggle()
-            self.was_clicked = True
-        elif not self.is_clicked():
-            self.was_clicked = False
-        
-        # Cập nhật building buttons trong popup
-        self.map_popup.update()
-    
-    def handle_event(self, event):
-        """Xử lý sự kiện cho popup"""
-        self.map_popup.handle_event(event)
-    
-    def draw(self, screen: pygame.Surface):
-        """Vẽ button và popup (nếu đang mở)"""
-        # Vẽ button
-        super().draw(screen)
-        
-        # Vẽ popup nếu đang mở
-        self.map_popup.draw(screen)
-    
