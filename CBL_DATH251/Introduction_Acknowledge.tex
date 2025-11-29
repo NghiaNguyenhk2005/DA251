@@ -1,0 +1,177 @@
+\section{Giới thiệu vấn đề}
+\subsection{Bối cảnh}
+Trên thế giới, ngành Game hiện tại đang là một trong những ngành công nghiệp giải trí lớn mạnh với doanh thu hàng trăm tí USD mỗi năm. Thị trường này tràn ngập các dự án đa dạng mỗi năm, từ những game AAA (đồ họa, kinh phí khủng) của các studio lớn tới những game indie nhỏ lẻ đầy sáng tạo. Một trong những thể loại game thu hút rất nhiều sự quan tâm của người chơi là thể loại trinh thám. Với rất nhiều những tựa game đình đám từ indie đến AAA đã đạt được số doanh thu khổng lồ: dòng game Ace Attorney của Capcom bán được 13 triệu bản toàn cầu, The Room của Fireproof Games phát hành trên mobile bán được hơn 11,5 triệu bản, và Return of the Obra Dinn do một mình Lucas Pope thiết kế và hiện thực thu về tận 20 triệu USD. 
+
+Tuy nhiên, tại Việt Nam, ngành game trinh thám vẫn còn non trẻ và gặp nhiều khó khăn:
+\begin{itemize}
+    \item \textbf{Thiếu vắng các sản phẩm chất lượng:} Rất ít game trinh thám Việt Nam được đầu tư bài bản về cốt truyện, gameplay và đồ họa. Các sản phẩm hiện có thường chỉ dừng lại ở mức giải đố đơn giản, thiếu chiều sâu về logic và suy luận, chưa đủ sức cạnh tranh với thị trường quốc tế.
+    
+    \item \textbf{Hạn chế về kinh phí và nguồn lực:} Giống như các thể loại game khác, các studio game trinh thám ở Việt Nam có kinh phí hạn chế, không đủ để đầu tư vào marketing và các dự án lớn. Điều này gây khó khăn trong việc phát triển và tiếp cận người chơi.
+\end{itemize}
+
+Thị trường Game trinh thám Việt Nam chứa đầy tiềm năng phát triển, nhưng lại đang đối mặt với nhiều rào cản để hiện thực hóa sự phát triển đó. Trong một bối cảnh mâu thuẫn như vậy, vai trò của những dự án game indie độc lập là cực kỳ quan trọng và thức thời trong việc thúc đẩy sự phát triển của thị trường này. Các dự án game indie thỏa mãn được cả hai hạn chế nêu trên của những dự án game Việt Nam hiện tại. Với kinh phí không lớn nhưng vẫn đảm bảo sự đột phá và sáng tạo, game indie là con đường khả thi để các nhà phát triển Việt tạo ra sản phẩm chất lượng, cạnh tranh được với thị trường quốc tế.
+
+Từ thực trạng hiện tại của dòng game trinh thám Việt Nam, chúng tôi quyết định phát triển game indie The Se7enth code. Một dự án game điều tra, phá án nơi người chơi phải tương tác với các vật thể, các Non-player Character (NPC) và phải suy luận dựa trên những thông tin thu thập được để phá được các vụ án hóc búa. 
+
+\subsection{Mục tiêu dự án}
+\subsubsection{Mục đích dự án}
+Xây dựng một tựa game trinh thám độc đáo và có chiều sâu, mang lại trải nghiệm điều tra và suy luận chân thực cho người chơi trên nền tảng PC. Game sẽ không chỉ đơn thuần là giải đố, mà còn là một công cụ giúp người chơi rèn luyện tư duy logic, khả năng quan sát và phân tích thông tin một cách có hệ thống.
+
+\subsubsection{Các mục tiêu chi tiết}
+Để đạt được mục đích, dự án sẽ phải thực hiện các mục tiêu sau đây:
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{5cm}|p{9.5cm}|}
+    \hline
+    \centering \textbf{Các mục tiêu} 
+    & \textbf{Mô tả chi tiết} \\
+    \hline
+    \centering Tối ưu hóa trải nghiệm chơi game  
+    & -- Hệ thống tương tác với các NPC và vật phẩm phong phú, cho phép người chơi thu thập các loại thông tin khác nhau (lời khai, bằng chứng, manh mối).  \\
+    & -- Phát triển "Sổ Tay" thông minh, giúp người chơi tự động sắp xếp và quản lý thông tin một cách hiệu quả. \\
+    \hline
+    \centering Xây dựng Gameplay và cốt truyện hấp dẫn
+    & -- Xây dựng game loop và các hoạt động thú vị mà người chơi sẽ thực hiện trong game. \\
+    & -- Xây dựng một cốt truyện ý nghĩa, rẽ nhãnh và có nhiều kết thúc phụ thuộc vào quyết định của người chơi. \\
+    \hline
+    \centering Thiết kế đồ họa, âm thanh
+    & -- Vẽ các hoạt ảnh 2D sẽ xuất hiện trong game. \\
+    & -- Thiết kế âm thanh và âm nhạc giúp game thêm sống động và hấp dẫn. \\
+    \hline
+    \centering Đảm bảo hiệu suất và khả năng mở rộng
+    & -- Tối ưu hóa game để chạy mượt mà trên nhiều nền tảng, nhiều thiết bị khác nhau. \\
+    & -- Xây dựng cấu trúc dự án linh hoạt, dễ dàng thêm các vụ án, nhân vật và cơ chế mới trong tương lại mà không ảnh hưởng tới hiệu suất. \\
+    \hline
+    \centering Thương mại hóa
+    & -- Đảm bảo game có thể tiếp cận thị trường quốc tế, thu hút người chơi từ toàn thế giới. \\
+    \hline
+    \end{tabular}
+\end{table}
+
+\subsection{Phạm vi dự án}
+\subsubsection{Yếu tố cốt lõi}
+\begin{enumerate}
+    \item \textbf{Hệ thống gameplay cốt lõi}
+    \begin{itemize}
+        \item \textbf{Cơ chế điều tra và thu thập thông tin:}
+        Cho phép người chơi tìm kiếm, thu thập và kiểm tra các bằng chứng tại hiện trường vụ án.
+
+        \item \textbf{Cơ chế tương tác với NPC:}
+        Cho phép người chơi thẩm vấn, ghi lại lời khai của các nhân vật.
+
+        \item \textbf{Hệ thống quản lí thông tin (Sổ Tay):}
+        Tự động lưu trữ, sắp xếp bằng chứng và các lời khai.
+
+        \item \textbf{Cơ chế suy luận và phá án:}
+        Cho phép người chơi xâu chuỗi các manh mối, mắt xích để đưa ra kết luận cuối cùng.
+    \end{itemize}
+
+    \item \textbf{Cốt truyện ban đầu}
+    \begin{itemize}
+        \item Xây dựng một vụ án hoàn chỉnh bao gồm các địa điểm, nhân vật và các sự kiện.
+        
+        \item Một số lượng NPC đủ để người chơi tương tác và thu thập thông tin.
+    \end{itemize}
+
+    \item \textbf{Hệ thống đồ họa, âm thanh}
+    \begin{itemize}
+        \item Hệ thống đồ họa 2D và UI/UX thân thiện với người dùng.
+
+        \item Hệ thống âm thanh và nhạc nền cơ bản.
+    \end{itemize}
+
+    \item \textbf{Phát hành trên nền tảng PC (Window, MacOS, Linux).}
+\end{enumerate}
+
+\subsubsection{Yếu tố mở rộng}
+\begin{enumerate}
+    \item \textbf{Cải thiện hệ thống đồ họa và âm thanh}.
+    \begin{itemize}
+        \item Phát triển hệ thống đồ họa đẹp và bắt mắt. 
+        
+        \item Phát triển hệ thống âm thanh môi trường chân thật, âm nhạc cuốn hút. Cho phép điều chỉnh âm lượng tổng, âm thanh môi trường, âm nhạc và sound effects. 
+    \end{itemize}
+
+    \item \textbf{Mở rộng cốt truyện.}
+    \begin{itemize}
+        \item Xây dựng thêm các vụ án nhỏ bên cạnh vụ án chính.
+
+        \item Thêm các địa điểm, NPC và vật phẩm.
+    \end{itemize}
+
+    \item \textbf{Thêm cơ chế cho gameplay.}
+    \item \textbf{Phát hành bản mobile (iOS, android).}
+\end{enumerate}
+
+\subsection{Các bên liên quan (Relative Stakeholders)}
+
+\subsubsection{Người chơi (Player)}
+\textbf{Mô tả / Vai trò:} Người chơi là đối tượng trực tiếp tương tác với hệ thống NPC thông qua các hoạt động đối thoại, thẩm vấn và khám phá thông tin. \\
+\textbf{Mối quan tâm:}
+\begin{itemize}
+    \item Mong muốn trải nghiệm tương tác mượt mà, tự nhiên và có chiều sâu.
+    \item Kết quả của đối thoại và thẩm vấn ảnh hưởng rõ ràng đến tiến trình trò chơi.
+    \item Phản ứng của NPC logic, đa dạng và mang tính cảm xúc.
+\end{itemize}
+
+\subsubsection{NPC (Non-Player Characters)}
+\textbf{Mô tả / Vai trò:} Là các nhân vật trong trò chơi do hệ thống điều khiển, có hành vi, lời thoại và cảm xúc riêng. \\
+\textbf{Mối quan tâm:}
+\begin{itemize}
+    \item Thể hiện đúng vai trò trong cốt truyện (nhân chứng, nghi phạm, nạn nhân...).
+    \item Phản ứng linh hoạt và phù hợp với hành động của người chơi.
+\end{itemize}
+
+\subsubsection{Nhà thiết kế trò chơi (Game Designer)}
+\textbf{Mô tả / Vai trò:} Định nghĩa kịch bản, logic phản ứng và điều kiện tương tác giữa người chơi và NPC. \\
+\textbf{Mối quan tâm:}
+\begin{itemize}
+    \item Công cụ dễ chỉnh sửa, thêm hoặc sửa nhánh hội thoại.
+    \item Hệ thống hỗ trợ quản lý logic điều kiện (biến, bằng chứng, danh tiếng...).
+\end{itemize}
+
+\subsubsection{Nhà biên kịch / Viết cốt truyện (Narrative Designer / Writer)}
+\textbf{Mô tả / Vai trò:} Xây dựng lời thoại, tính cách và nội dung hội thoại của NPC theo bối cảnh game. \\
+\textbf{Mối quan tâm:}
+\begin{itemize}
+    \item Có khả năng tạo và kiểm thử hội thoại phân nhánh dễ dàng.
+    \item Hệ thống hiển thị lời thoại đúng ngữ cảnh và cảm xúc.
+\end{itemize}
+
+\subsubsection{Lập trình viên (Developer)}
+\textbf{Mô tả / Vai trò:} Phát triển và tích hợp hệ thống NPC vào engine trò chơi. \\
+\textbf{Mối quan tâm:}
+\begin{itemize}
+    \item Cần API rõ ràng, dễ mở rộng (trigger, event, dữ liệu hội thoại).
+    \item Hệ thống dễ debug và cập nhật dữ liệu NPC.
+\end{itemize}
+
+\subsubsection{Nhà thiết kế giao diện (UI/UX Designer)}
+\textbf{Mô tả / Vai trò:} Thiết kế giao diện hội thoại, menu lựa chọn và biểu cảm NPC. \\
+\textbf{Mối quan tâm:}
+\begin{itemize}
+    \item Giao diện trực quan, không che khuất tầm nhìn gameplay.
+    \item Dễ tùy chỉnh theme, biểu tượng cảm xúc và hiệu ứng.
+\end{itemize}
+
+\subsubsection{Bộ phận kiểm thử (QA Tester)}
+\textbf{Mô tả / Vai trò:} Kiểm tra tính ổn định, logic và trải nghiệm người dùng trong hệ thống NPC. \\
+\textbf{Mối quan tâm:}
+\begin{itemize}
+    \item Đảm bảo các nhánh hội thoại hoạt động đúng điều kiện.
+    \item Không có lỗi logic hoặc crash khi tương tác với NPC.
+\end{itemize}
+
+\subsubsection{Quản lý dự án (Project Manager / Producer)}
+\textbf{Mô tả / Vai trò:} Điều phối tiến độ và đảm bảo tính năng NPC phù hợp với mục tiêu dự án. \\
+\textbf{Mối quan tâm:}
+\begin{itemize}
+    \item Theo dõi tiến độ và phạm vi phát triển hệ thống NPC.
+    \item Đảm bảo tính năng đáp ứng yêu cầu thiết kế và hoàn thành đúng hạn.
+\end{itemize}
+
+\subsubsection{Người chơi thử nghiệm (Playtester)}
+\textbf{Mô tả / Vai trò:} Tham gia trải nghiệm bản thử để phản hồi về hệ thống NPC. \\
+\textbf{Mối quan tâm:}
+Cung cấp phản hồi thực tế về độ tự nhiên của đối thoại, cảm xúc và hành vi NPC.

@@ -1,0 +1,1140 @@
+
+
+
+
+
+
+
+
+
+
+
+\begin{comment}
+\subsection{Menu Management System}
+
+\subsubsection{Use-Case Diagram}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{image/MenuSystem.png}
+    \caption{Use Case Diagram - Menu Management System}
+    \label{fig:menu_usecase}
+\end{figure}
+
+\subsubsection{Đặc tả use-case (FR-MENU-XXX)}
+
+\begin{table}[H] \centering 
+\begin{tabular}{|p{4cm}|p{10cm}|} 
+\hline 
+\textbf{Use-case ID} & FR-MENU-01 \\ \hline
+\textbf{Use-case} & Hiển thị Menu chính \\ \hline
+\textbf{Actor} & Người chơi \\ \hline
+\textbf{Description} & Hệ thống hiển thị màn hình Menu chính khi người chơi khởi động game. \\ \hline
+\textbf{Precondition} & Game được khởi chạy. \\ \hline
+\textbf{Postcondition} & Menu chính hiển thị đầy đủ giao diện, âm thanh nền, và các nút chức năng. \\ \hline
+\textbf{Trigger} & Người chơi khởi động game. \\ \hline
+\textbf{Normal Flow} & 
+1. Hiển thị background và logo game. \newline
+2. Tải âm thanh menu nền. \newline
+3. Hiển thị các nút chức năng. \\ \hline
+\textbf{Alternative Flow} & Không có. \\ \hline
+\textbf{Exception Flow} & Không có. \\ \hline
+\end{tabular} 
+\end{table}
+
+\begin{table}[H] \centering 
+\begin{tabular}{|p{4cm}|p{10cm}|} 
+\hline 
+\textbf{Use-case ID} & FR-MENU-02 \\ \hline
+\textbf{Use-case} & Tương tác nhấn chọn các nút chức năng \\ \hline
+\textbf{Actor} & Người chơi \\ \hline
+\textbf{Description} & Hệ thống cung cấp các nút chức năng trên Menu chính cho phép người chơi lựa chọn hành động: “Chơi mới”, “Chơi tiếp”, “Cài đặt”, hoặc “Thoát”. \\ \hline
+\textbf{Precondition} & Menu chính đã được hiển thị. \\ \hline
+\textbf{Postcondition} & Sự kiện tương tác với nút được ghi nhận; hệ thống chuyển hướng đến chức năng tương ứng hoặc phản hồi bằng âm thanh/hiệu ứng. \\ \hline
+\textbf{Trigger} & Người chơi di chuột hoặc nhấn chuột trái vào các nút trong Menu chính. \\ \hline
+\textbf{Normal Flow} & 
+1. Hiển thị 4 nút chính: “Chơi mới”, “Chơi tiếp”, “Cài đặt”, “Thoát”. \newline
+2. Kích hoạt hiệu ứng hover khi di chuột qua nút. \newline
+3. Xử lý sự kiện nhấn chuột trái tương ứng với chức năng được chọn. \newline
+4. Phát âm thanh phản hồi khi người chơi tương tác. \\ \hline
+\textbf{Alternative Flow} & Không có. \\ \hline
+\textbf{Exception Flow} & Nếu tín hiệu nhấn chọn không được xử lý hoặc nút bị vô hiệu hóa \textrightarrow~hiển thị thông báo lỗi ngắn và ghi log để debug. \\ \hline
+\end{tabular} 
+\end{table}
+
+\begin{table}[H] \centering 
+\begin{tabular}{|p{4cm}|p{10cm}|} 
+\hline 
+\textbf{Use-case ID} & FR-MENU-03 \\ \hline
+\textbf{Use-case} & Bắt đầu tiến trình chơi mới \\ \hline
+\textbf{Actor} & Người chơi \\ \hline
+\textbf{Description} & Hệ thống khởi tạo một tệp lưu tiến trình mới (savefile) khi người chơi chọn chức năng “Chơi mới” từ Menu chính. \\ \hline
+\textbf{Precondition} & Menu chính đã được hiển thị; tài nguyên game sẵn sàng để tải. \\ \hline
+\textbf{Postcondition} & Lần chơi mới được khởi tạo, màn chơi đầu tiên được tải và gameplay bắt đầu. \\ \hline
+\textbf{Trigger} & Người chơi nhấn chuột trái vào nút “Chơi mới”. \\ \hline
+\textbf{Normal Flow} & 
+1. Khởi tạo lần chơi mới. \newline
+2. Tải cảnh đầu tiên. \newline
+3. Khởi tạo nhân vật người chơi và hệ thống Sổ Tay. \newline
+4. Chuyển sang chế độ gameplay. \\ \hline
+\textbf{Alternative Flow} & Không có. \\ \hline
+\textbf{Exception Flow} & Lỗi khi tải tài nguyên hoặc cảnh \textrightarrow~hiển thị thông báo lỗi và quay lại Menu chính. \\ \hline
+\end{tabular} 
+\end{table}
+
+\begin{table}[H] \centering 
+\begin{tabular}{|p{4cm}|p{10cm}|} 
+\hline 
+\textbf{Use-case ID} & FR-MENU-04 \\ \hline
+\textbf{Use-case} & Hiển thị danh sách savefile \\ \hline
+\textbf{Actor} & Người chơi \\ \hline
+\textbf{Description} & Hệ thống hiển thị danh sách các savefile đã được lưu khi người chơi chọn chức năng “Chơi tiếp”. \\ \hline
+\textbf{Precondition} & Menu chính đã được hiển thị; tồn tại ít nhất một savefile trong thư mục lưu trữ (nếu có). \\ \hline
+\textbf{Postcondition} & Danh sách savefile được hiển thị cùng thông tin chi tiết và sẵn sàng để người chơi chọn. \\ \hline
+\textbf{Trigger} & Người chơi nhấn chuột trái vào nút “Chơi tiếp”. \\ \hline
+\textbf{Normal Flow} & 
+1. Quét, đọc thư mục chứa savefile. \newline
+2. Hiển thị danh sách các file hợp lệ với thumbnail và metadata (thời gian lưu, tiến độ, v.v.). \newline
+3. Cho phép người chơi xem trước thông tin chi tiết của từng file. \\ \hline
+\textbf{Alternative Flow} & 
+1a. Không có savefile hợp lệ \textrightarrow~hiển thị thông báo “Không có dữ liệu khả dụng” và cung cấp tùy chọn “Quay lại Menu chính”. \newline
+1b. Phát hiện file bị lỗi hoặc không thể đọc \textrightarrow~ẩn file đó khỏi danh sách, hiển thị cảnh báo nhỏ “Savefile bị lỗi” và ghi log chi tiết để debug. \\ \hline
+\textbf{Exception Flow} & 
+Không tìm thấy savefile \textrightarrow~hiển thị thông báo “Không có dữ liệu lưu”. \\ \hline
+\end{tabular} 
+\end{table}
+
+\begin{table}[H] \centering 
+\begin{tabular}{|p{4cm}|p{10cm}|} 
+\hline 
+\textbf{Use-case ID} & FR-MENU-05 \\ \hline
+\textbf{Use-case} & Tải tiến trình game từ savefile \\ \hline
+\textbf{Actor} & Người chơi \\ \hline
+\textbf{Description} & Hệ thống cho phép người chơi chọn một savefile trong danh sách để tải và tiếp tục màn chơi tại thời điểm đã lưu. \\ \hline
+\textbf{Precondition} & Danh sách savefile đã được hiển thị và có ít nhất một file hợp lệ. \\ \hline
+\textbf{Postcondition} & Tiến trình game được khôi phục thành công và gameplay tiếp tục tại điểm đã lưu. \\ \hline
+\textbf{Trigger} & Người chơi chọn một file lưu từ danh sách savefile. \\ \hline
+\textbf{Normal Flow} & 
+1. Các savefile đang được hiển thị. \newline
+2. Người chơi chọn 1 savefile để tải. \newline
+3. Người chơi xác nhận thao tác chọn.\newline
+4. Kiểm tra tính toàn vẹn của file (validate integrity). \newline
+5. Tải tiến trình game từ file được chọn. \newline
+6. Phục hồi tiến trình người chơi và dữ liệu Sổ Tay. \newline
+7. Chuyển sang chế độ gameplay tại điểm đã lưu. \\ \hline
+\textbf{Alternative Flow} & 
+Người chơi hủy thao tác tải \textrightarrow~quay lại màn hình danh sách savefile mà không thay đổi trạng thái hiện tại. \\ \hline
+\textbf{Exception Flow} & 
+File bị lỗi hoặc không thể đọc \textrightarrow~hiển thị thông báo lỗi và quay lại danh sách savefile. \\ \hline
+\end{tabular} 
+\end{table}
+
+\begin{table}[H] \centering 
+\begin{tabular}{|p{4cm}|p{10cm}|} 
+\hline 
+\textbf{Use-case ID} & FR-MENU-06 \\ \hline
+\textbf{Use-case} & Xử lý lỗi file không hợp lệ \\ \hline
+\textbf{Actor} & Người chơi \\ \hline
+\textbf{Description} & Hệ thống hiển thị thông báo lỗi và cung cấp các tùy chọn xử lý khi file lưu game được chọn không hợp lệ hoặc không thể đọc. \\ \hline
+\textbf{Precondition} & Người chơi đã chọn một file lưu từ danh sách savefile. \\ \hline
+\textbf{Postcondition} & Người chơi được thông báo về lỗi và có thể chọn hành động tiếp theo (thử lại, xóa file, hoặc quay lại menu). \\ \hline
+\textbf{Trigger} & Hệ thống cố gắng tải 1 savefile bị lỗi hoặc không còn tồn tại. \\ \hline
+\textbf{Normal Flow} & 
+1. Phát hiện lỗi khi đọc hoặc xác thực file save. \newline
+2. Hiển thị hộp thoại thông báo lỗi với mô tả chi tiết. \newline
+3. Cung cấp các tùy chọn: “Thử lại”, “Xóa file”, “Quay lại”. \newline
+4. Ghi log lỗi để phục vụ quá trình debug. \\ \hline
+\textbf{Alternative Flow} & 
+3a. Người chơi chọn "Thử lại", \textrightarrow~ hệ thống cố gắng tải lại savefile. \newline
+3b. Người chơi chọn “Xóa file” \textrightarrow~hệ thống xóa file khỏi thư mục lưu trữ và cập nhật lại danh sách save files. \newline
+3c. Người chơi chọn "Quay lại" \textrightarrow~ hệ thống điều hường người dùng về lại danh sách savefile. \\
+\hline
+\textbf{Exception Flow} & Người chơi chọn “Thử lại” nhưng lỗi vẫn tiếp diễn \textrightarrow~hiển thị lại thông báo lỗi và gợi ý xóa file. \\ \hline
+\end{tabular} 
+\end{table}
+
+\begin{table}[H] \centering 
+\begin{tabular}{|p{4cm}|p{10cm}|} 
+\hline 
+\textbf{Use-case ID} & FR-MENU-07 \\ \hline
+\textbf{Use-case} & Xác nhận thoát game \\ \hline
+\textbf{Actor} & Người chơi \\ \hline
+\textbf{Description} & Hệ thống hiển thị một hộp thoại xác nhận khi người chơi chọn chức năng “Thoát” để đảm bảo người chơi không thoát nhầm. \\ \hline
+\textbf{Precondition} & Menu chính đang hiển thị. \\ \hline
+\textbf{Postcondition} & Người chơi xác nhận hoặc hủy thao tác thoát; hệ thống phản hồi tương ứng. \\ \hline
+\textbf{Trigger} & Người chơi nhấn chuột trái vào nút “Thoát” trong Menu chính. \\ \hline
+\textbf{Normal Flow} & 
+1. Hiển thị hộp thoại xác nhận với nội dung “Bạn có chắc muốn thoát game không?” và hiển thị 2 nút tương tác là "Có" và "Không". \newline
+2. Tạm dừng nhạc nền và hiệu ứng động nền. \\
+\hline
+\textbf{Alternative Flow} & 
+1a. Người chơi chọn “Không” \textrightarrow~đóng hộp thoại xác nhận và quay lại Menu chính, khôi phục nhạc nền. \newline
+1b. Người chơi chọn "Có" \textrightarrow~đóng hộp thoại, hệ thống ghi lại các giá trị cuối sau đó thực hiện đóng ứng dụng. \\ \hline
+\textbf{Exception Flow} & 
+Không có. \\ \hline
+\end{tabular} 
+\end{table}
+
+\begin{table}[H] \centering 
+\begin{tabular}{|p{4cm}|p{10cm}|} 
+\hline 
+\textbf{Use-case ID} & FR-MENU-08 \\ \hline
+\textbf{Use-case} & Đóng ứng dụng \\ \hline
+\textbf{Actor} & Người chơi \\ \hline
+\textbf{Description} & Hệ thống tiến hành đóng ứng dụng khi người chơi xác nhận thoát trong hộp thoại xác nhận. \\ \hline
+\textbf{Precondition} & Hộp thoại xác nhận thoát game đang hiển thị; người chơi đã chọn “Có”. \\ \hline
+\textbf{Postcondition} & Ứng dụng được đóng an toàn, tài nguyên được giải phóng, và các cài đặt được lưu lại. \\ \hline
+\textbf{Trigger} & Người chơi chọn “Có” trong hộp thoại xác nhận thoát. \\ \hline
+\textbf{Normal Flow} & 
+1. Lưu lại các thiết lập và trạng thái cần thiết (nếu có). \newline
+2. Giải phóng tài nguyên, dừng toàn bộ tiến trình và âm thanh. \newline
+3. Gọi quy trình đóng ứng dụng (graceful termination). \\ \hline
+\textbf{Alternative Flow} & 
+Không có. \\ \hline
+\textbf{Exception Flow} & 
+Lỗi khi lưu cài đặt hoặc giải phóng tài nguyên \textrightarrow~ghi log lỗi và tiếp tục quy trình đóng ứng dụng để tránh treo tiến trình. \\ \hline
+\end{tabular} 
+\end{table}
+
+
+\subsection{Gameplay System}
+
+\subsubsection{Use-Case Diagram}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{image/GameplaySystem.png}
+    \caption{Use Case Diagram - Gameplay System}
+    \label{fig:gameplay_usecase}
+\end{figure}
+
+\subsubsection{Đặc tả use-case(FR-GAME-XXX)}
+
+\begin{table}[H] \centering
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Use-case ID} & FR-GAME-01 \\ \hline
+\textbf{Use-case} & Điều khiển nhân vật \\ \hline
+\textbf{Actor} & Người chơi \\ \hline
+\textbf{Description} & Hệ thống cho phép người chơi điều khiển nhân vật chính di chuyển tự do trong các khu vực được thiết kế của màn chơi. \\ \hline
+\textbf{Precondition} & Gameplay mode đang hoạt động; nhân vật đã được khởi tạo. \\ \hline
+\textbf{Postcondition} & Nhân vật di chuyển hợp lệ theo input người chơi, cập nhật vị trí và hoạt ảnh tương ứng. \\ \hline
+\textbf{Trigger} & Người chơi sử dụng phím WASD hoặc Arrow keys để di chuyển. \\ \hline
+\textbf{Normal Flow} &
+1. Nhận input điều khiển từ người chơi. \newline
+2. Tính toán movement vector từ input. \newline
+3. Kiểm tra va chạm (collision) với môi trường. \newline
+4. Cập nhật vị trí và hoạt ảnh nhân vật. \newline
+5. Điều chỉnh camera theo vị trí nhân vật. \\ \hline
+\textbf{Alternative Flow} &
+Không có. \\ \hline
+\textbf{Exception Flow} &
+Input không hợp lệ hoặc xung đột va chạm \textrightarrow~hủy di chuyển và giữ trạng thái đứng yên. \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H] \centering
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Use-case ID} & FR-GAME-02 \\ \hline
+\textbf{Use-case} & Tương tác với đối tượng \\ \hline
+\textbf{Actor} & Người chơi \\ \hline
+\textbf{Description} & Hệ thống cho phép người chơi tương tác với các vật thể hoặc điểm nóng (hotspots) trong môi trường để khám phá hoặc kích hoạt hành động tương ứng. \\ \hline
+\textbf{Precondition} & Nhân vật đang trong phạm vi tương tác của vật thể; gameplay đang hoạt động bình thường. \\ \hline
+\textbf{Postcondition} & Hành động tương tác được thực thi và phản hồi âm thanh/hình ảnh được hiển thị. \\ \hline
+\textbf{Trigger} & Người chơi nhấn chuột trái vào vật thể có thể tương tác. \\ \hline
+\textbf{Normal Flow} &
+1. Phát hiện vật thể có thể tương tác trong phạm vi cho phép. \newline
+2. Hiển thị các gợi ý (prompt) tương tác qua menu ngữ cảnh (context menu) (mở, thu thập, xem,...). \newline
+3. Xử lý hành động khi người chơi nhấp chuột vào 1 trong các lựa chọn trong menu ngữ cảnh. \newline
+4. Phát hiệu ứng âm thanh/hình ảnh phản hồi. \\ \hline
+\textbf{Alternative Flow} &
+3a. Nếu vật thể bị khóa hoặc yêu cầu điều kiện đặc biệt \textrightarrow~hiển thị thông báo “Không thể tương tác hiện tại”. \\ \hline
+\textbf{Exception Flow} &
+Không phát hiện vật thể hợp lệ hoặc nhấp chuột ra ngoài vùng tương tác \textrightarrow~bỏ qua hành động. \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H] \centering
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Use-case ID} & FR-GAME-03 \\ \hline
+\textbf{Use-case} & Thu thập vật phẩm \\ \hline
+\textbf{Actor} & Người chơi \\ \hline
+\textbf{Description} & Hệ thống cho phép người chơi thực hiện hành động “Thu thập” để lấy và lưu trữ vật phẩm vào túi đồ. \\ \hline
+\textbf{Precondition} & Nhân vật đang trong phạm vi của vật phẩm và vật phẩm đang ở trạng thái có thể thu thập. \\ \hline
+\textbf{Postcondition} & vật phẩm được thêm vào túi đồ, hiển thị trong danh sách vật phẩm; vật phẩm trong cảnh bị ẩn hoặc đánh dấu là đã thu thập. \\ \hline
+\textbf{Trigger} & Người chơi chọn “Thu thập” trong menu ngữ cảnh gợi ý tương tác. \\ \hline
+\textbf{Normal Flow} &
+1. Kiểm tra khả năng thu thập (validate collectability). \newline
+2. Phát animation thu thập. \newline
+3. Thêm vật phẩm vào túi đồ cùng metadata (tên, vị trí, thời gian, loại). \newline
+4. Xóa hoặc ẩn vật phẩm khỏi môi trường. \\ \hline
+\textbf{Alternative Flow} &
+Nếu người chơi hủy hành động trước khi hoàn tất animation \textrightarrow~vật phẩm vẫn giữ nguyên trong môi trường. \\ \hline
+\textbf{Exception Flow} &
+Không đủ điều kiện thu thập (túi đồ đầy, vật phẩm bị khóa,...) \textrightarrow~hiển thị thông báo “Không thể thu thập lúc này” kèm với lí do xảy ra. \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H] \centering
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Use-case ID} & FR-GAME-04 \\ \hline
+\textbf{Use-case} & Quản lí Túi đồ \\ \hline
+\textbf{Actor} & Người chơi \\ \hline
+\textbf{Description} & Hệ thống cung cấp một Túi đồ (Inventory) cho phép người chơi lưu trữ, quản lý và sử dụng các vật phẩm, bằng chứng hoặc công cụ thu thập được trong quá trình chơi. \\ \hline
+\textbf{Precondition} & Gameplay đang hoạt động; ít nhất một vật phẩm đã được thu thập hoặc có khả năng được lưu trữ. \\ \hline
+\textbf{Postcondition} & Túi đồ được cập nhật chính xác với vật phẩm mới; người chơi có thể thêm, loại bỏ, xem thông tin chi tiết, sắp xếp hoặc sử dụng vật phẩm khi cần. \\ \hline
+\textbf{Trigger} & Một vật phẩm mới được thu thập hoặc người chơi mở giao diện Túi đồ. \\ \hline
+\textbf{Normal Flow} &
+1. Hệ thống lưu vật phẩm mới vào Túi đồ theo danh mục (Dụng cụ, Bằng chứng, Vật phẩm đặc biệt, ...). \newline
+2. Hiển thị biểu tượng (icon) và thông tin cơ bản của vật phẩm (tên, mô tả, số lượng). \newline
+3. Tự động sắp xếp vật phẩm theo loại hoặc thời gian thu thập. \newline
+4. Cho phép người chơi thực hiện các thao tác: \textit{thêm, loại bỏ, xem thông tin chi tiết, kểt hợp, sắp xếp hoặc sử dụng vật phẩm khi cần.}. \\ \hline
+\textbf{Alternative Flow} &
+Không có. \\ \hline
+\textbf{Exception Flow} &
+4a. Túi đồ đầy, vật phẩm không tồn tại hoặc lỗi khi ghi thêm vật phẩm \textrightarrow~hiển thị thông báo “Không thể thêm vật phẩm” và bỏ qua thao tác. \newline
+4b. Túi đồ rỗng, vật phẩm không tồn tại hoặc lỗi khi ghi loại bỏ vật phẩm \textrightarrow~hiển thị thông báo “Không thể loại bỏ vật phẩm” và bỏ qua thao tác. \newline 
+4c. Vật phẩm không tồn tại hoặc lỗi tải thông tin trong khi xử lí việc xem thông tin chi tiết , kết hợp hoặc sử dụng của vật phẩm khi cần\textrightarrow~hiển thị thông báo “Không thể thực hiện thao tác” kèm lí do và bỏ qua thao tác. 
+\\ 
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H] \centering
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Use-case ID} & FR-GAME-05 \\ \hline
+\textbf{Use-case} & Khởi tạo hội thoại NPC \\ \hline
+\textbf{Actor} & Người chơi, NPC \\ \hline
+\textbf{Description} & Hệ thống cho phép người chơi bắt đầu hội thoại với các nhân vật không phải người chơi (NPC) để thu thập thông tin, lời khai hoặc kích hoạt tiến trình nhiệm vụ. \\ \hline
+\textbf{Precondition} & NPC có sẵn trong khu vực hiện tại và đang ở trạng thái có thể hội thoại; gameplay không bị tạm dừng. \\ \hline
+\textbf{Postcondition} & Giao diện hội thoại được hiển thị và hệ thống bắt đầu xử lý cây hội thoại (dialogue tree) tương ứng với NPC. \\ \hline
+\textbf{Trigger} & Người chơi nhấp chuột tría vào NPC trong phạm vi tương tác. \\ \hline
+\textbf{Normal Flow} &
+1. Kiểm tra trạng thái khả dụng của NPC (available, busy, disabled). \newline
+2. Load dữ liệu hội thoại tương ứng với NPC (theo tiến trình cốt truyện). \newline
+3. Hiển thị khung hội thoại trên giao diện. \newline
+4. Phát animation và âm thanh mở đầu hội thoại. \\ \hline
+\textbf{Alternative Flow} &
+2a. Nếu NPC có nhiều hội thoại song song \textrightarrow~hệ thống hiển thị danh sách lựa chọn để người chơi chọn chủ đề muốn nói. \\ \hline
+\textbf{Exception Flow} &
+NPC không khả dụng (đang di chuyển, trong cutscene,...) \textrightarrow~hiển thị thông báo “Không thể nói chuyện ngay bây giờ”. \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H] \centering
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Use-case ID} & FR-GAME-06 \\ \hline
+\textbf{Use-case} & Lựa chọn hội thoại \\ \hline
+\textbf{Actor} & Người chơi, hệ thống\\ \hline
+\textbf{Description} & Hệ thống hiển thị các lựa chọn hội thoại cho người chơi trong khi trò chuyện với NPC, cho phép định hướng diễn biến cuộc hội thoại hoặc ảnh hưởng tới tiến trình cốt truyện. \\ \hline
+\textbf{Precondition} & Giao diện hội thoại đã được khởi tạo; NPC đang trong trạng thái hội thoại chủ động. \\ \hline
+\textbf{Postcondition} & Lựa chọn của người chơi được ghi nhận và cây hội thoại được cập nhật để phản ánh kết quả lựa chọn. \\ \hline
+\textbf{Trigger} & Đến lượt người chơi chọn phản hồi trong hội thoại. \\ \hline
+\textbf{Normal Flow} &
+1. Hệ thống hiển thị danh sách các lựa chọn hội thoại khả dụng. \newline
+2. Các lựa chọn bị ẩn nếu không đủ điều kiện (chưa thu thập thông tin, chưa gặp nhân vật khác,...). \newline
+3. Người chơi chọn một phương án bằng nhấp chuột trái hoặc phím tắt. \newline
+4. Hệ thống ghi nhận lựa chọn và chuyển sang nhánh hội thoại tương ứng. \\ \hline
+\textbf{Alternative Flow} &
+Nếu người chơi đã mở khóa lựa chọn đặc biệt (dựa trên vật chứng hoặc tiến trình) \textrightarrow~hiển thị lựa chọn “ẩn” với màu sắc hoặc ký hiệu riêng biệt. \\ \hline
+\textbf{Exception Flow} &
+Người chơi không chọn trong thời gian quy định (nếu có) \textrightarrow~tự động chọn lựa chọn mặc định hoặc kết thúc hội thoại. \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H] \centering
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Use-case ID} & FR-GAME-07 \\ \hline
+\textbf{Use-case} & Trình bày bằng chứng cho NPC \\ \hline
+\textbf{Actor} & Người chơi, NPC \\ \hline
+\textbf{Description} & Hệ thống cho phép người chơi chọn và trình bày các chứng cứ thu thập được trong Túi đồ và Sổ tay cho NPC trong lúc hội thoại, nhằm khai thác thông tin, chất vấn hoặc mở ra nhánh hội thoại mới. \\ \hline
+\textbf{Precondition} & Hội thoại đang hoạt động; NPC cho phép hành động “Trình bằng chứng”; Túi đồ có ít nhất một vật chứng. \\ \hline
+\textbf{Postcondition} & NPC phản hồi dựa trên vật chứng được trình bày; hệ thống có thể cập nhật tiến trình hoặc mở khóa thông tin mới. \\ \hline
+\textbf{Trigger} & Người chơi lựa chọn đoạn hội thoại có yếu tố tựa như “Trình bằng chứng”. \\ \hline
+\textbf{Normal Flow} &
+1. Hệ thống hiển thị giao diện Túi đồ trong ngữ cảnh hội thoại. \newline
+2. Người chơi chọn một vật chứng từ danh sách. \newline
+3. Hệ thống kiểm tra tính liên quan của vật chứng với NPC hoặc tình huống hiện tại. \newline
+4. Nếu hợp lệ, kích hoạt phản ứng hội thoại tương ứng của NPC. \newline
+5. Cập nhật trạng thái NPC hoặc tiến trình nhiệm vụ (nếu có). \\ \hline
+\textbf{Alternative Flow} &
+Nếu vật chứng đặc biệt (bằng chứng quan trọng hoặc vật phẩm cốt truyện) \textrightarrow~hệ thống phát animation và âm thanh riêng, kèm phản ứng đặc biệt từ NPC. \\ \hline
+\textbf{Exception Flow} &
+Người chơi chọn vật chứng không liên quan \textrightarrow~NPC phản hồi trung lập (“Tôi không hiểu ý bạn”), không thay đổi tiến trình. \\ \hline
+\end{tabular}
+\end{table}
+
+
+\begin{table}[H] \centering
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Use-case ID} & FR-GAME-08 \\ \hline
+\textbf{Use-case} & Phản ứng NPC với bằng chứng \\ \hline
+\textbf{Actor} & NPC, Người chơi \\ \hline
+\textbf{Description} & Khi người chơi trình bày bằng chứng, hệ thống sẽ xử lý và hiển thị phản ứng của NPC tùy theo mức độ liên quan, độ chính xác hoặc giá trị của vật chứng đó đối với ngữ cảnh hội thoại. \\ \hline
+\textbf{Precondition} & Hành động “Trình bằng chứng” đã được kích hoạt trong hội thoại; NPC có tập phản ứng (response set) được định nghĩa sẵn cho từng loại bằng chứng. \\ \hline
+\textbf{Postcondition} & NPC đưa ra phản hồi phù hợp; cây hội thoại và tiến trình cốt truyện được cập nhật tương ứng. \\ \hline
+\textbf{Trigger} & Người chơi xác nhận lựa chọn vật chứng trong giao diện “Trình bằng chứng”. \\ \hline
+\textbf{Normal Flow} &
+1. Hệ thống phân tích mối quan hệ giữa bằng chứng và NPC hiện tại. \newline
+2. Tra cứu phản ứng tương ứng trong cơ sở dữ liệu hội thoại (dialogue database). \newline
+3. Hiển thị phản hồi của NPC bằng lời thoại, biểu cảm và âm thanh phù hợp. \newline
+4. Cập nhật trạng thái NPC (tin tưởng, nghi ngờ, hợp tác,...) và tiến trình nhiệm vụ. \\ \hline
+\textbf{Alternative Flow} &
+Nếu bằng chứng là “chìa khóa cốt truyện” \textrightarrow~hệ thống kích hoạt cutscene hoặc nhánh hội thoại đặc biệt, có thể mở khóa khu vực hoặc thông tin mới. \\ \hline
+\textbf{Exception Flow} &
+Không tìm thấy phản ứng phù hợp \textrightarrow~hiển thị phản hồi mặc định (“Tôi không biết cái này liên quan gì”). \\ \hline
+\end{tabular}
+\end{table}
+
+
+\subsection{Accusation System}
+
+\subsubsection{Use-Case Diagram}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{image/AccusationSystem.png}
+    \caption{Use Case Diagram - Accusation System}
+    \label{fig:accusation_usecase}
+\end{figure}
+
+\subsubsection{Đặc tả use-case (FR-ACCUSE-XXX)}
+
+\begin{table}[H] \centering
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Use-case ID} & FR-ACCUSE-01 \\ \hline
+\textbf{Use-case} & Vào phiên kết tội \\ \hline
+\textbf{Actor} & Người chơi \\ \hline
+\textbf{Description} & Hệ thống cho phép người chơi bắt đầu một phiên kết tội khi đã thu thập đủ các bằng chứng quan trọng, chuyển sang chế độ đặc biệt để tiến hành quá trình buộc tội. \\ \hline
+\textbf{Precondition} & Người chơi đã đạt các điều kiện cần thiết (thu thập đủ bằng chứng, hoàn thành các đoạn hội thoại bắt buộc). \\ \hline
+\textbf{Postcondition} & Phiên kết tội được khởi tạo; gameplay thông thường bị tạm dừng; giao diện kết tội được hiển thị. \\ \hline
+\textbf{Trigger} & Người chơi chọn “Begin Accusation” từ menu hoặc prompt trong gameplay. \\ \hline
+\textbf{Normal Flow} &
+1. Hệ thống kiểm tra điều kiện khởi tạo (đủ bằng chứng, không trong cutscene). \newline
+2. Xác nhận người chơi có muốn bắt đầu phiên kết tội. \newline
+3. Nếu xác nhận, tạm dừng gameplay hiện tại. \newline
+4. Chuyển sang chế độ kết tội (Accusation Mode) và khởi tạo giao diện. \\ \hline
+\textbf{Alternative Flow} &
+Nếu người chơi chọn lựa chọn hủy khi xác nhận \textrightarrow~hệ thống quay lại gameplay bình thường mà không thay đổi trạng thái. \\ \hline
+\textbf{Exception Flow} &
+Không đủ bằng chứng hoặc trạng thái không hợp lệ \textrightarrow~hiển thị thông báo “Chưa thể bắt đầu kết tội vào lúc này”. \\ \hline
+
+\end{tabular}
+\end{table}
+
+\begin{table}[H] \centering
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Use-case ID} & FR-ACCUSE-02 \\ \hline
+\textbf{Use-case} & Vào giao diện kết tội \\ \hline
+\textbf{Actor} & Người chơi \\ \hline
+\textbf{Description} & Hệ thống cung cấp một giao diện người dùng chuyên biệt cho phiên kết tội, trong đó người chơi có thể xem lại thông tin nghi phạm, bằng chứng và lời khai để chuẩn bị lập luận. \\ \hline
+\textbf{Precondition} & Phiên kết tội đã được kích hoạt (Accusation Mode đang hoạt động). \\ \hline
+\textbf{Postcondition} & Giao diện kết tội hiển thị thành công, sẵn sàng cho người chơi thao tác. \\ \hline
+\textbf{Trigger} & Sau khi người chơi lựa chọn bắt đầu phiên kết tội. \\ \hline
+\textbf{Normal Flow} &
+1. Hệ thống tải toàn bộ dữ liệu được ghi chú trong sổ tay về nghi phạm, những bằng chứng thu được và các lời khai có liên quan. \newline
+2. Hiển thị layout giao diện kết tội với các khu vực: danh sách nghi phạm, khu vực trình bày, và khung bằng chứng. \newline
+3. Kích hoạt các công cụ hỗ trợ logic (connectors, notes, highlight). \newline
+4. Cho phép người chơi di chuyển, chọn và xem chi tiết từng đối tượng. \\ \hline
+\textbf{Alternative Flow} &
+Nếu người chơi thoát khỏi giao diện trước khi bắt đầu buộc tội \textrightarrow~hệ thống lưu trạng thái tạm và quay về gameplay chính. \\ \hline
+\textbf{Exception Flow} &
+Dữ liệu bị lỗi hoặc thiếu \textrightarrow~hiển thị thông báo “Thiếu dữ liệu cần thiết cho phiên kết tội” và ghi log lỗi. \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H] \centering
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Use-case ID} & FR-ACCUSE-03 \\ \hline
+\textbf{Use-case} & Trình bày sự kiện \\ \hline
+\textbf{Actor} & Người chơi \\ \hline
+\textbf{Description} & Giao diện kết tội cho phép người chơi sắp xếp và liên kết các bằng chứng, lời khai để trình bày lại chuỗi sự kiện xảy ra trong vụ án. \\ \hline
+\textbf{Precondition} & Giao diện kết tội (Accusation Interface) đã được mở. \\ \hline
+\textbf{Postcondition} & Chuỗi sự kiện được người chơi sắp xếp và xác nhận, dữ liệu được lưu tạm thời để phục vụ quá trình buộc tội. \\ \hline
+\textbf{Trigger} & Người chơi sử dụng công cụ “Link Evidence” hoặc “Timeline Editor” trong giao diện kết tội. \\ \hline
+\textbf{Normal Flow} &
+1. Hệ thống hiển thị khu vực trình bày sự kiện (Event Board). \newline
+2. Người chơi kéo-thả các bằng chứng và lời khai lên bảng. \newline
+3. Hệ thống cho phép tạo các liên kết logic giữa các mục (ví dụ: nguyên nhân → kết quả). \newline
+4. Hệ thống kiểm tra các kết nối hợp lệ. \newline
+5. Hệ thống tự động tạo hình ảnh trực quan dạng timeline để minh họa chuỗi sự kiện. \\ \hline
+\textbf{Alternative Flow} &
+Nếu người chơi chọn “Gợi ý” (Hint) \textrightarrow~Hệ thống hiển thị các gợi ý mối liên hệ khả dĩ giữa các bằng chứng đã thu thập. \\ \hline
+\textbf{Exception Flow} &
+Nếu thiếu dữ liệu hoặc lỗi logic trong liên kết \textrightarrow~hiển thị cảnh báo “Liên kết không hợp lệ” và yêu cầu người chơi chỉnh sửa trước khi tiếp tục. \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H] \centering
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Use-case ID} & FR-ACCUSE-04 \\ \hline
+\textbf{Use-case} & Phản biện với bằng chứng \\ \hline
+\textbf{Actor} & Người chơi \\ \hline
+\textbf{Description} & Trong phiên kết tội, người chơi có thể phản biện lời khai của nghi phạm bằng cách chọn và trình bày vật chứng phù hợp từ túi đồ hoặc thông tin được ghi chú trong sổ tay. \\ \hline
+\textbf{Precondition} & Một lời khai của nghi phạm đang được hiển thị trong giao diện kết tội. \\ \hline
+\textbf{Postcondition} & Hệ thống ghi nhận kết quả phản biện (đúng hoặc sai) và cập nhật tiến trình buộc tội. \\ \hline
+\textbf{Trigger} & Nghi phạm đưa ra một lời khai mâu thuẫn; người chơi chọn hành động “Phản biện bằng chứng”. \\ \hline
+\textbf{Normal Flow} &
+1. Hệ thống hiển thị lời khai của nghi phạm, làm nổi bật các phần có thể bị nghi ngờ. \newline
+2. Người chơi mở sổ tay hoặc túi đồ trong chế độ kết tội. \newline
+3. Người chơi chọn một ghi chú hoặc vật chứng để phản biện. \newline
+4. Hệ thống kiểm tra tính hợp lý giữa bằng chứng và lời khai. \newline
+5. Hệ thống hiển thị kết quả đối chất (chấp nhận hoặc bác bỏ). \\ \hline
+\textbf{Alternative Flow} &
+Nếu người chơi chọn “Xem gợi ý” \textrightarrow~hệ thống hiển thị mô tả ngắn gợi ý loại vật chứng nên được dùng (nhưng không nêu rõ vật chứng cụ thể). \\ \hline
+\textbf{Exception Flow} &
+Nếu người chơi chọn vật chứng không hợp lệ \textrightarrow~hệ thống hiển thị thông báo “Bằng chứng không liên quan”, trừ điểm uy tín và cho phép thử lại. \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H] \centering
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Use-case ID} & FR-ACCUSE-05 \\ \hline
+\textbf{Use-case} & Kích hoạt hệ thống thưởng phạt \\ \hline
+\textbf{Actor} & Người chơi \\ \hline
+\textbf{Description} & Hệ thống áp dụng cơ chế điểm phạt hoặc giảm uy tín khi người chơi đưa ra phản biện sai hoặc kết tội sai trong quá trình đối chất. \\ \hline
+\textbf{Precondition} & Người chơi đang trong phiên kết tội (Accusation Mode). \\ \hline
+\textbf{Postcondition} & Uy tín hoặc số lần thử lại của người chơi được cập nhật; nếu dưới các mức cố định, hệ thống sẽ áp dụng hình phạt lên người chơi và sẽ chấm dứt phiên kết tội với kết quả thất bại nếu uy tín giảm xuống dưới mức 0 \\ \hline
+\textbf{Trigger} & Người chơi trình bằng chứng sai hoặc đưa ra kết tội không chính xác. \\ \hline
+\textbf{Normal Flow} &
+1. Hệ thống kiểm tra kết quả phản biện hoặc kết tội. \newline
+2. Nếu sai, hệ thống trừ một lượng điểm uy tín nhất định (hoặc một lượt thử) và ngược lại. \newline
+3. Hệ thống hiển thị hiệu ứng hoặc âm thanh phản hồi thể hiện hình phạt. \newline
+4. Thanh chỉ báo uy tín (credibility meter) được cập nhật trực quan trên giao diện. \newline
+5. Nếu điểm uy tín còn lại > 0, người chơi có thể tiếp tục. \\ \hline
+\textbf{Alternative Flow} &
+Nếu độ khó ở mức “Dễ” \textrightarrow~hệ thống chỉ hiển thị cảnh báo mà không trừ điểm ngay, cho phép người chơi xác nhận lại lựa chọn. \\ \hline
+\textbf{Exception Flow} &
+Nếu điểm uy tín giảm xuống 0 \textrightarrow~hệ thống kích hoạt sự kiện “Thất bại trong phiên kết tội”, phát đoạn cắt cảnh tương ứng và đưa người chơi đến màn hình kết thúc hoặc tùy chọn chơi lại. \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H] \centering
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Use-case ID} & FR-ACCUSE-06 \\ \hline
+\textbf{Use-case} & Lựa chọn hung thủ cuối cùng \\ \hline
+\textbf{Actor} & Người chơi \\ \hline
+\textbf{Description} & Hệ thống cho phép người chơi lựa chọn một nghi phạm cụ thể làm hung thủ cuối cùng dựa trên bằng chứng và lời khai đã thu thập được. \\ \hline
+\textbf{Precondition} & Tất cả các mâu thuẫn đã được giải quyết và phiên kết tội đang ở giai đoạn kết luận. \\ \hline
+\textbf{Postcondition} & Lựa chọn cuối cùng được xác nhận; hệ thống lưu quyết định để xác định kết thúc tương ứng. \\ \hline
+\textbf{Trigger} & Người chơi chọn hành động “Kết luận vụ án” hay “Final Accusation”. \\ \hline
+\textbf{Normal Flow} &
+1. Hệ thống hiển thị danh sách tất cả nghi phạm có liên quan. \newline
+2. Người chơi chọn một nghi phạm từ danh sách. \newline
+3. Hệ thống hiển thị phần tóm tắt bằng chứng liên quan đến nghi phạm đó. \newline
+4. Người chơi xác nhận lựa chọn. \newline
+5. Hệ thống ghi nhận lựa chọn và khóa tiến trình buộc tội để xử lý kết cục. \\ \hline
+\textbf{Alternative Flow} &
+Nếu người chơi chọn “Xem lại bằng chứng” trước khi kết luận \textrightarrow~hệ thống quay lại giao diện trình bày sự kiện (FR-ACCUSE-03) để xem hoặc chỉnh sửa logic mà không mất dữ liệu. \\ \hline
+\textbf{Exception Flow} &
+Nếu người chơi chưa chọn nghi phạm hoặc dữ liệu nghi phạm bị lỗi \textrightarrow~hệ thống hiển thị thông báo “Không thể xác nhận lựa chọn”, yêu cầu người chơi chọn lại hoặc tải lại danh sách nghi phạm. \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H] \centering
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Use-case ID} & FR-ACCUSE-07 \\ \hline
+\textbf{Use-case} & Phát cắt cảnh kết thúc \\ \hline
+\textbf{Actor} & Hệ thống \\ \hline
+\textbf{Description} & Sau khi người chơi đưa ra kết luận cuối cùng, hệ thống phát một đoạn phim cắt cảnh (cutscene) thể hiện kết quả của phiên kết tội, phản ánh hậu quả và kết cục của vụ án. \\ \hline
+\textbf{Precondition} & Lựa chọn hung thủ cuối cùng đã được xác nhận. \\ \hline
+\textbf{Postcondition} & Cutscene kết thúc được phát hoàn chỉnh; hệ thống cập nhật trạng thái hoàn thành game. \\ \hline
+\textbf{Trigger} & Final accusation đã được xử lý thành công. \\ \hline
+\textbf{Normal Flow} &
+1. Hệ thống xác định loại kết thúc dựa trên độ chính xác của buộc tội. \newline
+2. Tải và chuẩn bị các tài nguyên cutscene tương ứng (âm thanh, mô hình, lời thoại). \newline
+3. Phát đoạn phim kết thúc với trình tự hoạt ảnh và thoại. \newline
+4. Cập nhật trạng thái hoàn thành vụ án (Good/Bad). \newline
+5. Ghi lại dữ liệu thống kê chơi (thời gian, số lỗi, lựa chọn chính). \\ \hline
+\textbf{Alternative Flow} &
+Nếu người chơi đã hoàn thành trước đó \textrightarrow~hệ thống mở khóa tuỳ chọn “Xem lại cutscene” trong mục Xem lại. \\ \hline
+\textbf{Exception Flow} &
+Nếu lỗi khi tải hoặc phát cutscene \textrightarrow~hệ thống hiển thị thông báo “Lỗi phát cutscene”, cho phép bỏ qua hoặc xem lại sau; đồng thời log lỗi để xử lý kỹ thuật. \\ \hline
+\end{tabular}
+\end{table}
+
+\subparagraph{FR-ACCUSE-08: Kết cục thất bại}
+\begin{itemize}
+    \item \textbf{Mô tả:} Hệ thống phải có một kịch bản kết cục (ending) riêng cho trường hợp người chơi kết tội sai.
+    \item \textbf{Trigger:} Wrong final accusation hoặc credibility depleted.
+    \item \textbf{Hệ thống sẽ:}
+    \begin{itemize}
+        \item Play bad ending cutscene sequence
+        \item Explain consequences của wrong accusation
+        \item Offer options để restart hoặc return to menu
+        \item Save completion data với "failed" status
+    \end{itemize}
+\end{itemize}
+\subsection{Hiện trường vụ án}
+
+subsubsection{Use-Case Diagram}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{image/CrimeScenev2.png}
+    \caption{Use Case Diagram - Crime Scene Investigation}
+    \label{fig:crimescene_usecase}
+\end{figure}
+
+subsubsection{Đặc tả use-case (FR-CRIME\_SCENE-XXX)}
+
+\begin{table}[H] \centering
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Use-case ID} & FR-CRIME\_SCENE-01 \\ \hline
+\textbf{Use-case} & Khởi tạo tương tác với NPC Cố vấn \\ \hline
+\textbf{Actor} & Người chơi, NPC Cố vấn \\ \hline
+\textbf{Description} & Người chơi có thể bắt đầu cuộc hội thoại với NPC Cố vấn để nhận hướng dẫn hoặc lời khuyên trong quá trình điều tra. \\ \hline
+\textbf{Precondition} & Người chơi đang ở trong phạm vi tương tác của NPC Cố vấn. \\ \hline
+\textbf{Postcondition} & Cửa sổ hội thoại hiển thị, cung cấp các lựa chọn tương tác như “Đặt câu hỏi” hoặc “Xin lời khuyên”. \\ \hline
+\textbf{Trigger} & Người chơi nhấp chuột trái vào đối tượng hoặc chọn hành động tương tác với NPC Cố vấn. \\ \hline
+\textbf{Normal Flow} &
+1. Người chơi di chuyển đến gần NPC Cố vấn. \newline
+2. Người chơi nhấp chuột trái vào đối tượng để bắt đầu tương tác. \newline
+3. Hệ thống hiển thị hộp thoại và danh sách lựa chọn khả dụng. \\ \hline
+\textbf{Alternative Flow} &
+Nếu người chơi rời khỏi khu vực trước khi hoàn tất bước khởi tạo \textrightarrow~hệ thống hủy tương tác và trở lại gameplay bình thường. \\ \hline
+\textbf{Exception Flow} &
+Nếu NPC không phản hồi do lỗi script hoặc dữ liệu \textrightarrow~hiển thị thông báo “Không thể khởi tạo hội thoại”, đồng thời ghi log lỗi để xử lý kỹ thuật. \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H] \centering
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Use-case ID} & FR-CRIME\_SCENE-02 \\ \hline
+\textbf{Use-case} & Đặt câu hỏi cho NPC Cố vấn \\ \hline
+\textbf{Actor} & Người chơi, NPC Cố vấn \\ \hline
+\textbf{Description} & Người chơi chọn và đặt câu hỏi cho NPC Cố vấn để nhận thông tin gợi ý hoặc hướng dẫn trong vụ án. \\ \hline
+\textbf{Precondition} & Người chơi đã mở giao diện hội thoại và chọn tùy chọn “Đặt câu hỏi”. \\ \hline
+\textbf{Postcondition} & NPC trả lời câu hỏi được chọn, câu hỏi đó bị vô hiệu hóa để tránh lặp lại. \\ \hline
+\textbf{Trigger} & Người chơi chọn một câu hỏi trong danh sách có sẵn. \\ \hline
+\textbf{Normal Flow} &
+1. Hệ thống hiển thị danh sách các câu hỏi có sẵn. \newline
+2. Người chơi chọn một câu hỏi. \newline
+3. NPC hiển thị câu trả lời tương ứng. \newline
+4. Hệ thống vô hiệu hóa câu hỏi đã được sử dụng. \\ \hline
+\textbf{Alternative Flow} &
+Nếu người chơi thoát khỏi hội thoại trước khi chọn câu hỏi \textrightarrow~hệ thống đóng giao diện mà không thay đổi trạng thái hội thoại. \\ \hline
+\textbf{Exception Flow} &
+Nếu danh sách câu hỏi trống hoặc bị lỗi dữ liệu \textrightarrow~hiển thị thông báo “Không có câu hỏi khả dụng”, đồng thời ghi log lỗi. \\ \hline
+\end{tabular}
+\end{table}
+
+
+\begin{table}[H] \centering
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Use-case ID} & FR-CRIME\_SCENE-03 \\ \hline
+\textbf{Use-case} & Xin lời khuyên từ NPC Cố vấn \\ \hline
+\textbf{Actor} & Người chơi, NPC Cố vấn \\ \hline
+\textbf{Description} & Người chơi có thể chọn chủ đề để nhận lời khuyên chuyên sâu từ NPC Cố vấn về tình tiết vụ án hoặc hướng điều tra tiếp theo. \\ \hline
+\textbf{Precondition} & Người chơi đang trong giao diện hội thoại và đã chọn “Xin lời khuyên”. \\ \hline
+\textbf{Postcondition} & NPC hiển thị lời khuyên, chủ đề tương ứng bị vô hiệu hóa để tránh lặp lại. \\ \hline
+\textbf{Trigger} & Người chơi chọn một chủ đề lời khuyên. \\ \hline
+\textbf{Normal Flow} &
+1. Hệ thống hiển thị danh sách chủ đề lời khuyên (hung khí, nghi phạm, hướng điều tra...). \newline
+2. Người chơi chọn một chủ đề. \newline
+3. NPC cung cấp lời khuyên liên quan. \newline
+4. Hệ thống vô hiệu hóa chủ đề đã chọn. \\ \hline
+\textbf{Alternative Flow} &
+Nếu người chơi rời khỏi hội thoại trước khi chọn chủ đề \textrightarrow~giao diện đóng lại, dữ liệu hội thoại giữ nguyên trạng thái trước đó. \\ \hline
+\textbf{Exception Flow} &
+Nếu không có chủ đề khả dụng hoặc lỗi dữ liệu \textrightarrow~hiển thị thông báo “Không có lời khuyên khả dụng”, ghi log sự cố để debug. \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H] \centering
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Use-case ID} & FR-CRIME\_SCENE-04 \\ \hline
+\textbf{Use-case} & Khởi tạo tương tác với NPC Nghi phạm \\ \hline
+\textbf{Actor} & Người chơi, NPC Nghi phạm \\ \hline
+\textbf{Description} & Người chơi bắt đầu hội thoại với NPC Nghi phạm để khai thác thông tin liên quan đến vụ án. \\ \hline
+\textbf{Precondition} & Người chơi đang ở trong phạm vi tương tác với NPC Nghi phạm. \\ \hline
+\textbf{Postcondition} & Cửa sổ hội thoại được mở, hiển thị các lựa chọn câu hỏi khả dụng. \\ \hline
+\textbf{Trigger} & Người chơi nhấp chuột trái vào đối tượng hoặc chọn hành động tương tác với NPC Nghi phạm. \\ \hline
+\textbf{Normal Flow} &
+1. Người chơi tiếp cận NPC Nghi phạm. \newline
+2. Người chơi chọn hành động “Nói chuyện”. \newline
+3. Hệ thống mở cửa sổ hội thoại, hiển thị danh sách câu hỏi hoặc chủ đề khả dụng. \\ \hline
+\textbf{Alternative Flow} &
+Nếu người chơi rời khỏi khu vực trước khi xác nhận tương tác \textrightarrow~hủy khởi tạo hội thoại, quay lại gameplay bình thường. \\ \hline
+\textbf{Exception Flow} &
+Nếu NPC không phản hồi do lỗi script hoặc asset \textrightarrow~hiển thị thông báo “Không thể khởi tạo hội thoại”, ghi log lỗi để xử lý sau. \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H] \centering
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Use-case ID} & FR-CRIME\_SCENE-05 \\ \hline
+\textbf{Use-case} & Đặt câu hỏi về bằng chứng \\ \hline
+\textbf{Actor} & Người chơi, NPC Nghi phạm \\ \hline
+\textbf{Description} & Người chơi hỏi NPC Nghi phạm về một vật chứng cụ thể nhằm làm rõ lời khai hoặc tình tiết vụ án. \\ \hline
+\textbf{Precondition} & Đang trong giao diện hội thoại với NPC Nghi phạm. \\ \hline
+\textbf{Postcondition} & NPC phản hồi câu hỏi, hệ thống ghi nhận phản ứng và dữ liệu lời khai. \\ \hline
+\textbf{Trigger} & Người chơi chọn một bằng chứng để hỏi. \\ \hline
+\textbf{Normal Flow} &
+1. Hệ thống hiển thị danh sách các vật chứng mà người chơi đã thu thập. \newline
+2. Người chơi chọn một vật chứng cụ thể. \newline
+3. NPC phản hồi hoặc bình luận về vật chứng được chọn. \newline
+4. Hệ thống lưu kết quả đối thoại (gồm loại phản ứng và mức độ hợp tác). \\ \hline
+\textbf{Alternative Flow} &
+Nếu người chơi đổi ý và chọn loại câu hỏi khác \textrightarrow~hệ thống quay lại danh sách lựa chọn chính trong hội thoại. \\ \hline
+\textbf{Exception Flow} &
+Nếu NPC từ chối trả lời hoặc dữ liệu phản hồi bị lỗi \textrightarrow~hiển thị thông báo “Không muốn trả lời” và ghi log sự cố. \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H] \centering
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Use-case ID} & FR-CRIME\_SCENE-05 \\ \hline
+\textbf{Use-case} & Đặt câu hỏi về bằng chứng \\ \hline
+\textbf{Actor} & Người chơi, NPC Nghi phạm \\ \hline
+\textbf{Description} & Người chơi hỏi NPC Nghi phạm về một vật chứng cụ thể nhằm làm rõ lời khai hoặc tình tiết vụ án. \\ \hline
+\textbf{Precondition} & Đang trong giao diện hội thoại với NPC Nghi phạm. \\ \hline
+\textbf{Postcondition} & NPC phản hồi câu hỏi, hệ thống ghi nhận phản ứng và dữ liệu lời khai. \\ \hline
+\textbf{Trigger} & Người chơi chọn một bằng chứng để hỏi. \\ \hline
+\textbf{Normal Flow} &
+1. Hệ thống hiển thị danh sách các vật chứng mà người chơi đã thu thập. \newline
+2. Người chơi chọn một vật chứng cụ thể. \newline
+3. NPC phản hồi hoặc bình luận về vật chứng được chọn. \newline
+4. Hệ thống lưu kết quả đối thoại (gồm loại phản ứng và mức độ hợp tác). \\ \hline
+\textbf{Alternative Flow} &
+Nếu người chơi đổi ý và chọn loại câu hỏi khác \textrightarrow~hệ thống quay lại danh sách lựa chọn chính trong hội thoại. \\ \hline
+\textbf{Exception Flow} &
+Nếu NPC từ chối trả lời hoặc dữ liệu phản hồi bị lỗi \textrightarrow~hiển thị thông báo “Không muốn trả lời” và ghi log sự cố. \\ \hline
+\end{tabular}
+\end{table}
+
+
+subsection{Phòng Thẩm Vấn (Interrogation Room).}
+
+subsubsection{Use-Case Diagram}
+
+\begin{figure}[H]
+    % Lệnh \centering dùng để căn giữa nội dung bên trong môi trường figure
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/interrogation-room-usecase.png}
+    
+    \caption{Sơ đồ chức năng cho Phòng Thẩm Vấn. (Interrogation Room Usecase Diagram.)}
+    
+    \label{fig:interrogation-room-usecase-diagram}
+\end{figure}
+
+subsubsection{Đặc tả use-case}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Use-case ID} & UC-INTERROGATION-01 \\ \hline
+\textbf{Use-case} & Khởi tạo Giao diện Thẩm vấn (Interrogation UI Initialization) \\ \hline
+\textbf{Actor} & Người chơi \\ \hline
+\textbf{Description} & Hệ thống thiết lập giao diện thẩm vấn chính sau khi người chơi chọn nghi phạm. \\ \hline
+\textbf{Precondition} & Hệ thống đang hoạt động bình thường. \newline
+Người chơi đã chọn ít nhất một nghi phạm hợp lệ. \newline
+Người chơi đã vào màn hình thẩm vấn. \\ \hline
+\textbf{Postcondition} & Giao diện thẩm vấn hiển thị đầy đủ; các khu vực (Câu hỏi, Bằng chứng, Đối thoại) được tải; trạng thái game chuyển sang “Đang Thẩm vấn”. \\ \hline
+\textbf{Trigger} & Người chơi chọn nghi phạm và chuyển vào màn hình thẩm vấn. \\ \hline
+\textbf{Normal Flow} &
+1. Hệ thống nhận diện nghi phạm được chọn. \newline
+2. Hệ thống tải và hiển thị ba khu vực tương tác: Câu hỏi, Bằng chứng, Đối thoại. \newline
+3. Hiển thị biểu tượng truy cập nhanh của Mentor và Nghi phạm. \newline
+4. Hệ thống chuyển sang trạng thái sẵn sàng thẩm vấn. \\ \hline
+\textbf{Alternative Flow} & Không có. \\ \hline
+\textbf{Exception Flow} & Không tải được dữ liệu nghi phạm hoặc bằng chứng → thông báo lỗi và quay lại trạng thái trước đó. \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Use-case ID} & UC-INTERROGATION-02 \\ \hline
+\textbf{Use-case} & Thẩm vấn Nghi phạm (General Interrogation) \\ \hline
+\textbf{Actor} & Người chơi, NPC Nghi phạm \\ \hline
+\textbf{Description} & Người chơi đặt các câu hỏi mở để thu thập thêm thông tin hoặc phát hiện mâu thuẫn. \\ \hline
+\textbf{Precondition} & Giao diện thẩm vấn đã được khởi tạo (UC-INTERROGATION-01). \newline
+Nghi phạm có sẵn các câu trả lời cho câu hỏi chung. \\ \hline
+\textbf{Postcondition} & Lời khai của Nghi phạm được ghi lại; có thể phát hiện mâu thuẫn hoặc cập nhật tiến trình. \\ \hline
+\textbf{Trigger} & Người chơi chọn câu hỏi chung từ giao diện thẩm vấn. \\ \hline
+\textbf{Normal Flow} &
+1. Người chơi chọn nghi phạm. \newline
+2. Hệ thống thực hiện UC-INTERROGATION-01. \newline
+3. Người chơi đặt câu hỏi mở. \newline
+4. Nghi phạm phản hồi và lời khai hiển thị. \newline
+5. Hệ thống đánh dấu và lưu mâu thuẫn (nếu có). \\ \hline
+\textbf{Alternative Flow} & Sau khi nhận câu trả lời, hệ thống tự động ghi chú các mâu thuẫn. \\ \hline
+\textbf{Exception Flow} & Nghi phạm từ chối trả lời → hiển thị “[Tên Nghi phạm] giữ im lặng”. \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Use-case ID} & UC-INTERROGATION-03 \\ \hline
+\textbf{Use-case} & Thẩm vấn Nghi phạm về Bằng chứng (Evidence-Based Interrogation) \\ \hline
+\textbf{Actor} & Người chơi, NPC Nghi phạm \\ \hline
+\textbf{Description} & Người chơi sử dụng bằng chứng để ép cung hoặc xác minh mối liên hệ giữa nghi phạm và bằng chứng. \\ \hline
+\textbf{Precondition} & Giao diện thẩm vấn đã được khởi tạo (UC-INTERROGATION-01). \newline
+Người chơi đã thu thập ít nhất một bằng chứng. \newline
+Bằng chứng đang được chọn trong giao diện. \\ \hline
+\textbf{Postcondition} & Lời khai liên quan đến bằng chứng được lưu; mối liên hệ giữa Nghi phạm và Bằng chứng được xác định. \\ \hline
+\textbf{Trigger} & Người chơi chọn bằng chứng và đặt câu hỏi chất vấn liên quan. \\ \hline
+\textbf{Normal Flow} &
+1. Người chơi chọn một bằng chứng. \newline
+2. Hệ thống hiển thị câu hỏi chất vấn phù hợp. \newline
+3. Người chơi đặt câu hỏi. \newline
+4. Nghi phạm phản hồi. \newline
+5. Hệ thống lưu lời khai và đánh dấu mâu thuẫn. \\ \hline
+\textbf{Alternative Flow} & Người chơi có thể kéo-thả bằng chứng trực tiếp vào cửa sổ đối thoại để chất vấn nhanh. \\ \hline
+\textbf{Exception Flow} & Bằng chứng không liên quan → Nghi phạm bác bỏ, chuyển sang trạng thái “Cảnh giác hơn”. \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Use-case ID} & UC-INTERROGATION-04 \\ \hline
+\textbf{Use-case} & Tương tác với NPC Hỗ trợ (Mentor \& Suspect Interaction) \\ \hline
+\textbf{Actor} & Người chơi, NPC Cố vấn, NPC Nghi phạm \\ \hline
+\textbf{Description} & Người chơi có thể tương tác riêng với Mentor hoặc Nghi phạm qua cửa sổ trò chuyện riêng biệt. \\ \hline
+\textbf{Precondition} & Giao diện thẩm vấn đã được khởi tạo (UC-INTERROGATION-01). \newline 
+NPC ở trạng thái có thể tương tác. \newline 
+Còn ít nhất một câu hỏi khả dụng. \\ \hline
+\textbf{Postcondition} & Người chơi nhận được phản hồi; câu hỏi đã dùng bị xóa khỏi danh sách; Mentor có thể đưa ra gợi ý. \\ \hline
+\textbf{Trigger} & Người chơi nhấp chuột trái vào biểu tượng Mentor hoặc Nghi phạm. \\ \hline
+\textbf{Normal Flow} &
+1. Người chơi nhấp chuột trái biểu tượng Mentor/Nghi phạm. \newline
+2. Cửa sổ trò chuyện riêng xuất hiện. \newline
+3. Người chơi chọn “Đặt câu hỏi” hoặc “Xin chỉ dẫn”. \newline
+4. NPC phản hồi. \newline
+5. Câu hỏi đã dùng bị xóa. \\ \hline
+\textbf{Alternative Flow} & Người chơi có thể gim (pin) cửa sổ trò chuyện để tham khảo lời thoại sau. \\ \hline
+\textbf{Exception Flow} & Không còn câu hỏi khả dụng → hiển thị “Không còn câu hỏi nào có thể dùng”. \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Use-case ID} & UC-INTERROGATION-05 \\ \hline
+\textbf{Use-case} & Tương tác Bằng chứng với Người Cố vấn (Mentor Evidence Consultation) \\ \hline
+\textbf{Actor} & Người chơi, NPC Cố vấn, Bằng chứng \\ \hline
+\textbf{Description} & Người chơi tham vấn ý kiến chuyên môn từ Mentor về bằng chứng đã thu thập. \\ \hline
+\textbf{Precondition} & Giao diện thẩm vấn đã được khởi tạo (UC-INTERROGATION-01). \newline 
+Có ít nhất một bằng chứng được chọn. \newline
+Mentor có thể tương tác. \\ \hline
+\textbf{Postcondition} & Người chơi nhận được phân tích hoặc thông tin chuyên môn về bằng chứng. \\ \hline
+\textbf{Trigger} & Người chơi chọn bằng chứng và chọn tham vấn với Mentor. \\ \hline
+\textbf{Normal Flow} &
+1. Người chơi chọn bằng chứng. \newline
+2. nhấp chuột trái vào biểu tượng Mentor. \newline
+3. Chọn “Tham vấn Bằng chứng”. \newline
+4. Mentor phản hồi bằng phân tích hoặc ý kiến chuyên môn. \\ \hline
+\textbf{Alternative Flow} & Người chơi kéo-thả bằng chứng vào biểu tượng Mentor để tham vấn nhanh. \\ \hline
+\textbf{Exception Flow} & Nếu bằng chứng đã được tham vấn trước → hiển thị “Đã thảo luận về bằng chứng này” hoặc nhắc lại phân tích cũ. \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Use-case ID} & UC-INTERROGATION-06 \\ \hline
+\textbf{Use-case} & Kết thúc Phiên Thẩm vấn (Interrogation Session Termination) \\ \hline
+\textbf{Actor} & Người chơi \\ \hline
+\textbf{Description} & Người chơi kết thúc phiên thẩm vấn, lưu dữ liệu và quay lại màn hình điều tra. \\ \hline
+\textbf{Precondition} & Giao diện thẩm vấn đang hoạt động. \newline
+Người chơi đã thực hiện ít nhất một hành động trong phiên. \\ \hline
+\textbf{Postcondition} & Tiến trình game và lời khai được lưu; giao diện thẩm vấn đóng; quay lại màn hình điều tra. \\ \hline
+\textbf{Trigger} & Người chơi chọn “Kết thúc Phiên” hoặc “Thoát”. \\ \hline
+\textbf{Normal Flow} &
+1. Người chơi chọn “Kết thúc Phiên” hoặc “Thoát”. \newline
+2. Hệ thống lưu tiến trình và lời khai. \newline
+3. Đóng giao diện thẩm vấn. \newline
+4. Quay lại màn hình điều tra chung. \\ \hline
+\textbf{Alternative Flow} & Hệ thống hiển thị xác nhận: “Bạn có chắc chắn muốn kết thúc phiên thẩm vấn?”. \\ \hline
+\textbf{Exception Flow} & Lỗi khi lưu tiến trình → hiển thị thông báo lỗi và hỏi người chơi có muốn thử lại hay không. \\ \hline
+\end{tabular}
+\end{table}
+
+subsection{Notebook Management System}
+
+subsubsection{Use Case Diagram}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/UC.png}
+    \caption{Use Case Diagram của hệ thống Notebook}
+    \label{fig:notebook_use_case_diagram}
+\end{figure}
+
+subsubsection{Đặc tả use-case (FR-NOTEBOOK-XX)}
+
+subsubsection{Hệ thống Sổ tay (FR-NOTEBOOK-01)}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Use-case ID} & UC-NOTEBOOK-01 \\ \hline
+\textbf{Use-case} & Ghi chú vào sổ tay (Add Note to Notebook) \\ \hline
+\textbf{Actor} & Người chơi, Hệ thống lưu trữ \\ \hline
+\textbf{Description} & Người chơi có thể lưu lại các thông tin quan trọng (manh mối, lời khai, chi tiết hiện trường) vào sổ tay để tham khảo sau này. \\ \hline
+\textbf{Precondition} & Hệ thống đang hoạt động bình thường. \newline
+– Người chơi đang ở trong hiện trường hoặc phòng thẩm vấn. \newline 
+– Thông tin có thể thu thập hoặc đang ở trạng thái khả dụng để lưu. \\ \hline
+\textbf{Postcondition} & Thông tin được lưu thành công vào sổ tay và có thể mở lại để xem. \\ \hline
+\textbf{Trigger} & Người chơi thực hiện thao tác thu thập thông tin. \\ \hline
+\textbf{Normal Flow} &
+1. Hệ thống xác định trạng thái hoạt động bình thường. \newline
+2. Người chơi ở trong khu vực hợp lệ (hiện trường hoặc phòng thẩm vấn). \newline
+3. Thông tin có thể được thu thập hoặc tương tác. \newline
+4. Người chơi thực hiện thao tác ghi chú. \newline
+5. Hệ thống lưu thông tin vào sổ tay và cập nhật tiến trình game. \\ \hline
+\textbf{Alternative Flow} & 
+Người chơi có thể lưu nhiều thông tin cùng lúc. \newline
+Nếu sổ tay đã đầy, hệ thống yêu cầu xóa ghi chú cũ trước khi thêm mới. \\ \hline
+\textbf{Exception Flow} & 
+Thông tin không hợp lệ hoặc không thể lưu → hiển thị thông báo lỗi cho người chơi. \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Use-case ID} & UC-NOTEBOOK-02 \\ \hline
+\textbf{Use-case} & Xóa ghi chú trong sổ tay (Delete Note from Notebook) \\ \hline
+\textbf{Actor} & Người chơi, Hệ thống lưu trữ \\ \hline
+\textbf{Description} & Người chơi có thể loại bỏ các ghi chú hiện có trong sổ tay. \\ \hline
+\textbf{Precondition} & Hệ thống đang hoạt động bình thường. \newline 
+Người chơi đang ở hiện trường hoặc phòng thẩm vấn. \newline
+Sổ tay có ít nhất một ghi chú. \\ \hline
+\textbf{Postcondition} & Ghi chú bị xóa sẽ không còn hiển thị trong sổ tay. \\ \hline
+\textbf{Trigger} & Người chơi chọn ghi chú cần loại bỏ. \\ \hline
+\textbf{Normal Flow} &
+1. Người chơi mở sổ tay. \newline
+2. Hệ thống hiển thị danh sách ghi chú hiện có. \newline
+3. Người chơi chọn tính năng xóa và chọn ghi chú cần loại bỏ. \newline
+4. Hệ thống xác nhận thao tác và loại bỏ ghi chú. \newline
+5. Tiến trình game được cập nhật. \\ \hline
+\textbf{Alternative Flow} & 
+Người chơi có thể chọn xóa nhiều ghi chú cùng lúc. \\ \hline
+\textbf{Exception Flow} & Không có. \\ \hline
+\end{tabular}
+\end{table}
+
+subsubsection{Tương tác Đối tượng (FR-INTERACT-01)}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Use-case ID} & UC-INTERACT-01 \\ \hline
+\textbf{Use-case} & Xem thông tin đối tượng khi tương tác (View Object Information) \\ \hline
+\textbf{Actor} & Người chơi, Hệ thống lưu trữ \\ \hline
+\textbf{Description} & Khi người chơi tương tác với một đối tượng (NPC hoặc vật phẩm), hệ thống hiển thị thông tin chi tiết của đối tượng đó. \\ \hline
+\textbf{Precondition} & Hệ thống hoạt động bình thường. \newline 
+Người chơi đang ở trong khu vực có thể tương tác. \newline
+Đối tượng được chọn có thông tin hiển thị được. \\ \hline
+\textbf{Postcondition} & Thông tin chi tiết của đối tượng hiển thị trên màn hình. \\ \hline
+\textbf{Trigger} & Người chơi tương tác với đối tượng được tô sáng. \\ \hline
+\textbf{Normal Flow} &
+1. Người chơi chọn một đối tượng trong môi trường. \newline
+2. Hệ thống xác nhận đối tượng có thể tương tác. \newline
+3. Hệ thống tải và hiển thị thông tin chi tiết trong cửa sổ thông tin. \newline
+4. Tiến trình game được cập nhật. \\ \hline
+\textbf{Alternative Flow} & 
+Người chơi có thể chọn hiển thị thêm chi tiết (hồ sơ, lịch sử, v.v). \newline
+Người chơi có thể so sánh nhiều đối tượng cùng lúc. \\ \hline
+\textbf{Exception Flow} & 
+Đối tượng không có dữ liệu → hiển thị “Không có thông tin khả dụng”. \newline
+Lỗi khi tải dữ liệu → hiển thị thông báo lỗi. \\ \hline
+\end{tabular}
+\end{table}
+
+subsubsection{Hệ thống Thẩm vấn (FR-INTERROGATION-01)}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Use-case ID} & UC-INTERROGATION-01 \\ \hline
+\textbf{Use-case} & Thẩm vấn nghi phạm (Interrogate Suspect) \\ \hline
+\textbf{Actor} & Người chơi, Hệ thống lưu trữ, Nghi phạm \\ \hline
+\textbf{Description} & Người chơi tiến hành thẩm vấn nghi phạm để thu thập thông tin, xác định mức độ liên quan đến vụ án hoặc tìm ra bằng chứng mới. \\ \hline
+\textbf{Precondition} & Hệ thống đang hoạt động bình thường. \newline 
+Người chơi đã chọn ít nhất một nghi phạm. \newline 
+Người chơi đang ở trong phòng thẩm vấn với nghi phạm. \\ \hline
+\textbf{Postcondition} & Người chơi có thể nhận được thông tin, bằng chứng, hoặc lời khai mới. \newline 
+Trạng thái nghi phạm thay đổi (hợp tác, im lặng, phản kháng). \newline 
+Tiến trình game được cập nhật. \\ \hline
+\textbf{Trigger} & Người chơi bước vào phòng thẩm vấn với nghi phạm đã chọn. \\ \hline
+\textbf{Normal Flow} &
+1. Người chơi chọn nghi phạm để thẩm vấn. \newline
+2. Hệ thống mở giao diện thẩm vấn. \newline
+3. Người chơi chọn câu hỏi hoặc chiến thuật thẩm vấn. \newline
+4. Nghi phạm phản hồi dựa trên logic hành vi (thành thật, né tránh, nói dối...). \newline
+5. Hệ thống ghi nhận kết quả và cập nhật tiến trình điều tra. \\ \hline
+\textbf{Alternative Flow} & 
+Người chơi có thể rời phòng thẩm vấn bất kỳ lúc nào. \newline
+Người chơi có thể thay đổi chiến thuật (mềm mỏng / cứng rắn). \newline
+Nếu nghi phạm phản kháng mạnh, mở mini-game hoặc tình huống đặc biệt. \\ \hline
+\textbf{Exception Flow} & 
+Không có nghi phạm nào được chọn → hiển thị thông báo lỗi và ngăn vào phòng thẩm vấn. \newline
+Lỗi hệ thống → dừng thẩm vấn và khôi phục tiến trình trước đó. \\ \hline
+\end{tabular}
+\end{table}
+
+
+subsection{Giao diện người dùng}
+
+subsubsection{Use Case Diagram}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{image/UC.png}
+    \caption{Use Case Diagram của hệ thống}
+    \label{fig:use_case_diagram}
+\end{figure}
+
+subsubsection{Mô tả chi tiết Use Case}
+
+subsubsection{Tương tác hiện trường và thẩm vấn}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Use-case ID} & FR-NOTEBOOK-01 \\ \hline
+\textbf{Use-case} & Ghi chú vào sổ tay (Add Notes to Notebook) \\ \hline
+\textbf{Actor} & Người chơi, Hệ thống lưu trữ của game \\ \hline
+\textbf{Description} & Người chơi có thể lưu lại các thông tin quan trọng (manh mối, lời khai, chi tiết hiện trường) vào sổ tay để tham khảo sau này. \\ \hline
+\textbf{Precondition} & 
+Hệ thống đang hoạt động bình thường. \newline
+Người chơi đang ở trong hiện trường hoặc phòng thẩm vấn. \newline
+Thông tin đã có sẵn hoặc có thể tương tác để thu thập. \\ \hline
+\textbf{Postcondition} & 
+Thông tin trong sổ tay được cập nhật và có thể mở lại để xem. \\ \hline
+\textbf{Trigger} & Người chơi thực hiện thao tác thu thập. \\ \hline
+\textbf{Normal Flow} & 
+1. Hệ thống đang hoạt động bình thường. \newline
+2. Người chơi đang ở trong màn chơi và có thể tương tác với đối tượng hoặc NPC. \newline
+3. Thông tin có thể thu thập được hiển thị hoặc xuất hiện qua tương tác. \newline
+4. Người chơi chọn hành động ghi chú. \newline
+5. Hệ thống xác nhận thao tác, lưu thông tin vào sổ tay và cập nhật tiến trình game. \\ \hline
+\textbf{Alternative Flow} & 
+Người chơi có thể ghi nhiều thông tin cùng lúc. \newline
+Nếu sổ tay đã đầy, hệ thống thông báo người chơi cần xóa ghi chú cũ trước khi thêm mới. \\ \hline
+\textbf{Exception Flow} & 
+Thông tin không hợp lệ hoặc lỗi lưu → hiển thị thông báo cho người chơi. \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Use-case ID} & FR-NOTEBOOK-02 \\ \hline
+\textbf{Use-case} & Xóa ghi chú trong sổ tay (Delete Notes from Notebook) \\ \hline
+\textbf{Actor} & Người chơi, Hệ thống lưu trữ của game \\ \hline
+\textbf{Description} & Người chơi có thể loại bỏ các ghi chú hiện có trong sổ tay để giải phóng dung lượng hoặc làm mới thông tin. \\ \hline
+\textbf{Precondition} & 
+Hệ thống đang hoạt động bình thường. \newline
+Người chơi đang ở trong hiện trường hoặc phòng thẩm vấn. \newline
+Sổ tay người chơi có ít nhất một ghi chú. \\ \hline
+\textbf{Postcondition} & 
+Ghi chú được chọn bị xóa khỏi sổ tay và không còn hiển thị. \\ \hline
+\textbf{Trigger} & Người chơi chọn ghi chú cần xóa. \\ \hline
+\textbf{Normal Flow} & 
+1. Hệ thống đang hoạt động bình thường. \newline
+2. Người chơi mở sổ tay và chọn ghi chú cần xóa. \newline
+3. Hệ thống yêu cầu xác nhận thao tác. \newline
+4. Người chơi xác nhận xóa. \newline
+5. Ghi chú bị loại bỏ khỏi sổ tay và tiến trình game được cập nhật. \\ \hline
+\textbf{Alternative Flow} & 
+Người chơi có thể chọn xóa nhiều ghi chú cùng lúc. \\ \hline
+\textbf{Exception Flow} & 
+Không có. \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Use-case ID} & FR-INTERACTION-01 \\ \hline
+\textbf{Use-case} & Xem thông tin đối tượng (Inspect Object or NPC) \\ \hline
+\textbf{Actor} & Người chơi, Hệ thống lưu trữ của game \\ \hline
+\textbf{Description} & Khi người chơi tương tác với một đối tượng (NPC hoặc vật phẩm), hệ thống hiển thị thông tin chi tiết về đối tượng đó. \\ \hline
+\textbf{Precondition} & 
+Hệ thống đang hoạt động bình thường. \newline
+Người chơi đang ở trong màn chơi có đối tượng tương tác được. \newline
+Đối tượng được chọn có thông tin khả dụng. \\ \hline
+\textbf{Postcondition} & 
+Thông tin đối tượng được hiển thị trên giao diện. \\ \hline
+\textbf{Trigger} & Người chơi thực hiện thao tác tương tác với đối tượng được đánh dấu. \\ \hline
+\textbf{Normal Flow} & 
+1. Hệ thống đang hoạt động bình thường. \newline
+2. Người chơi phát hiện đối tượng có thể tương tác. \newline
+3. Người chơi thực hiện thao tác tương tác. \newline
+4. Hệ thống hiển thị thông tin chi tiết của đối tượng. \newline
+5. Tiến trình game được cập nhật. \\ \hline
+\textbf{Alternative Flow} & 
+Người chơi có thể xem thêm thông tin chi tiết (hồ sơ NPC, lịch sử sự kiện,...). \newline
+Người chơi có thể so sánh thông tin giữa nhiều đối tượng. \\ \hline
+\textbf{Exception Flow} & 
+Đối tượng không có thông tin → hiển thị thông báo “Không có dữ liệu”. \newline
+Lỗi tải dữ liệu → hiển thị thông báo lỗi. \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Use-case ID} & FR-INTERROGATION-01 \\ \hline
+\textbf{Use-case} & Thẩm vấn nghi phạm (Interrogate Suspect) \\ \hline
+\textbf{Actor} & Người chơi, Hệ thống lưu trữ, Nghi phạm \\ \hline
+\textbf{Description} & Người chơi tiến hành thẩm vấn nghi phạm để thu thập thông tin, xác định mức độ liên quan đến vụ án hoặc tìm ra bằng chứng mới. \\ \hline
+\textbf{Precondition} & 
+Hệ thống đang hoạt động bình thường. \newline
+Người chơi đã chọn ít nhất một nghi phạm. \newline
+Người chơi đang ở trong phòng thẩm vấn với nghi phạm. \\ \hline
+\textbf{Postcondition} & 
+Người chơi có thể nhận được thông tin, bằng chứng hoặc lời khai mới. \newline
+Trạng thái nghi phạm thay đổi (hợp tác, im lặng, phản kháng). \newline
+Tiến trình game được cập nhật. \\ \hline
+\textbf{Trigger} & Người chơi bước vào phòng thẩm vấn với nghi phạm đã chọn. \\ \hline
+\textbf{Normal Flow} &
+1. Người chơi chọn nghi phạm để thẩm vấn. \newline
+2. Hệ thống mở giao diện thẩm vấn. \newline
+3. Người chơi chọn câu hỏi hoặc chiến thuật thẩm vấn. \newline
+4. Nghi phạm phản hồi dựa trên logic hành vi (thành thật, né tránh, nói dối,...). \newline
+5. Hệ thống ghi nhận kết quả và cập nhật tiến trình điều tra. \\ \hline
+\textbf{Alternative Flow} & 
+Người chơi có thể rời phòng thẩm vấn bất kỳ lúc nào. \newline
+Người chơi có thể thay đổi chiến thuật (mềm mỏng / cứng rắn). \newline
+Nếu nghi phạm phản kháng mạnh → mở mini-game hoặc tình huống đặc biệt. \\ \hline
+\textbf{Exception Flow} & 
+Không có nghi phạm nào được chọn → hiển thị thông báo lỗi và ngăn vào phòng thẩm vấn. \newline
+Lỗi hệ thống → dừng thẩm vấn và khôi phục tiến trình trước đó. \\ \hline
+\end{tabular}
+\end{table}
+\end{comment}
