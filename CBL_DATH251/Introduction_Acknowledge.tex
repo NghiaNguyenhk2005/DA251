@@ -104,38 +104,74 @@ Xây dựng một tựa game trinh thám độc đáo và có chiều sâu, mang
     \item \textbf{Phát hành bản mobile (iOS, android).}
 \end{enumerate}
 
-\subsection{Các bên liên quan}
+\subsection{Các bên liên quan (Relative Stakeholders)}
 
+\subsubsection{Người chơi (Player)}
+\textbf{Mô tả / Vai trò:} Người chơi là đối tượng trực tiếp tương tác với hệ thống NPC thông qua các hoạt động đối thoại, thẩm vấn và khám phá thông tin. \\
+\textbf{Mối quan tâm:}
 \begin{itemize}
-    \item \textbf{Nhà phát hành (Publisher)}: 
-    \begin{itemize}
-        \item Yêu cầu game có tiềm năng thương mại, phù hợp với thị trường quốc tế.
-        \item Đảm bảo thời gian phát hành đúng tiến độ và có kế hoạch marketing rõ ràng.
-    \end{itemize}
-
-    \item \textbf{Người chơi mục tiêu (Target Players)}:
-    \begin{itemize}
-        \item Mong muốn trải nghiệm cốt truyện sâu sắc, có chiều sâu tâm lý và yếu tố siêu thực.
-        \item Giao diện trực quan, điều khiển mượt mà và âm thanh tạo cảm giác ám ảnh.
-    \end{itemize}
-
-    \item \textbf{Nhà đầu tư (Investors)}:
-    \begin{itemize}
-        \item Yêu cầu báo cáo tiến độ định kỳ, minh bạch về chi phí và tiềm năng sinh lời.
-        \item Ưu tiên các yếu tố sáng tạo có thể tạo điểm nhấn trên thị trường indie.
-    \end{itemize}
-
-    \item \textbf{Đội ngũ phát triển (Development Team)}:
-    \begin{itemize}
-        \item Cần môi trường làm việc linh hoạt, công cụ hỗ trợ hiệu quả và định hướng rõ ràng từ ban quản lý.
-        \item Mong muốn được thể hiện cá tính nghệ thuật trong thiết kế hình ảnh và âm thanh.
-    \end{itemize}
-
-    \item \textbf{Cộng đồng game thủ (Gaming Community)}:
-    \begin{itemize}
-        \item Kỳ vọng được cập nhật thông tin thường xuyên, có cơ hội đóng góp ý kiến qua bản thử nghiệm.
-        \item Mong muốn game có chiều sâu, có thể phân tích và thảo luận trên các diễn đàn.
-    \end{itemize}
-
-    
+    \item Mong muốn trải nghiệm tương tác mượt mà, tự nhiên và có chiều sâu.
+    \item Kết quả của đối thoại và thẩm vấn ảnh hưởng rõ ràng đến tiến trình trò chơi.
+    \item Phản ứng của NPC logic, đa dạng và mang tính cảm xúc.
 \end{itemize}
+
+\subsubsection{NPC (Non-Player Characters)}
+\textbf{Mô tả / Vai trò:} Là các nhân vật trong trò chơi do hệ thống điều khiển, có hành vi, lời thoại và cảm xúc riêng. \\
+\textbf{Mối quan tâm:}
+\begin{itemize}
+    \item Thể hiện đúng vai trò trong cốt truyện (nhân chứng, nghi phạm, nạn nhân...).
+    \item Phản ứng linh hoạt và phù hợp với hành động của người chơi.
+\end{itemize}
+
+\subsubsection{Nhà thiết kế trò chơi (Game Designer)}
+\textbf{Mô tả / Vai trò:} Định nghĩa kịch bản, logic phản ứng và điều kiện tương tác giữa người chơi và NPC. \\
+\textbf{Mối quan tâm:}
+\begin{itemize}
+    \item Công cụ dễ chỉnh sửa, thêm hoặc sửa nhánh hội thoại.
+    \item Hệ thống hỗ trợ quản lý logic điều kiện (biến, bằng chứng, danh tiếng...).
+\end{itemize}
+
+\subsubsection{Nhà biên kịch / Viết cốt truyện (Narrative Designer / Writer)}
+\textbf{Mô tả / Vai trò:} Xây dựng lời thoại, tính cách và nội dung hội thoại của NPC theo bối cảnh game. \\
+\textbf{Mối quan tâm:}
+\begin{itemize}
+    \item Có khả năng tạo và kiểm thử hội thoại phân nhánh dễ dàng.
+    \item Hệ thống hiển thị lời thoại đúng ngữ cảnh và cảm xúc.
+\end{itemize}
+
+\subsubsection{Lập trình viên (Developer)}
+\textbf{Mô tả / Vai trò:} Phát triển và tích hợp hệ thống NPC vào engine trò chơi. \\
+\textbf{Mối quan tâm:}
+\begin{itemize}
+    \item Cần API rõ ràng, dễ mở rộng (trigger, event, dữ liệu hội thoại).
+    \item Hệ thống dễ debug và cập nhật dữ liệu NPC.
+\end{itemize}
+
+\subsubsection{Nhà thiết kế giao diện (UI/UX Designer)}
+\textbf{Mô tả / Vai trò:} Thiết kế giao diện hội thoại, menu lựa chọn và biểu cảm NPC. \\
+\textbf{Mối quan tâm:}
+\begin{itemize}
+    \item Giao diện trực quan, không che khuất tầm nhìn gameplay.
+    \item Dễ tùy chỉnh theme, biểu tượng cảm xúc và hiệu ứng.
+\end{itemize}
+
+\subsubsection{Bộ phận kiểm thử (QA Tester)}
+\textbf{Mô tả / Vai trò:} Kiểm tra tính ổn định, logic và trải nghiệm người dùng trong hệ thống NPC. \\
+\textbf{Mối quan tâm:}
+\begin{itemize}
+    \item Đảm bảo các nhánh hội thoại hoạt động đúng điều kiện.
+    \item Không có lỗi logic hoặc crash khi tương tác với NPC.
+\end{itemize}
+
+\subsubsection{Quản lý dự án (Project Manager / Producer)}
+\textbf{Mô tả / Vai trò:} Điều phối tiến độ và đảm bảo tính năng NPC phù hợp với mục tiêu dự án. \\
+\textbf{Mối quan tâm:}
+\begin{itemize}
+    \item Theo dõi tiến độ và phạm vi phát triển hệ thống NPC.
+    \item Đảm bảo tính năng đáp ứng yêu cầu thiết kế và hoàn thành đúng hạn.
+\end{itemize}
+
+\subsubsection{Người chơi thử nghiệm (Playtester)}
+\textbf{Mô tả / Vai trò:} Tham gia trải nghiệm bản thử để phản hồi về hệ thống NPC. \\
+\textbf{Mối quan tâm:}
+Cung cấp phản hồi thực tế về độ tự nhiên của đối thoại, cảm xúc và hành vi NPC.
