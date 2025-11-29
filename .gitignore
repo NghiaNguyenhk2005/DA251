@@ -1,1 +1,10 @@
-**/__pycache__/
+# MacOS
+.DS_Store
+
+# Virtual Environment
+venv/
+.venv/
+
+# Python / Pygame artifacts
+__pycache__/
+*.pyc
