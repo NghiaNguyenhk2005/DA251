@@ -1,8 +1,9 @@
 import pygame
 from typing import Optional
-from interfaces import Drawable, Updatable
+from .i_scene import IScene
 
-class InterrogationRoomScene(Drawable, Updatable):
+
+class InterrogationRoomScene(IScene):
     def __init__(self, screen_width: int = 800, screen_height: int = 600) -> None:
         """
         Interrogation room scene with background image
@@ -28,7 +29,7 @@ class InterrogationRoomScene(Drawable, Updatable):
                 # Handle exit or return to map
                 pass
     
-    def update(self, delta_time: float = 0) -> None:
+    def update(self) -> None:
         """Update scene state"""
         pass
     
