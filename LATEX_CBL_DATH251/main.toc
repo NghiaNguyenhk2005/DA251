@@ -26,3 +26,7 @@
 \contentsline {subsubsection}{\numberline {3.1.6}Quản lý kịch bản và nội dung}{8}{subsubsection.3.1.6}%
 \contentsline {subsubsection}{\numberline {3.1.7}Hệ thống kết thúc đa dạng}{8}{subsubsection.3.1.7}%
 \contentsline {subsection}{\numberline {3.2}Yêu cầu phi chức năng (Non-functional requirements)}{8}{subsection.3.2}%
+\contentsline {section}{\numberline {4}Use Cases}{10}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Phòng Thẩm Vấn (Interrogation Room).}{10}{subsection.4.1}%
+\contentsline {subsubsection}{\numberline {4.1.1}Sơ đồ chức năng.}{10}{subsubsection.4.1.1}%
+\contentsline {subsubsection}{\numberline {4.1.2}Yêu cầu chức năng (Functional Requirements).}{10}{subsubsection.4.1.2}%
