@@ -1,6 +1,7 @@
 import pygame
 from .button import Button
 from .map_button import MapButton
+from .popups import MenuPopup
 from typing import Optional, Callable
 
 MAIN_MENU_IMG = "src/assets/images/ui/menu-button.png"
@@ -27,7 +28,14 @@ class MainSceneUi:
         journal_img = pygame.image.load(JOURNAL_IMG)
         map_img = pygame.image.load(MAP_IMG)
         
-        self.menu_button = Button(position=(10, 10), image=menu_img, scale=2, split=3)
+        self.menu_popup = MenuPopup(screen_width, screen_height)
+        self.menu_button = Button(
+            position=(10, 10), 
+            image=menu_img, 
+            scale=2, 
+            split=3,
+            on_click=lambda: self.menu_popup.toggle()
+        )
         self.map_button = MapButton(
             position=(10, self.menu_button.rect.bottom + 10), 
             image=map_img, 
@@ -61,15 +69,29 @@ class MainSceneUi:
         self.map_button.map_popup.building_buttons[0].on_click = handler
         self.map_button.map_popup.building_buttons[1].on_click = handler
     
+
     def handle_event(self, event):
         """Xử lý sự kiện cho các button"""
+        if self.menu_popup.is_open():
+            self.menu_popup.handle_event(event)
+            return
+
         self.map_button.handle_event(event)
     
     def update(self):
         """Cập nhật trạng thái UI"""
+        self.menu_button.update()
+        self.journal_button.update()
         self.map_button.update()
+        
+        if self.menu_popup.is_open():
+            self.menu_popup.update()
 
     def draw(self, screen: pygame.Surface):
+
         self.menu_button.draw(screen)
         self.journal_button.draw(screen)
         self.map_button.draw(screen)
+        
+        if self.menu_popup.is_open():
+            self.menu_popup.draw(screen)
