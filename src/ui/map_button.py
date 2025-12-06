@@ -301,6 +301,7 @@ class MapButton(Button):
     
     def update(self):
         """Cập nhật trạng thái button và xử lý click"""
+        super().update()
         # Kiểm tra nếu button được click (chuyển từ không click sang click)
         if self.is_clicked() and not self.was_clicked:
             self.map_popup.toggle()

@@ -1,0 +1,100 @@
+\section{Yêu cầu hệ thống (System requirements)}
+\subsection{Yêu cầu chức năng (Functional requirements)}
+Dưới đây là các yêu cầu chức năng chính mà dự án game "The Se7enth Code" cần đáp ứng để đảm bảo trải nghiệm người chơi tốt nhất.
+
+\subsubsection{Hệ thống hội thoại tương tác}
+\begin{itemize}
+    \item Cho phép người chơi lựa chọn lời thoại trong các tình huống đối thoại, với tỷ lệ phản hồi đúng theo lựa chọn $\geq$ 99\%.
+    \item Kịch bản phân nhánh theo lựa chọn của người chơi (branching dialogue), đảm bảo mỗi phân đoạn chính có ít nhất 3 nhánh hội thoại.
+    \item Hỗ trợ hiển thị hội thoại theo từng dòng, có hiệu ứng gõ chữ hoặc chuyển cảnh, với thời gian hiển thị $\leq$ 1 giây/dòng.
+\end{itemize}
+
+\subsubsection{Quản lý trạng thái nhân vật và cốt truyện}
+\begin{itemize}
+    \item Theo dõi trạng thái cảm xúc, niềm tin, hoặc độ tin cậy của nhân vật thông qua ít nhất 3 biến trạng thái.
+    \item Lưu lại các lựa chọn của người chơi để ảnh hưởng đến kết thúc hoặc phản ứng nhân vật, đảm bảo có tối thiểu 3 kết thúc cốt truyện khác nhau.
+    \item Hệ thống kích hoạt sự kiện dựa trên điều kiện cụ thể (ví dụ: nếu người chơi kết tội sai quá nhiều lần), với tỷ lệ kích hoạt đúng logic $\geq$ 95\%.
+\end{itemize}
+
+\subsubsection{Giao diện người dùng}
+\begin{itemize}
+    \item Giao diện đơn giản, tập trung vào văn bản và biểu cảm nhân vật, với tỷ lệ hiển thị đúng biểu cảm $\geq$ 98\%.
+    \item Hỗ trợ hiển thị avatar, biểu tượng cảm xúc, hoặc hiệu ứng nền theo ngữ cảnh, với thời gian chuyển cảnh $\leq$ 2 giây.
+    \item Tùy chọn ngôn ngữ (tiếng Việt, tiếng Anh), đảm bảo hỗ trợ tối thiểu 2 ngôn ngữ.
+\end{itemize}
+
+\subsubsection{Quản lý lưu và tải trò chơi}
+\begin{itemize}
+    \item Cho phép người chơi lưu tiến trình tại bất kỳ thời điểm nào, với tỷ lệ lưu/tải thành công $\geq$ 99\%.
+    \item Hỗ trợ tải lại từ điểm lưu hoặc chơi lại từ đầu, với thời gian tải điểm lưu $\leq$ 3 giây.
+    \item Tự động lưu sau mỗi phân đoạn lớn, hỗ trợ tối thiểu 5 điểm lưu khác nhau.
+\end{itemize}
+
+\subsubsection{Âm thanh và hiệu ứng}
+\begin{itemize}
+    \item Nhạc nền phù hợp với tâm trạng (căng thẳng, bí ẩn, nhẹ nhàng), với ít nhất 3 chủ đề nhạc nền.
+    \item Hiệu ứng âm thanh khi chọn lựa, chuyển cảnh, hoặc có sự kiện đặc biệt, đảm bảo có tối thiểu 10 loại hiệu ứng.
+    \item Tùy chọn tắt/mở âm thanh, với tỷ lệ đồng bộ âm thanh với sự kiện $\geq$ 95\%.
+\end{itemize}
+
+\subsubsection{Quản lý kịch bản và nội dung}
+\begin{itemize}
+    \item Hệ thống quản lý script theo từng phân đoạn, dễ chỉnh sửa và cập nhật, với thời gian cập nhật $\leq$ 5 phút/phân đoạn.
+    \item Cho phép thêm các biến số (ví dụ: độ tin cậy, số lần nói dối) để điều khiển logic, hỗ trợ tối thiểu 5 biến số.
+    \item Hỗ trợ kiểm tra logic kịch bản để tránh lỗi phân nhánh, đảm bảo tỷ lệ không lỗi $\geq$ 98\%.
+\end{itemize}
+
+\subsubsection{Hệ thống kết thúc đa dạng}
+\begin{itemize}
+    \item Nhiều kết thúc khác nhau tùy theo lựa chọn và hành vi của người chơi, với số lượng kết thúc $\geq$ 3.
+    \item Hiển thị thống kê sau khi chơi (ví dụ: số lần kết tội đúng, số lần kết tội sai, tình trạng tài chính của người chơi,...) với tỷ lệ hiển thị chính xác $\geq$ 99\%.
+    \item Mỗi phiên chơi ghi nhận tối thiểu 3 chỉ số thống kê để phân tích hành vi người chơi.
+\end{itemize}
+
+\subsection{Yêu cầu phi chức năng (Non-functional requirements)}
+Các yêu cầu dưới đây mô tả các tiêu chí về chất lượng mà dự án phải đáp ứng, nhằm đảm bảo game hoạt động ổn định, hiệu quả và mang lại trải nghiệm tốt cho người dùng.
+
+\begin{enumerate}
+    \item \textbf{Hiệu năng}
+    \begin{itemize}
+        \item \textbf{Tốc độ phản hồi:} 
+        Game phải phản hồi nhanh, không giật lag. Tốc độ tải màn hình không quá \textbf{10 giây}. Các thao tác tương tác của người chơi (như nhấp chuột vào một vật thể) phải có phản hồi ngay lập tức, dưới \textbf{1 giây}.
+
+        \item \textbf{Tối ưu hóa tài nguyên:}
+        Vì là một dự án 2D đơn giản không tốn phần cứng, game phải hoạt động hiệu quả trên nhiều cấu hình PC khác nhau. Sử dụng CPU không quá \textbf{30\%} và RAM không quá \textbf{2GB} đối với các máy tính có cấu hình tầm trung.
+    \end{itemize}
+
+    \item \textbf{Khả năng mở rộng}
+    \begin{itemize}
+        \item \textbf{Khả năng thêm nội dung:}
+        Cấu trúc game phải cho phép dễ dàng tích hợp các nội dung mới như vụ án, NPC và vật phẩm. Thời gian để thêm một vụ án mới không quá \textbf{1 tháng}, bao gồm cả việc thiết kế và lập trình.
+
+        \item \textbf{Hệ thống server:}
+        Nếu game có chức năng online hoặc lưu trữ đám mây, hệ thống server phải có khả năng mở rộng để hỗ trợ số lượng người dùng đồng thời tăng lên. Hệ thống có thể mở rộng để đáp ứng số lượng người dùng tăng \textbf{gấp đôi} mà không làm \textbf{giảm hiệu năng}.
+    \end{itemize}
+
+    \item \textbf{Độ tin cậy và ổn định}
+    \begin{itemize}
+        \item \textbf{Tỷ lệ lỗi:} Tỷ lệ lỗi nghiêm trọng (crash, treo game) phải dưới \textbf{0.1\%} trên mỗi phiên chơi. Tỷ lệ lỗi nhỏ (visual bugs, text lỗi) phải dưới \textbf{1\%}.
+
+        \item \textbf{Khả năng khôi phục dữ liệu:}
+        Phải có cơ chế sao lưu và khôi phục dữ liệu người chơi để tránh mất tiến độ. Dữ liệu người dùng phải được sao lưu tự động sau mỗi lần hoàn thành một nhiệm vụ hoặc thoát game. Tỷ lệ người chơi mất dữ liệu trong mỗi lần lưu game phải dưới \textbf{0.1\%}.
+    \end{itemize}
+
+    \item \textbf{Khả năng sử dụng}
+    \begin{itemize}
+        \item \textbf{Thiết kế giao diện (UI/UX):}
+        Giao diện phải rõ ràng, dễ hiểu. Người dùng có thể tìm thấy các chức năng chính (ví dụ: mở Sổ tay, Báo cáo) trong vòng \textbf{3 lần nhấp chuột}.
+    \end{itemize}
+
+    \item \textbf{Khả năng tương thích}
+    \begin{itemize}
+        \item \textbf{Hệ điều hành:} Game phải chạy được trên các hệ điều hành phổ biến, cụ thể là \textbf{3 hệ điều hành}: Window 11, MacOS, Linux.
+
+        \item \textbf{Mã nguồn (Portable Code)} Tối thiểu \textbf{80\%} mã nguồn game phải phù hợp với các hệ điều hành nêu trên.
+    \end{itemize}
+
+
+\end{enumerate}
+
+

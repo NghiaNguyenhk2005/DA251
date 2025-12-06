@@ -32,11 +32,11 @@ class Game:
         self.load_assets()
 
         # Systems
+        self.init_player()  # Initialize player first
         self.init_ui()
-        self.init_scenes()
+        self.init_scenes()  # Then scenes (which may reference player)
         self.init_inventory()
         self.init_notebook()
-        self.init_player()
 
     def load_assets(self):
         self.closed_book_icon_size = (64, 64)
@@ -65,6 +65,10 @@ class Game:
             "toa_thi_chinh": InterrogationRoomScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT) # Placeholder
         }
         self.current_scene = self.scenes["office"]
+        
+        # Set player reference for collision detection
+        if hasattr(self.current_scene, 'set_player'):
+            self.current_scene.set_player(self.player)
 
     def init_inventory(self):
         InventoryUI.initialize_inventory()
@@ -106,6 +110,11 @@ class Game:
     def change_scene(self, scene_id):
         if scene_id in self.scenes:
             self.current_scene = self.scenes[scene_id]
+            
+            # Set player reference for collision detection
+            if hasattr(self.current_scene, 'set_player'):
+                self.current_scene.set_player(self.player)
+                
             print(f"Switched to scene: {scene_id}")
         else:
             print(f"Scene {scene_id} not found!")
@@ -178,8 +187,36 @@ class Game:
 
     def update(self):
         if self.state == GameState.PLAYING:
+            # Store old position before update for collision rollback
+            old_x = self.player.x
+            old_y = self.player.y
+            
+            # Update scene
             self.current_scene.update()
+            
+            # Update player position
             self.player.update()
+            
+            # Check collision with current scene (if scene supports collision)
+            if hasattr(self.current_scene, 'check_collision'):
+                if self.current_scene.check_collision(self.player.rect):
+                    # Prevent collision - use sliding collision if available
+                    if hasattr(self.current_scene, 'prevent_collision'):
+                        new_x, new_y = self.current_scene.prevent_collision(
+                            self.player.rect, old_x, old_y
+                        )
+                        self.player.x = new_x
+                        self.player.y = new_y
+                        self.player.rect.x = new_x
+                        self.player.rect.y = new_y
+                    else:
+                        # Simple rollback
+                        self.player.x = old_x
+                        self.player.y = old_y
+                        self.player.rect.x = old_x
+                        self.player.rect.y = old_y
+            
+            # Update UI
             self.ui.update()
         elif self.state == GameState.NOTEBOOK:
             self.notebook.update()
@@ -190,12 +227,18 @@ class Game:
         self.screen.fill((0, 0, 0))
         mouse_pos = pygame.mouse.get_pos()
 
-        # Draw Scene
-        self.current_scene.draw(self.screen)
-
-        # Draw Player
+        # Draw Scene với layer system (bao gồm cả player)
         if self.state == GameState.PLAYING:
-            self.player.draw(self.screen)
+            # Nếu scene hỗ trợ layer system, dùng draw_with_player
+            if hasattr(self.current_scene, 'draw_with_player'):
+                self.current_scene.draw_with_player(self.screen, self.player)
+            else:
+                # Fallback: vẽ scene rồi vẽ player
+                self.current_scene.draw(self.screen)
+                self.player.draw(self.screen)
+        else:
+            # Khi không PLAYING, chỉ vẽ scene
+            self.current_scene.draw(self.screen)
 
         # Draw UI
         self.ui.draw(self.screen)
