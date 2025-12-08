@@ -32,6 +32,8 @@ class Player:
         self.x = x
         self.y = y
         self.speed = cfg.PLAYER_SPEED
+        self.dx = 0
+        self.dy = 0
         
         # Load sprite sheet
         sprite_path = os.path.join("src", "assets", "images", os.path.basename(cfg.SPRITE_SHEET_PATH))
@@ -205,66 +207,71 @@ class Player:
     
     def handle_input(self, keys):
         """
-        Handle keyboard input for movement
-        
-        Args:
-            keys: Dictionary of key states from pygame.key.get_pressed()
+        Handle keyboard input for movement intent.
+        Sets dx and dy velocity components based on key presses.
         """
-        self.moving = False
-        
-        # Store old position in case we need to undo movement
-        old_x = self.x
-        old_y = self.y
-        
-        # Check for movement keys
+        self.dx = 0
+        self.dy = 0
+
+        # Check for movement keys and set velocity
         if keys[pygame.K_w] or keys[pygame.K_UP]:
-            self.y -= self.speed
-            self.direction = Direction.UP
-            self.moving = True
-        
+            self.dy -= 1
         if keys[pygame.K_s] or keys[pygame.K_DOWN]:
-            self.y += self.speed
-            self.direction = Direction.DOWN
-            self.moving = True
-        
+            self.dy += 1
         if keys[pygame.K_a] or keys[pygame.K_LEFT]:
-            self.x -= self.speed
-            self.direction = Direction.LEFT
-            self.moving = True
-        
+            self.dx -= 1
         if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
-            self.x += self.speed
-            self.direction = Direction.RIGHT
-            self.moving = True
-        
+            self.dx += 1
+    
+    def update(self):
+        """
+        Update player state: move the player based on velocity,
+        update rect, handle animations, and set direction.
+        """
+        self.moving = self.dx != 0 or self.dy != 0
+
+        # Apply movement
+        if self.moving:
+            move_speed = self.speed
+            # Normalize for diagonal movement
+            if self.dx != 0 and self.dy != 0:
+                move_speed *= 0.7071  # approx. 1 / sqrt(2)
+            
+            self.x += self.dx * move_speed
+            self.y += self.dy * move_speed
+
+            # Update direction based on which key was likely pressed last.
+            # This is a simple priority: vertical keys take precedence.
+            if self.dy < 0:
+                self.direction = Direction.UP
+            elif self.dy > 0:
+                self.direction = Direction.DOWN
+            elif self.dx < 0:
+                self.direction = Direction.LEFT
+            elif self.dx > 0:
+                self.direction = Direction.RIGHT
+
         # Keep player within screen bounds
         self.x = max(0, min(self.x, cfg.SCREEN_WIDTH - self.width))
         self.y = max(0, min(self.y, cfg.SCREEN_HEIGHT - self.height))
+
+        # IMPORTANT: Update rect to reflect new position
+        self.rect.x = int(self.x)
+        self.rect.y = int(self.y)
+
+        # Update animation frame
+        current_animation_speed = self.animation_speed if self.moving else self.idle_animation_speed
+        self.animation_counter += current_animation_speed
         
-        # Update rect position
-        self.rect.x = self.x
-        self.rect.y = self.y
-    
-    def update(self):
-        """Update player state and animations"""
-        if self.moving:
-            # Update walking animation
-            self.animation_counter += self.animation_speed
-            if self.animation_counter >= 1:
-                self.animation_counter = 0
-                # Get the number of frames for current direction
-                num_frames = len(self.sprites[self.direction.value])
-                if num_frames > 0:
-                    self.animation_frame = (self.animation_frame + 1) % num_frames
-        else:
-            # Update idle animation (slower animation when standing still)
-            self.animation_counter += self.idle_animation_speed
-            if self.animation_counter >= 1:
-                self.animation_counter = 0
-                # Get the number of idle frames for current direction
-                num_idle_frames = len(self.idle_sprites[self.direction.value])
-                if num_idle_frames > 0:
-                    self.animation_frame = (self.animation_frame + 1) % num_idle_frames
+        if self.animation_counter >= 1:
+            self.animation_counter = 0
+            
+            # Choose correct set of frames (walking or idle)
+            animation_frames = self.sprites[self.direction.value] if self.moving else self.idle_sprites[self.direction.value]
+            num_frames = len(animation_frames)
+            
+            if num_frames > 0:
+                self.animation_frame = (self.animation_frame + 1) % num_frames
     
     def draw(self, screen):
         """
