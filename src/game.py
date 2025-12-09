@@ -2,6 +2,8 @@ import pygame
 import sys
 from enum import Enum
 
+from scenes.envy_case import EnvyCaseScene
+from scenes.wrath_case import WrathCaseScene
 from src.ui.main_scene import MainSceneUi
 from src.scenes.office import OfficeScene
 from src.scenes.interrogation_room import InterrogationRoomScene
@@ -10,6 +12,7 @@ from src.notebook.clues_data import clues
 import src.inventory.GUI_Func as InventoryUI
 from src.inventory.Item import item_list
 from src.player import Player
+from src.scenes.greed_case import GreedCaseScene
 
 class GameState(Enum):
     MENU = 0
@@ -59,6 +62,12 @@ class Game:
         )
 
     def init_scenes(self):
+        # self.scenes = {
+        #     "office": OfficeScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
+        #     "interrogation_room": InterrogationRoomScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
+        #     "toa_thi_chinh": InterrogationRoomScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT) # Placeholder
+        # }
+        # self.current_scene = self.scenes["office"]
         self.scenes = {
             "office": OfficeScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
             "interrogation_room": InterrogationRoomScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
@@ -174,6 +183,10 @@ class Game:
             if self.state == GameState.PLAYING:
                 self.ui.handle_event(event)
                 
+                # Scene-specific events (for evidence collection, etc)
+                if hasattr(self.current_scene, 'handle_event'):
+                    self.current_scene.handle_event(event)
+                
             # Inventory Icon Click (in Playing mode)
             if self.state == GameState.PLAYING:
                  if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
@@ -191,8 +204,16 @@ class Game:
             old_x = self.player.x
             old_y = self.player.y
             
-            # Update scene
-            self.current_scene.update()
+            # Update scene (pass delta time if needed)
+            dt = self.clock.get_time() / 1000.0  # Convert to seconds
+            if hasattr(self.current_scene, 'update'):
+                # Check if update accepts dt parameter
+                import inspect
+                sig = inspect.signature(self.current_scene.update)
+                if len(sig.parameters) > 0:
+                    self.current_scene.update(dt)
+                else:
+                    self.current_scene.update()
             
             # Update player position
             self.player.update()
