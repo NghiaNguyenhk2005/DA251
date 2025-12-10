@@ -16,7 +16,7 @@ class InterrogationRoomScene(IScene):
         self.screen_height = screen_height
         
         # Load and scale background
-        self.background = pygame.image.load("assets/images/scenes/interrogation-bg.png")
+        self.background = pygame.image.load("src/assets/images/interrogation-room.png")
         self.background = pygame.transform.scale(
             self.background, 
             (screen_width, screen_height)

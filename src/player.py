@@ -36,7 +36,7 @@ class Player:
         self.dy = 0
         
         # Load sprite sheet
-        sprite_path = os.path.join("assets", "images", os.path.basename(cfg.SPRITE_SHEET_PATH))
+        sprite_path = os.path.join("src", "assets", "images", os.path.basename(cfg.SPRITE_SHEET_PATH))
         try:
             self.sprite_sheet = pygame.image.load(sprite_path).convert_alpha()
             self.use_sprites = True
