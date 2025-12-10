@@ -13,6 +13,9 @@ import src.inventory.GUI_Func as InventoryUI
 from src.inventory.Item import item_list
 from src.player import Player
 from src.scenes.greed_case import GreedCaseScene
+from src.scenes.gluttony_case import GluttonyScene
+from src.scenes.lust_case import LustScene
+from src.scenes.pride_case import PrideScene # Import new scene
 
 class GameState(Enum):
     MENU = 0
@@ -62,18 +65,15 @@ class Game:
         )
 
     def init_scenes(self):
-        # self.scenes = {
-        #     "office": OfficeScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
-        #     "interrogation_room": InterrogationRoomScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
-        #     "toa_thi_chinh": InterrogationRoomScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT) # Placeholder
-        # }
-        # self.current_scene = self.scenes["office"]
         self.scenes = {
             "office": OfficeScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
             "interrogation_room": InterrogationRoomScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
-            "toa_thi_chinh": InterrogationRoomScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT) # Placeholder
+            "toa_thi_chinh": InterrogationRoomScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT), # Placeholder
+            "gluttony": GluttonyScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
+            "lust": LustScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
+            "pride": PrideScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT) # New Pride Scene
         }
-        self.current_scene = self.scenes["office"]
+        self.current_scene = self.scenes["pride"] # Start in Pride scene for testing
         
         # Set player reference for collision detection
         if hasattr(self.current_scene, 'set_player'):
