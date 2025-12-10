@@ -78,66 +78,29 @@ class MapPopup(Drawable, Updatable):
         """
         buttons = []
         
-        # Helper function to create button with error handling
-        def create_button(image_path, position, scale, building_id, tooltip_text):
-            try:
-                button = BuildingButton(
-                    image_path=image_path,
-                    position=position,
-                    scale=scale,
-                    building_id=building_id,
-                    tooltip_text=tooltip_text
-                )
-                print(f"[MapPopup] {building_id} button created - Original: {button.original_image.get_size()}, Scaled: {button.image.get_size()}")
-                return button
-            except (pygame.error, FileNotFoundError) as e:
-                print(f"[MapPopup] ⚠️  Failed to create {building_id} button: {e}")
-                return None
-        
         # OFFICE BUILDING
-        office_button = create_button(OFFICE_MAP_SCENE_IMG, (330, 70), 0.05, "office", "Office Building")
-        if office_button:
-            buttons.append(office_button)
+        # Điều chỉnh SCALE và POSITION ở đây:
+        office_button = BuildingButton(
+            image_path=OFFICE_MAP_SCENE_IMG,
+            position=(330, 70),  # Vị trí X, Y trên bản đồ
+            scale=0.05,  # <-- ĐIỀU CHỈNH SCALE TẠI ĐÂY (0.1 = 10%, 0.5 = 50%, 1.0 = 100%)
+            building_id="office",
+            tooltip_text="Office Building"
+        )
+        buttons.append(office_button)
+        print(f"[MapPopup] Office button created - Original: {office_button.original_image.get_size()}, Scaled: {office_button.image.get_size()}")
         
         # TÒA THI CHÍNH
-        toa_thi_chinh_button = create_button(TOA_THI_CHINH_IMG, (360, 220), 0.05, "toa_thi_chinh", "Tòa Thị Chính")
-        if toa_thi_chinh_button:
-            buttons.append(toa_thi_chinh_button)
-        
-        # GREED CASE
-        greed_button = create_button(GREED_ICON, (200, 150), 1, "greed_case", "Greed Case - Tội Tham Lam")
-        if greed_button:
-            buttons.append(greed_button)
-        
-        # ENVY CASE
-        envy_button = create_button(ENVY_ICON, (500, 180), 0.15, "envy_case", "Envy Case - Tội Ganh Tị")
-        if envy_button:
-            buttons.append(envy_button)
-        
-        # WRATH CASE
-        wrath_button = create_button(WRATH_ICON, (400, 300), 0.15, "wrath_case", "Wrath Case - Tội Phẫn Nộ")
-        if wrath_button:
-            buttons.append(wrath_button)
-        
-        # SLOTH CASE
-        sloth_button = create_button(SLOTH_ICON, (250, 350), 0.15, "sloth_case", "Sloth Case - Tội Lười Biếng")
-        if sloth_button:
-            buttons.append(sloth_button)
-        
-        # GLUTTONY CASE
-        gluttony_button = create_button(GLUTTONY_ICON, (600, 250), 0.15, "gluttony_case", "Gluttony Case - Tội Tham Ăn")
-        if gluttony_button:
-            buttons.append(gluttony_button)
-        
-        # LUST CASE
-        lust_button = create_button(LUST_ICON, (150, 250), 0.15, "lust_case", "Lust Case - Tội Dâm Dục")
-        if lust_button:
-            buttons.append(lust_button)
-        
-        # PRIDE CASE
-        pride_button = create_button(PRIDE_ICON, (550, 400), 0.15, "pride_case", "Pride Case - Tội Kiêu Ngạo")
-        if pride_button:
-            buttons.append(pride_button)
+        # Điều chỉnh SCALE và POSITION ở đây:
+        toa_thi_chinh_button = BuildingButton(
+            image_path=TOA_THI_CHINH_IMG,
+            position=(360, 220),  # Vị trí X, Y trên bản đồ
+            scale=0.05,  # <-- ĐIỀU CHỈNH SCALE TẠI ĐÂY (0.1 = 10%, 0.5 = 50%, 1.0 = 100%)
+            building_id="toa_thi_chinh",
+            tooltip_text="Tòa Thị Chính"
+        )
+        buttons.append(toa_thi_chinh_button)
+        print(f"[MapPopup] Tòa Thi Chính button created - Original: {toa_thi_chinh_button.original_image.get_size()}, Scaled: {toa_thi_chinh_button.image.get_size()}")
         
         return buttons
     

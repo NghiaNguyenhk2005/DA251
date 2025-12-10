@@ -3,160 +3,333 @@ Wrath Case Scene
 ================
 Scene điều tra vụ án thịnh nộ - scene top-down với hệ thống va chạm.
 Người chơi có thể di chuyển tự do để khám phá hiện trường vụ án.
+
+Collision System:
+- Sử dụng AABB (Axis-Aligned Bounding Box) collision detection
+- Các vùng va chạm được định nghĩa dựa trên bố cục hiện trường
+- Obstacles bao gồm: tường, đồ vật, khu vực bị phá hoại
 """
 
 import pygame
-from typing import List, Optional, Tuple, Dict, Any
-from .base_scene import BaseScene
-from src.utils.interaction_area import InteractionArea
+from typing import List, Optional
+from .i_scene import IScene
 
-class WrathCaseScene(BaseScene):
+
+class WrathCaseScene(IScene):
     """
-    Wrath Case scene using BaseScene for core functionality.
+    Wrath Case scene với top-down movement và collision detection
+    
+    Features:
+    - Background rendering từ assets (wrath-bg.png, wrath-woodpad.png, wrath-npc.png)
+    - Collision detection với obstacles (AABB)
+    - Integration với Player entity từ game.py
+    - Khu vực điều tra vụ án thịnh nộ
     """
     
     def __init__(self, screen_width: int = 1280, screen_height: int = 720) -> None:
         """
-        Initializes the Wrath Case Scene.
+        Khởi tạo Wrath Case Scene
+        
+        Args:
+            screen_width: Chiều rộng màn hình (default: 1280)
+            screen_height: Chiều cao màn hình (default: 720)
         """
-        super().__init__(screen_width, screen_height)
+        self.screen_width = screen_width
+        self.screen_height = screen_height
         
-        # Woodpad state (collectible specific to this scene)
-        self.woodpad_collected: bool = False
+        # Khởi tạo obstacles list
+        self.obstacles: List[pygame.Rect] = []
         
-        # Initialise standard assets
-        self.setup_scene(
-            background_path="assets/images/scenes/wrath-bg.png",
-            wall_mask_path="assets/images/scenes/wrath-walls.png"
-        )
+        # Load background
+        self._load_background()
         
-        # Load specific scene objects
-        self._load_obstacles()
-        self._load_npcs()
+        # Setup collision obstacles
+        self._setup_obstacles()
         
-        # Build standard components
-        self.rebuild_collision_rects()
-        self._setup_interaction_areas()
+        # Player reference (sẽ được set từ game.py)
+        self.player: Optional[object] = None
         
-        # Fallback background if load failed (BaseScene handles placeholder, but we can customise colour)
-        if self.background.get_at((0,0)) == (0,0,0,255): # Simple check if black default
-             # Optional: set custom placeholder color if desired, e.g.
-             # self.background.fill((40, 20, 20)) 
-             pass
-
-    def _load_obstacles(self) -> None:
-        """Loads specific obstacles for Wrath Case."""
-        # 1. NPC Obstacle
+        # Debug mode để hiển thị collision boxes
+        self.debug_mode: bool = False
+    
+    def _load_background(self) -> None:
+        """
+        Load background image và các layer cho scene wrath case
+        Composite: background -> woodpad -> NPC
+        """
+        # Tạo surface tổng hợp
+        self.background = pygame.Surface((self.screen_width, self.screen_height))
+        
+        # Load background chính
+        bg_loaded = False
         try:
-            npc_obstacle_img = pygame.image.load("assets/images/scenes/wrath-npc.png").convert_alpha()
-            npc_obstacle_pos = (500, 500)
-            original_size = npc_obstacle_img.get_size()
-            new_size = original_size # Scale 1
-            # Explicit scaling if needed, based on original code
-            
-            # Rect logic from original
-            npc_obstacle_rect = pygame.Rect(npc_obstacle_pos[0], npc_obstacle_pos[1] + 20, 
-                                           new_size[0] - 20, new_size[1] - 40)
-            
-            self.obstacles.append({
-                'image': npc_obstacle_img,
-                'position': npc_obstacle_pos,
-                'rect': npc_obstacle_rect,
-                'name': 'wrath_npc_obstacle'
-            })
-            print(f"✅ Loaded wrath-npc obstacle at {npc_obstacle_pos}")
+            bg_img = pygame.image.load("assets/images/scenes/wrath-bg.png").convert()
+            bg_img = pygame.transform.scale(bg_img, (self.screen_width, self.screen_height))
+            self.background.blit(bg_img, (0, 0))
+            bg_loaded = True
+            print("✅ Loaded wrath-bg.png")
         except (pygame.error, FileNotFoundError) as e:
-            print(f"⚠️  Could not load wrath-npc obstacle: {e}")
+            print(f"⚠️  Could not load wrath-bg.png: {e}")
         
-        # 2. Woodpad (Collectible) - Added to collectible_items used in BaseScene if we want automatic drawing
-        # OR we can keep it in a separate list if logic demands it, but BaseScene draw_with_player supports self.collectible_items
+        # Load woodpad layer (scale nhỏ lại và căn giữa)
         try:
             woodpad_img = pygame.image.load("assets/images/scenes/wrath-woodpad.png").convert_alpha()
-            woodpad_pos = (700, 500)
-            woodpad_scale = 0.5
+            # Scale nhỏ lại 50% kích thước gốc
             original_size = woodpad_img.get_size()
-            new_size = (int(original_size[0] * woodpad_scale), int(original_size[1] * woodpad_scale))
-            woodpad_img_scaled = pygame.transform.scale(woodpad_img, new_size)
-            
-            woodpad_rect = pygame.Rect(woodpad_pos[0], woodpad_pos[1], new_size[0], new_size[1])
-            
-            self.collectible_items.append({
-                'image': woodpad_img_scaled,
-                'position': woodpad_pos,
-                'rect': woodpad_rect,
-                'name': 'wrath_woodpad'
-            })
-            print(f"✅ Loaded woodpad at {woodpad_pos}")
+            new_size = (original_size[0] // 2, original_size[1] // 2)
+            woodpad_img = pygame.transform.scale(woodpad_img, new_size)
+            # Tính toán vị trí để căn giữa
+            woodpad_x = (self.screen_width - new_size[0]) // 2 + 150
+            woodpad_y = (self.screen_height - new_size[1]) // 2 + 200
+            self.background.blit(woodpad_img, (woodpad_x, woodpad_y))
+            print(f"✅ Loaded wrath-woodpad.png (scaled to {new_size}, centered at {woodpad_x}, {woodpad_y})")
         except (pygame.error, FileNotFoundError) as e:
-             print(f"⚠️  Could not load woodpad: {e}")
+            print(f"⚠️  Could not load wrath-woodpad.png: {e}")
+        
+        # Load NPC layer (scale nhỏ lại và căn giữa)
+        try:
+            npc_img = pygame.image.load("assets/images/scenes/wrath-npc.png").convert_alpha()
+            # Scale nhỏ lại 50% kích thước gốc
+            original_size = npc_img.get_size()
+            new_size = (original_size[0] , original_size[1])
+            npc_img = pygame.transform.scale(npc_img, new_size)
+            # Tính toán vị trí để căn giữa
+            npc_x = (self.screen_width - new_size[0]) // 2
+            npc_y = (self.screen_height - new_size[1]) // 2 + 160
+            self.background.blit(npc_img, (npc_x, npc_y))
+            print(f"✅ Loaded wrath-npc.png (scaled to {new_size}, centered at {npc_x}, {npc_y})")
+        except (pygame.error, FileNotFoundError) as e:
+            print(f"⚠️  Could not load wrath-npc.png: {e}")
+        
+        # Fallback: tạo background placeholder nếu không load được gì
+        if not bg_loaded:
+            print("⚠️  Using placeholder background for wrath case")
+            self.background.fill((40, 20, 20))  # Dark red crime scene
+            
+            # Vẽ grid pattern
+            grid_color = (50, 30, 30)
+            for x in range(0, self.screen_width, 64):
+                pygame.draw.line(self.background, grid_color, (x, 0), (x, self.screen_height))
+            for y in range(0, self.screen_height, 64):
+                pygame.draw.line(self.background, grid_color, (0, y), (self.screen_width, y))
+            
+            # Vẽ text "CRIME SCENE - WRATH CASE"
+            try:
+                font = pygame.font.Font(None, 48)
+                text = font.render("CRIME SCENE - WRATH CASE", True, (200, 100, 100))
+                text_rect = text.get_rect(center=(self.screen_width // 2, 50))
+                self.background.blit(text, text_rect)
+            except:
+                pass
     
-    def _load_npcs(self) -> None:
-        """Loads NPCs for interaction."""
-        npc_definitions = [
-            {"name": "NPC_Angry_Victim", "pos": (100, 500), "color": (255, 100, 100)},
-        ]
+    def _setup_obstacles(self) -> None:
+        """
+        Setup collision obstacles cho wrath crime scene
         
-        for npc_def in npc_definitions:
-            npc_size = (60, 80)
-            npc_surface = pygame.Surface(npc_size, pygame.SRCALPHA)
-            pygame.draw.ellipse(npc_surface, npc_def["color"], (10, 10, 40, 50))
-            pygame.draw.rect(npc_surface, npc_def["color"], (15, 55, 30, 25))
-            
-            npc_rect = pygame.Rect(npc_def["pos"][0], npc_def["pos"][1], npc_size[0], npc_size[1])
-            
-            self.npcs.append({
-                'image': npc_surface,
-                'position': npc_def["pos"],
-                'rect': npc_rect,
-                'name': npc_def["name"],
-                'color': npc_def["color"]
-            })
-        print(f"✅ Loaded {len(self.npcs)} NPCs")
-
-    def _setup_interaction_areas(self) -> None:
-        """Creates all interaction areas for this scene."""
-        # 1. Woodpad Area
-        # Find woodpad in collectibles
-        woodpad = next((item for item in self.collectible_items if item['name'] == 'wrath_woodpad'), None)
-        if woodpad:
-            interaction_rect = woodpad['rect'].inflate(80, 80)
-            # We must use a separate variable or ID to know WHICH item to remove.
-            # Using a simplified callback wrapper.
-            self.woodpad_interaction_area = InteractionArea(rect=interaction_rect, callback=self._on_woodpad_pickup)
-            self.interaction_areas.append(self.woodpad_interaction_area)
+        Các vùng va chạm bao gồm:
+        - Tường xung quanh
+        - Đồ đạc bị phá hủy
+        - Khu vực nguy hiểm
+        - Vật thể bị đổ ngã
+        """
+        # === TƯỜNG XUNG QUANH (Boundaries) ===
+        wall_thickness = 40
         
-        # 2. NPC Areas
-        for npc in self.npcs:
-            interaction_rect = npc['rect'].inflate(100, 100)
-            callback = lambda npc_name=npc['name']: self._on_npc_interact(npc_name)
-            self.interaction_areas.append(InteractionArea(rect=interaction_rect, callback=callback))
-
-    def _on_woodpad_pickup(self) -> None:
-        """Callback khi người chơi nhặt woodpad."""
-        if not self.woodpad_collected:
-            self.woodpad_collected = True
-            print("🪵 Đã nhặt được tấm gỗ! (Woodpad collected)")
-            
-            # Remove from scene
-            # 1. Remove interaction area
-            if hasattr(self, 'woodpad_interaction_area') and self.woodpad_interaction_area in self.interaction_areas:
-                self.interaction_areas.remove(self.woodpad_interaction_area)
-            
-            # 2. Remove visual item
-            self.collectible_items = [item for item in self.collectible_items if item['name'] != 'wrath_woodpad']
+        # Tường trên
+        self.obstacles.append(pygame.Rect(0, 0, self.screen_width, wall_thickness))
+        
+        # Tường dưới
+        self.obstacles.append(pygame.Rect(0, self.screen_height - wall_thickness, 
+                                         self.screen_width, wall_thickness))
+        
+        # Tường trái
+        self.obstacles.append(pygame.Rect(0, 0, wall_thickness, self.screen_height))
+        
+        # Tường phải
+        self.obstacles.append(pygame.Rect(self.screen_width - wall_thickness, 0, 
+                                         wall_thickness, self.screen_height))
+        
+        # === BÀN LÀM VIỆC BỊ LẬT ĐỔ (Overturned Desks) ===
+        # Bàn 1 - Bị lật úp góc trái
+        self.obstacles.append(pygame.Rect(150, 100, 220, 130))
+        
+        # Bàn 2 - Bị lật úp góc phải
+        self.obstacles.append(pygame.Rect(self.screen_width - 370, 100, 220, 130))
+        
+        # Bàn 3 - Bị đổ giữa phòng
+        self.obstacles.append(pygame.Rect(self.screen_width // 2 - 100, 
+                                         self.screen_height // 2 - 80, 200, 140))
+        
+        # === TỦ VÀ KỆ BỊ ĐỔ (Fallen Cabinets & Shelves) ===
+        # Tủ lật đổ bên trái
+        self.obstacles.append(pygame.Rect(80, 300, 140, 100))
+        
+        # Tủ lật đổ bên phải
+        self.obstacles.append(pygame.Rect(self.screen_width - 220, 300, 140, 100))
+        
+        # Kệ sách đổ - tường trái
+        self.obstacles.append(pygame.Rect(60, self.screen_height - 200, 110, 140))
+        
+        # Kệ sách đổ - tường phải
+        self.obstacles.append(pygame.Rect(self.screen_width - 170, 
+                                         self.screen_height - 200, 110, 140))
+        
+        # === GHẾ BỊ ĐỔ VÀ PHÁ VỠ (Broken Chairs) ===
+        # Ghế đổ 1
+        self.obstacles.append(pygame.Rect(400, 200, 70, 70))
+        
+        # Ghế đổ 2
+        self.obstacles.append(pygame.Rect(self.screen_width - 470, 200, 70, 70))
+        
+        # Ghế vỡ giữa phòng
+        self.obstacles.append(pygame.Rect(self.screen_width // 2 - 200, 
+                                         self.screen_height - 250, 65, 65))
+        
+        # Ghế đổ gần cửa
+        self.obstacles.append(pygame.Rect(self.screen_width // 2 + 150, 
+                                         self.screen_height - 250, 65, 65))
+        
+        # === KHU VỰC VỠ VỤN VÀ MẢN VỠ (Debris & Broken Glass) ===
+        # Đống đổ nát 1 - góc trên trái
+        self.obstacles.append(pygame.Rect(250, 250, 90, 90))
+        
+        # Đống đổ nát 2 - góc trên phải
+        self.obstacles.append(pygame.Rect(self.screen_width - 340, 250, 90, 90))
+        
+        # Khu vực mảnh vỡ giữa phòng
+        self.obstacles.append(pygame.Rect(self.screen_width // 2 + 80, 
+                                         self.screen_height // 2, 100, 100))
+        
+        # Đống vật dụng bị đổ - dưới trái
+        self.obstacles.append(pygame.Rect(200, self.screen_height - 180, 120, 90))
+        
+        # Đống vật dụng bị đổ - dưới phải
+        self.obstacles.append(pygame.Rect(self.screen_width - 320, 
+                                         self.screen_height - 180, 120, 90))
+        
+        # === CỬA SỔ VÀ TƯỜNG BỊ HỎNG (Damaged Windows & Walls) ===
+        # Mảnh vỡ cửa sổ trái
+        self.obstacles.append(pygame.Rect(100, self.screen_height // 2 - 50, 80, 100))
+        
+        # Mảnh vỡ cửa sổ phải
+        self.obstacles.append(pygame.Rect(self.screen_width - 180, 
+                                         self.screen_height // 2 - 50, 80, 100))
+        
+        # === VẬT THỂ NGUY HIỂM (Dangerous Objects) ===
+        # Đồ vật sắc nhọn 1
+        self.obstacles.append(pygame.Rect(self.screen_width // 2 - 250, 
+                                         self.screen_height // 2 + 120, 60, 60))
+        
+        # Đồ vật sắc nhọn 2
+        self.obstacles.append(pygame.Rect(self.screen_width // 2 + 190, 
+                                         self.screen_height // 2 + 120, 60, 60))
+        
+        # === ĐỒ TRANG TRÍ BỊ PHÁ (Destroyed Decorations) ===
+        # Chậu cây đổ 1
+        self.obstacles.append(pygame.Rect(120, 80, 55, 55))
+        
+        # Chậu cây đổ 2
+        self.obstacles.append(pygame.Rect(self.screen_width - 175, 80, 55, 55))
+        
+        # Khung tranh rơi
+        self.obstacles.append(pygame.Rect(450, self.screen_height - 130, 80, 50))
+        
+        # Đèn bị đổ
+        self.obstacles.append(pygame.Rect(self.screen_width - 530, 
+                                         self.screen_height - 130, 70, 70))
+        
+        print(f"\n✅ Setup {len(self.obstacles)} total collision obstacles in wrath case scene")
     
-    def _on_npc_interact(self, npc_name: str) -> None:
-        """Callback khi người chơi tương tác với NPC."""
-        print(f"💬 Đang nói chuyện với {npc_name}...")
-        
-        if npc_name == "NPC_Angry_Victim":
-            print("   😡 Angry Victim: 'Hắn ta đã phá hủy mọi thứ của tôi! Tôi sẽ không tha thứ!'")
-            print("   📝 TODO: Mở dialogue về nạn nhân và động cơ")
-        elif npc_name == "NPC_Witness":
-            print("   👁️ Witness: 'Tôi đã thấy một người đàn ông rất tức giận ở đây...'")
-
     def set_player(self, player: object) -> None:
-        """Specific set_player override to set start position."""
-        super().set_player(player, start_pos=(900, 400))
-
-
+        """
+        Set player reference
+        
+        Args:
+            player: Player object từ game.py
+        """
+        self.player = player
+    
+    def check_collision(self, rect: pygame.Rect) -> bool:
+        """
+        Kiểm tra va chạm giữa một rect với các obstacles
+        
+        Args:
+            rect: pygame.Rect cần kiểm tra
+            
+        Returns:
+            True nếu có va chạm, False nếu không
+        """
+        for obstacle in self.obstacles:
+            if rect.colliderect(obstacle):
+                return True
+        return False
+    
+    def prevent_collision(self, player_rect: pygame.Rect, 
+                         old_x: float, old_y: float) -> tuple:
+        """
+        Ngăn player đi xuyên qua obstacles bằng cách revert position
+        
+        Args:
+            player_rect: Current player rect
+            old_x: Previous x position
+            old_y: Previous y position
+            
+        Returns:
+            tuple (new_x, new_y): Vị trí hợp lệ
+        """
+        if not self.check_collision(player_rect):
+            return player_rect.x, player_rect.y
+        
+        # Sliding collision
+        test_rect = player_rect.copy()
+        test_rect.x = old_x
+        if not self.check_collision(test_rect):
+            return old_x, player_rect.y
+        
+        test_rect = player_rect.copy()
+        test_rect.y = old_y
+        if not self.check_collision(test_rect):
+            return player_rect.x, old_y
+        
+        return old_x, old_y
+    
+    def handle_event(self, event: pygame.event.Event) -> None:
+        """
+        Xử lý events cho scene
+        
+        Args:
+            event: Pygame event
+        """
+        if event.type == pygame.KEYDOWN:
+            # Toggle debug mode với F3
+            if event.key == pygame.K_F3:
+                self.debug_mode = not self.debug_mode
+                print(f"Debug mode: {'ON' if self.debug_mode else 'OFF'}")
+            
+            # ESC để quay về
+            if event.key == pygame.K_ESCAPE:
+                pass  # Game.py sẽ handle
+    
+    def update(self, dt: float) -> None:
+        """
+        Update scene logic
+        
+        Args:
+            dt: Delta time (seconds)
+        """
+        pass  # Có thể thêm animation hoặc effects sau
+    
+    def draw(self, screen: pygame.Surface) -> None:
+        """
+        Vẽ scene lên screen
+        
+        Args:
+            screen: Pygame display surface
+        """
+        # Vẽ background
+        screen.blit(self.background, (0, 0))
+        
+        # Vẽ collision boxes nếu debug mode bật
+        if self.debug_mode:
+            for obstacle in self.obstacles:
+                pygame.draw.rect(screen, (255, 0, 0), obstacle, 2)
