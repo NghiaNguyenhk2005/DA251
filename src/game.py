@@ -13,10 +13,9 @@ from src.tools.Inventory_UI import *
 
 from src.player import Player
 from src.scenes.greed_case import GreedCaseScene
-from src.scenes.gluttony_case import GluttonyCaseScene
-from src.scenes.lust_case import LustCaseScene
-from src.scenes.pride_case import PrideCaseScene # Import new scene
-from src.scenes.sloth_case import SlothCaseScene
+from src.scenes.gluttony_case import GluttonyScene
+from src.scenes.lust_case import LustScene
+from src.scenes.pride_case import PrideScene
 
 class GameState(Enum):
     MENU = 0
@@ -66,22 +65,18 @@ class Game:
         )
 
     def init_scenes(self):
-        # Initialize all scenes
         self.scenes = {
             "office": OfficeScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
             "interrogation_room": InterrogationRoomScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
-            "toa_thi_chinh": InterrogationRoomScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),  # Placeholder
-            
-            # 7 Deadly Sins Cases
-            "greed_case": GreedCaseScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
-            "envy_case": EnvyCaseScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
-            "wrath_case": WrathCaseScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
-            "sloth_case": SlothCaseScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
-            "gluttony_case": GluttonyCaseScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
-            "lust_case": LustCaseScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
-            "pride_case": PrideCaseScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
+            "toa_thi_chinh": InterrogationRoomScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT), # Placeholder
+            "envy": EnvyCaseScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT), # Added Envy
+            "wrath": WrathCaseScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT), # Added Wrath
+            "greed": GreedCaseScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT), # Added Greed
+            "gluttony": GluttonyScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
+            "lust": LustScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
+            "pride": PrideScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT) # New Pride Scene
         }
-        self.current_scene = self.scenes["gluttony_case"] # Start in Pride scene for testing
+        self.current_scene = self.scenes["office"] # Start in Pride scene for testing
         
         # Set player reference for collision detection
         if hasattr(self.current_scene, 'set_player'):
