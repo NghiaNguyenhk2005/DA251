@@ -7,10 +7,10 @@ from scenes.wrath_case import WrathCaseScene
 from src.ui.main_scene import MainSceneUi
 from src.scenes.office import OfficeScene
 from src.scenes.interrogation_room import InterrogationRoomScene
-from src.notebook.notebook import Notebook
-from src.notebook.clues_data import clues
-import src.inventory.GUI_Func as InventoryUI
-from src.inventory.Item import item_list
+from src.tools.Notebook import Notebook
+from src.tools.Notebook_clues import * 
+from src.tools.Inventory_UI import *
+
 from src.player import Player
 from src.scenes.greed_case import GreedCaseScene
 from src.scenes.gluttony_case import GluttonyCaseScene
@@ -42,7 +42,7 @@ class Game:
         self.init_player()  # Initialize player first
         self.init_ui()
         self.init_scenes()  # Then scenes (which may reference player)
-        self.init_inventory()
+        self.init_inventory() # FIX: Ensure this initializes the instance
         self.init_notebook()
 
     def load_assets(self):
@@ -51,7 +51,7 @@ class Game:
         self.closed_book_icon_rect = pygame.Rect(self.closed_book_icon_pos, self.closed_book_icon_size)
         
         try:
-            self.closed_book_icon = pygame.image.load("src/assets/notebook/brownbook.png").convert_alpha()
+            self.closed_book_icon = pygame.image.load("assets/images/tools/brownbook.png").convert_alpha()
             self.closed_book_icon = pygame.transform.scale(self.closed_book_icon, self.closed_book_icon_size)
         except FileNotFoundError:
             print("Warning: brownbook.png not found. Creating placeholder.")
@@ -88,7 +88,9 @@ class Game:
             self.current_scene.set_player(self.player)
 
     def init_inventory(self):
-        InventoryUI.initialize_inventory()
+        # FIX: Initialize the InventoryUI instance correctly
+        self.inventory_ui = InventoryUI(self.screen)
+        self.inventory_ui.initialize_inventory()
 
     def init_notebook(self):
         fonts = self.load_notebook_fonts()
@@ -108,12 +110,12 @@ class Game:
     def load_notebook_fonts(self):
         fonts = {}
         try:
-            fonts['list'] = pygame.font.Font("src/assets/fonts/Harmonic.ttf", 36)
+            fonts['list'] = pygame.font.Font("assets/fonts/Harmonic.ttf", 36)
             font_title_sizes = [42, 36, 32, 28, 24]
-            fonts['title_options'] = {size: pygame.font.Font("src/assets/fonts/Harmonic.ttf", size) for size in font_title_sizes}
+            fonts['title_options'] = {size: pygame.font.Font("assets/fonts/Harmonic.ttf", size) for size in font_title_sizes}
             font_desc_sizes = [36, 32, 28, 24]
-            fonts['desc_options'] = {size: pygame.font.Font("src/assets/fonts/Harmonic.ttf", size) for size in font_desc_sizes}
-            fonts['page_count'] = pygame.font.Font("src/assets/fonts/Harmonic.ttf", 28)
+            fonts['desc_options'] = {size: pygame.font.Font(None, size + 4) for size in font_desc_sizes}
+            fonts['page_count'] = pygame.font.Font("assets/fonts/Harmonic.ttf", 28)
         except FileNotFoundError:
             print("Warning: 'Harmonic.ttf' not found. Using default font.")
             fonts['list'] = pygame.font.Font(None, 40)
@@ -128,6 +130,12 @@ class Game:
         if scene_id in self.scenes:
             self.current_scene = self.scenes[scene_id]
             
+            # Reset player position to middle of the screen for the new scene
+            self.player.x = self.SCREEN_WIDTH // 2
+            self.player.y = self.SCREEN_HEIGHT // 2
+            self.player.rect.x = self.player.x
+            self.player.rect.y = self.player.y
+
             # Set player reference for collision detection
             if hasattr(self.current_scene, 'set_player'):
                 self.current_scene.set_player(self.player)
@@ -146,66 +154,111 @@ class Game:
         sys.exit()
 
     def handle_events(self):
-        mouse_pos = pygame.mouse.get_pos()
-        keys = pygame.key.get_pressed()
+            mouse_pos = pygame.mouse.get_pos()
+            keys = pygame.key.get_pressed()
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                self.running = False
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.running = False
 
-            # Toggle Inventory
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_e:
-                    if self.state == GameState.INVENTORY:
+                # --- Global ESC key check ---
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                    if self.state == GameState.NOTEBOOK:
+                        self.notebook.close_notebook()
                         self.state = GameState.PLAYING
-                    elif self.state == GameState.PLAYING:
-                        self.state = GameState.INVENTORY
-                        InventoryUI.initialize_inventory()
-
-            # Notebook events
-            if self.state == GameState.NOTEBOOK:
-                self.notebook.handle_event(event, mouse_pos)
-                if not self.notebook.get_state(): # Closed
-                    self.state = GameState.PLAYING
-            elif self.state == GameState.PLAYING:
-                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                    if self.closed_book_icon_rect.collidepoint(mouse_pos):
-                        self.notebook.open_notebook()
-                        self.state = GameState.NOTEBOOK
-
-            # Inventory events
-            if self.state == GameState.INVENTORY:
+                    elif self.state == GameState.INVENTORY:
+                        self.inventory_ui._inventory_set_state("CLOSED")
+                        self.state = GameState.PLAYING
+                
+                # --- Global Toggles (E key for Notebook, R key for Inventory) ---
                 if event.type == pygame.KEYDOWN:
-                     if event.key == pygame.K_ESCAPE:
-                         self.state = GameState.PLAYING
-                     else:
-                         InventoryUI.handle_keys_inventory(event.key, mouse_pos)
-                elif event.type == pygame.MOUSEBUTTONDOWN:
-                    if event.button == 1:
-                        InventoryUI.handle_keys_inventory("LMB_CLICK", mouse_pos)
-                        if InventoryUI.get_close_btn_flag():
+                    if event.key == pygame.K_e: # Toggle Notebook
+                        if self.state == GameState.NOTEBOOK:
+                            self.notebook.close_notebook()
                             self.state = GameState.PLAYING
-                            InventoryUI.set_close_btn_flag(False)
+                        elif self.state == GameState.PLAYING:
+                            # Đảm bảo Inventory đang đóng trước khi mở Notebook
+                            if self.inventory_ui._inventory_get_state():
+                                self.inventory_ui._inventory_set_state("CLOSED")
+                            
+                            self.notebook.open_notebook()
+                            self.state = GameState.NOTEBOOK
+                            
+                    elif event.key == pygame.K_r: # Toggle Inventory (NEW LOGIC)
+                        if self.state == GameState.INVENTORY:
+                            self.inventory_ui._inventory_set_state("CLOSED")
+                            self.state = GameState.PLAYING
+                        elif self.state == GameState.PLAYING:
+                            # Đảm bảo Notebook đang đóng trước khi mở Inventory
+                            if self.notebook.get_state():
+                                self.notebook.close_notebook()
+                            
+                            self.inventory_ui._inventory_set_state("OPEN")
+                            self.state = GameState.INVENTORY
+                            
+                    # --- SCENE SWITCHING LOGIC (New addition for quick testing) ---
+                    if self.state == GameState.PLAYING:
+                        if event.key == pygame.K_1:
+                            self.change_scene("office")
+                        elif event.key == pygame.K_2:
+                            self.change_scene("interrogation_room")
+                        elif event.key == pygame.K_3:
+                            self.change_scene("pride")
+                        elif event.key == pygame.K_4:
+                            self.change_scene("lust")
+                        elif event.key == pygame.K_5:
+                            self.change_scene("gluttony")
+                        elif event.key == pygame.K_6:
+                            self.change_scene("greed")
+                        elif event.key == pygame.K_7:
+                            self.change_scene("envy")
+                        elif event.key == pygame.K_8:
+                            self.change_scene("wrath")
+                        #elif event.key == pygame.K_9:
+                            #self.change_scene("toa_thi_chinh")
 
-            # UI events (Map, etc)
+
+                # --- State-specific handling ---
+                if self.state == GameState.NOTEBOOK:
+                    self.notebook.handle_event(event, mouse_pos)
+                    # Nếu notebook tự đóng (ví dụ: do ấn nút tắt bên trong), cập nhật state
+                    if not self.notebook.get_state():
+                        self.state = GameState.PLAYING
+
+                elif self.state == GameState.INVENTORY:
+                    # Inventory handling for movement and clicks
+                    if event.type == pygame.KEYDOWN:
+                        self.inventory_ui._handle_keys_inventory(event.key, mouse_pos)
+                    elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                        self.inventory_ui._handle_keys_inventory("LMB_CLICK", mouse_pos)
+                        # Nếu inventory tự đóng (ví dụ: do click vào nút tắt), cập nhật state
+                        if not self.inventory_ui._inventory_get_state():
+                            self.state = GameState.PLAYING
+
+                elif self.state == GameState.PLAYING:
+                    # Loại bỏ logic click icon Notebook vì giờ dùng phím 'E'
+                    # Loại bỏ logic click icon Inventory vì giờ dùng phím 'R'
+                    
+                    # Notebook icon click - Giữ lại nếu người dùng vẫn muốn click
+                    if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                        if self.closed_book_icon_rect.collidepoint(mouse_pos):
+                            self.notebook.open_notebook()
+                            self.state = GameState.NOTEBOOK
+
+                        # Inventory icon click (chỉ handle khi chưa vào Inventory state)
+                        # Vẫn gọi để cập nhật trạng thái Inventory khi click vào icon của nó
+                        self.inventory_ui._handle_keys_inventory("LMB_CLICK", mouse_pos)
+                        if self.inventory_ui._inventory_get_state():
+                            self.state = GameState.INVENTORY
+
+                    # UI + Scene
+                    self.ui.handle_event(event)
+                    if hasattr(self.current_scene, 'handle_event'):
+                        self.current_scene.handle_event(event)
+
+            # --- Continuous Input ---
             if self.state == GameState.PLAYING:
-                self.ui.handle_event(event)
-                
-                # Scene-specific events (for evidence collection, etc)
-                if hasattr(self.current_scene, 'handle_event'):
-                    self.current_scene.handle_event(event)
-                
-            # Inventory Icon Click (in Playing mode)
-            if self.state == GameState.PLAYING:
-                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                     if InventoryUI.get_icon_flag():
-                         self.state = GameState.INVENTORY
-                         InventoryUI.initialize_inventory()
-
-        # Player Movement (Continuous Input)
-        if self.state == GameState.PLAYING:
-            self.player.handle_input(keys)
-
+                self.player.handle_input(keys)
     def update(self):
         if self.state == GameState.PLAYING:
             # Store old position before update for collision rollback
@@ -256,7 +309,7 @@ class Game:
         self.screen.fill((0, 0, 0))
         mouse_pos = pygame.mouse.get_pos()
 
-        # Draw Scene với layer system (bao gồm cả player)
+        # Draw Scene with layer system (including player)
         if self.state == GameState.PLAYING:
             # Nếu scene hỗ trợ layer system, dùng draw_with_player
             if hasattr(self.current_scene, 'draw_with_player'):
@@ -280,7 +333,8 @@ class Game:
 
         # Draw Inventory Icon (if not in inventory)
         if self.state != GameState.INVENTORY:
-            InventoryUI.draw_inventory_icon(self.screen, mouse_pos)
+            # FIX: Use instance method, which only needs mouse_pos
+            self.inventory_ui.draw_inventory_icon(mouse_pos)
 
         # Draw Notebook (Overlay)
         if self.state == GameState.NOTEBOOK:
@@ -288,6 +342,8 @@ class Game:
 
         # Draw Inventory (Overlay)
         if self.state == GameState.INVENTORY:
-            InventoryUI.draw_inventory(self.screen, mouse_pos)
+            # FIX: Call initialize before drawing open inventory, and use instance method
+            self.inventory_ui.initialize_inventory()
+            self.inventory_ui.draw_inventory(mouse_pos)
 
         pygame.display.flip()

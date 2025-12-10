@@ -141,6 +141,10 @@ class MapPopup(Drawable, Updatable):
         
         return buttons
     
+    def close(self):
+        """Đóng popup một cách tường minh."""
+        self._is_open = False
+
     def toggle(self):
         """Bật/tắt popup"""
         self._is_open = not self._is_open
@@ -154,7 +158,8 @@ class MapPopup(Drawable, Updatable):
         """
         Xử lý sự kiện click để đóng popup
         
-        Xử lý sự kiện cho close button và đóng popup khi click bên ngoài
+        Chỉ xử lý sự kiện đóng popup khi click bên ngoài.
+        Logic xử lý click của self.close_button được thực hiện trong update().
         
         Args:
             event: Sự kiện pygame cần xử lý
@@ -162,16 +167,22 @@ class MapPopup(Drawable, Updatable):
         if not self._is_open:
             return
         
-        # Handle close button event
-        self.close_button.handle_event(event)
+        # Dòng này đã bị loại bỏ để khắc phục lỗi 'Button' object has no attribute 'handle_event'
+        # self.close_button.handle_event(event) 
         
+        # Bổ sung logic đóng bằng phím ESC (tùy chọn)
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+            self.close()
+
         # Click bên ngoài popup để đóng
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
             if not self.popup_rect.collidepoint(mouse_pos):
-                self._is_open = False
+                self.close() # SỬ DỤNG close() ĐỂ KHẮC PHỤC LỖI AttributeEror
+
     
     def update(self, delta_time: float = 0):
+        # ... (Phần update giữ nguyên)
         """
         Cập nhật trạng thái của MapPopup
         
@@ -188,6 +199,7 @@ class MapPopup(Drawable, Updatable):
         
         # Cập nhật tất cả building buttons
         for button in self.building_buttons:
+            # Lưu ý: BuildingButton.update() nhận mouse_pos, mouse_pressed, offset
             button.update(mouse_pos, mouse_pressed, self.map_pos)
 
     def draw(self, screen: pygame.Surface):

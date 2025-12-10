@@ -3,10 +3,10 @@ from typing import Callable, Optional
 from .button import Button
 from .tooltip import Tooltip
 
-MAP_SCENE_IMG = "src/assets/images/ui/map_scene.png"
-OFFICE_MAP_SCENE_IMG = "src/assets/images/ui/office-map-scene.png"
-TOA_THI_CHINH_IMG = "src/assets/images/ui/toa-chi-chinh.png"
-CLOSE_BUTTON_IMG = "src/assets/images/ui/close-button.png"
+MAP_SCENE_IMG = "assets/images/ui/map_scene.png"
+OFFICE_MAP_SCENE_IMG = "assets/images/ui/office-map-scene.png"
+TOA_THI_CHINH_IMG = "assets/images/ui/toa-chi-chinh.png"
+CLOSE_BUTTON_IMG = "assets/images/ui/close-button.png"
 
 # Sin Icons (7 deadly sins)
 GREED_ICON = "assets/images/ui/greed-icon.png"

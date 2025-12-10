@@ -45,7 +45,7 @@ PLAYER_SIZE = 32
 SPRITE_SHEET_PATH = "assets/images/Modern_Exteriors_Characters_Postman_16x16_2.png"
 SPRITE_WIDTH = 16          # Width of each sprite in the sheet (in pixels)
 SPRITE_HEIGHT = 24         # Height of each sprite in the sheet (in pixels)
-SPRITE_SCALE = 8           # How much to scale up the sprite (2 = double size)
+SPRITE_SCALE = 4           # How much to scale up the sprite (2 = double size)
 SPRITE_ROW_SPACING = 8     # Vertical spacing between rows in pixels
 SPRITE_COL_SPACING = 0     # Horizontal spacing between columns in pixels
 
