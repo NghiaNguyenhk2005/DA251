@@ -3,114 +3,73 @@ Wrath Case Scene
 ================
 Scene điều tra vụ án thịnh nộ - scene top-down với hệ thống va chạm.
 Người chơi có thể di chuyển tự do để khám phá hiện trường vụ án.
-
-Collision System:
-- Sử dụng AABB (Axis-Aligned Bounding Box) collision detection
-- Các vùng va chạm được định nghĩa dựa trên bố cục hiện trường
-- Obstacles bao gồm: tường, đồ vật bằng chứng, khu vực bị phong tỏa
 """
 
 import pygame
 from typing import List, Optional, Tuple, Dict, Any
-from .i_scene import IScene
-
-
+from .base_scene import BaseScene
 from src.utils.interaction_area import InteractionArea
 
-
-class WrathCaseScene(IScene):
+class WrathCaseScene(BaseScene):
     """
-    Wrath Case scene using a collision mask for walls and rects for other obstacles.
+    Wrath Case scene using BaseScene for core functionality.
     """
     
     def __init__(self, screen_width: int = 1280, screen_height: int = 720) -> None:
         """
         Initializes the Wrath Case Scene.
         """
-        self.screen_width = screen_width
-        self.screen_height = screen_height
+        super().__init__(screen_width, screen_height)
         
-        self.obstacles: List[Dict[str, Any]] = []
-        self.collision_rects: List[pygame.Rect] = []
-        self.interaction_areas: List[InteractionArea] = []
-        self.wall_mask: Optional[pygame.mask.Mask] = None
-        
-        # Woodpad state (vật thể có thể nhặt)
+        # Woodpad state (collectible specific to this scene)
         self.woodpad_collected: bool = False
-        self.woodpad_data: Optional[Dict[str, Any]] = None
-        self.woodpad_interaction_area: Optional[InteractionArea] = None
         
-        # NPCs data
-        self.npcs: List[Dict[str, Any]] = []
-        self.npc_interaction_areas: List[InteractionArea] = []
-
-        self._load_background()
-        self._load_wall_mask()
+        # Initialise standard assets
+        self.setup_scene(
+            background_path="assets/images/scenes/wrath-bg.png",
+            wall_mask_path="assets/images/scenes/wrath-walls.png"
+        )
+        
+        # Load specific scene objects
         self._load_obstacles()
         self._load_npcs()
-        self._setup_collision_rects()
+        
+        # Build standard components
+        self.rebuild_collision_rects()
         self._setup_interaction_areas()
         
-        self.player: Optional[object] = None
-        self.debug_mode: bool = False
-
-    def _load_background(self) -> None:
-        """Loads the background image for the scene."""
-        bg_paths = ["assets/images/scenes/wrath-bg.png"]
-        self.background = None
-        for bg_path in bg_paths:
-            try:
-                self.background = pygame.image.load(bg_path).convert()
-                self.background = pygame.transform.scale(self.background, (self.screen_width, self.screen_height))
-                print(f"✅ Loaded wrath background: {bg_path}")
-                break
-            except (pygame.error, FileNotFoundError):
-                continue
-        
-        if self.background is None:
-            print("⚠️  Could not load wrath background. Using placeholder.")
-            self.background = pygame.Surface((self.screen_width, self.screen_height))
-            self.background.fill((40, 20, 20))  # Dark red theme
-
-    def _load_wall_mask(self) -> None:
-        """Loads the wall collision mask from an image."""
-        try:
-            path = "assets/images/scenes/wrath-walls.png"
-            mask_image = pygame.image.load(path).convert()
-            mask_image = pygame.transform.scale(mask_image, (self.screen_width, self.screen_height))
-            mask_image.set_colorkey((0, 0, 0))
-            self.wall_mask = pygame.mask.from_surface(mask_image)
-            print(f"✅ Loaded wall collision mask from {path}.")
-        except (pygame.error, FileNotFoundError) as e:
-            print(f"⚠️  Could not load wall collision mask: {e}")
-            self.wall_mask = pygame.mask.Mask((self.screen_width, self.screen_height), fill=False)
+        # Fallback background if load failed (BaseScene handles placeholder, but we can customise colour)
+        if self.background.get_at((0,0)) == (0,0,0,255): # Simple check if black default
+             # Optional: set custom placeholder color if desired, e.g.
+             # self.background.fill((40, 20, 20)) 
+             pass
 
     def _load_obstacles(self) -> None:
-        """Loads obstacles with collision (wrath-npc image)."""
-        # Load wrath-npc.png làm obstacle - Có COLLISION
+        """Loads specific obstacles for Wrath Case."""
+        # 1. NPC Obstacle
         try:
             npc_obstacle_img = pygame.image.load("assets/images/scenes/wrath-npc.png").convert_alpha()
             npc_obstacle_pos = (500, 500)
-            npc_obstacle_scale = 1
             original_size = npc_obstacle_img.get_size()
-            new_size = (int(original_size[0] * npc_obstacle_scale), int(original_size[1] * npc_obstacle_scale))
-            npc_obstacle_img_scaled = pygame.transform.scale(npc_obstacle_img, new_size)
+            new_size = original_size # Scale 1
+            # Explicit scaling if needed, based on original code
             
-            # Tạo collision rect cho NPC obstacle
+            # Rect logic from original
             npc_obstacle_rect = pygame.Rect(npc_obstacle_pos[0], npc_obstacle_pos[1] + 20, 
                                            new_size[0] - 20, new_size[1] - 40)
             
             self.obstacles.append({
-                'image': npc_obstacle_img_scaled,
+                'image': npc_obstacle_img,
                 'position': npc_obstacle_pos,
                 'rect': npc_obstacle_rect,
                 'name': 'wrath_npc_obstacle'
             })
-            print(f"✅ Loaded wrath-npc obstacle at {npc_obstacle_pos} (WITH collision)")
+            print(f"✅ Loaded wrath-npc obstacle at {npc_obstacle_pos}")
         except (pygame.error, FileNotFoundError) as e:
             print(f"⚠️  Could not load wrath-npc obstacle: {e}")
         
-        # Load wrath-woodpad.png - KHÔNG collision (có thể nhặt)
+        # 2. Woodpad (Collectible) - Added to collectible_items used in BaseScene if we want automatic drawing
+        # OR we can keep it in a separate list if logic demands it, but BaseScene draw_with_player supports self.collectible_items
         try:
             woodpad_img = pygame.image.load("assets/images/scenes/wrath-woodpad.png").convert_alpha()
             woodpad_pos = (700, 500)
@@ -121,19 +80,18 @@ class WrathCaseScene(IScene):
             
             woodpad_rect = pygame.Rect(woodpad_pos[0], woodpad_pos[1], new_size[0], new_size[1])
             
-            self.woodpad_data = {
+            self.collectible_items.append({
                 'image': woodpad_img_scaled,
                 'position': woodpad_pos,
                 'rect': woodpad_rect,
                 'name': 'wrath_woodpad'
-            }
-            print(f"✅ Loaded woodpad at {woodpad_pos} (no collision - can pickup)")
+            })
+            print(f"✅ Loaded woodpad at {woodpad_pos}")
         except (pygame.error, FileNotFoundError) as e:
-            print(f"⚠️  Could not load woodpad: {e}")
-            self.woodpad_data = None
+             print(f"⚠️  Could not load woodpad: {e}")
     
     def _load_npcs(self) -> None:
-        """Loads NPCs for interaction (no collision)."""
+        """Loads NPCs for interaction."""
         npc_definitions = [
             {"name": "NPC_Angry_Victim", "pos": (100, 500), "color": (255, 100, 100)},
         ]
@@ -153,36 +111,25 @@ class WrathCaseScene(IScene):
                 'name': npc_def["name"],
                 'color': npc_def["color"]
             })
-        
-        print(f"✅ Loaded {len(self.npcs)} NPCs (no collision)")
-
-    def _setup_collision_rects(self) -> None:
-        """Creates a list of pygame.Rects for efficient collision checking."""
-        self.collision_rects.clear()
-        for obj in self.obstacles:
-            if 'rect' in obj:
-                self.collision_rects.append(obj['rect'])
-        # Woodpad KHÔNG được thêm vào collision (có thể nhặt)
-        # wrath-npc.png đã được thêm vào obstacles nên có collision
-        print(f"✅ Built {len(self.collision_rects)} collision rects (wrath-npc HAS collision, woodpad excluded)")
+        print(f"✅ Loaded {len(self.npcs)} NPCs")
 
     def _setup_interaction_areas(self) -> None:
         """Creates all interaction areas for this scene."""
-        # Tạo interaction area cho woodpad
-        if self.woodpad_data:
-            interaction_rect = self.woodpad_data['rect'].inflate(80, 80)
+        # 1. Woodpad Area
+        # Find woodpad in collectibles
+        woodpad = next((item for item in self.collectible_items if item['name'] == 'wrath_woodpad'), None)
+        if woodpad:
+            interaction_rect = woodpad['rect'].inflate(80, 80)
+            # We must use a separate variable or ID to know WHICH item to remove.
+            # Using a simplified callback wrapper.
             self.woodpad_interaction_area = InteractionArea(rect=interaction_rect, callback=self._on_woodpad_pickup)
             self.interaction_areas.append(self.woodpad_interaction_area)
-            print(f"✅ Created interaction area around woodpad at {self.woodpad_data['position']}")
         
-        # Tạo interaction areas cho từng NPC
+        # 2. NPC Areas
         for npc in self.npcs:
             interaction_rect = npc['rect'].inflate(100, 100)
             callback = lambda npc_name=npc['name']: self._on_npc_interact(npc_name)
-            npc_area = InteractionArea(rect=interaction_rect, callback=callback)
-            self.npc_interaction_areas.append(npc_area)
-            self.interaction_areas.append(npc_area)
-            print(f"✅ Created interaction area for {npc['name']} at {npc['position']}")
+            self.interaction_areas.append(InteractionArea(rect=interaction_rect, callback=callback))
 
     def _on_woodpad_pickup(self) -> None:
         """Callback khi người chơi nhặt woodpad."""
@@ -190,9 +137,13 @@ class WrathCaseScene(IScene):
             self.woodpad_collected = True
             print("🪵 Đã nhặt được tấm gỗ! (Woodpad collected)")
             
-            if self.woodpad_interaction_area in self.interaction_areas:
+            # Remove from scene
+            # 1. Remove interaction area
+            if hasattr(self, 'woodpad_interaction_area') and self.woodpad_interaction_area in self.interaction_areas:
                 self.interaction_areas.remove(self.woodpad_interaction_area)
-                print("✅ Woodpad interaction area removed (other areas unaffected)")
+            
+            # 2. Remove visual item
+            self.collectible_items = [item for item in self.collectible_items if item['name'] != 'wrath_woodpad']
     
     def _on_npc_interact(self, npc_name: str) -> None:
         """Callback khi người chơi tương tác với NPC."""
@@ -203,146 +154,9 @@ class WrathCaseScene(IScene):
             print("   📝 TODO: Mở dialogue về nạn nhân và động cơ")
         elif npc_name == "NPC_Witness":
             print("   👁️ Witness: 'Tôi đã thấy một người đàn ông rất tức giận ở đây...'")
-            print("   📝 TODO: Mở dialogue nhân chứng")
-
 
     def set_player(self, player: object) -> None:
-        """Sets the player reference and positions them for this scene."""
-        self.player = player
-        if self.player:
-            start_x, start_y = (900, 400)
-            self.player.x, self.player.y = start_x, start_y
-            self.player.rect.topleft = (start_x, start_y)
-            print(f"✅ Player position set to ({start_x}, {start_y}) for WrathCaseScene.")
-
-    def check_collision(self, rect: pygame.Rect) -> bool:
-        """Checks if a rect collides with obstacle rects OR the wall mask."""
-        for obstacle_rect in self.collision_rects:
-            if rect.colliderect(obstacle_rect):
-                return True
-        
-        if self.wall_mask:
-            player_mask = pygame.mask.Mask(rect.size, fill=True)
-            offset = (rect.x, rect.y)
-            if self.wall_mask.overlap(player_mask, offset):
-                return True
-
-        return False
-    
-    def prevent_collision(self, player_rect: pygame.Rect, old_x: float, old_y: float) -> tuple:
-        """Prevents the player from moving through obstacles using sliding collision."""
-        if not self.check_collision(player_rect):
-            return player_rect.x, player_rect.y
-        
-        test_rect = player_rect.copy()
-        test_rect.x = int(old_x)
-        if not self.check_collision(test_rect):
-            return old_x, player_rect.y
-        
-        test_rect = player_rect.copy()
-        test_rect.y = int(old_y)
-        if not self.check_collision(test_rect):
-            return player_rect.x, old_y
-        
-        return old_x, old_y
-    
-    def handle_event(self, event: pygame.event.Event) -> None:
-        """Handles scene-specific events."""
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_F3:
-                self.debug_mode = not self.debug_mode
-                print(f"Debug mode: {'ON' if self.debug_mode else 'OFF'}")
-        
-        for area in self.interaction_areas:
-            area.handle_event(event)
-    
-    def update(self) -> None:
-        """Updates scene logic."""
-        if self.player:
-            for area in self.interaction_areas:
-                area.update(self.player.rect)
-    
-    def draw(self, screen: pygame.Surface) -> None:
-        """Renders the background and debug info."""
-        screen.blit(self.background, (0, 0))
-        if self.debug_mode:
-            for rect in self.collision_rects:
-                debug_surface = pygame.Surface(rect.size, pygame.SRCALPHA)
-                debug_surface.fill((255, 0, 0, 100))
-                screen.blit(debug_surface, rect.topleft)
-                pygame.draw.rect(screen, (255, 0, 0), rect, 2)
-            
-            if self.wall_mask:
-                outline = self.wall_mask.outline()
-                if outline:
-                    pygame.draw.lines(screen, (0, 0, 255), True, outline, 2)
-
-            for area in self.interaction_areas:
-                area.draw_debug(screen)
-
-            font = pygame.font.Font(None, 24)
-            debug_text = font.render(f"Rect Obstacles: {len(self.collision_rects)} | F3 to toggle", True, (255, 255, 0))
-            screen.blit(debug_text, (10, 10))
-    
-    def draw_with_player(self, screen: pygame.Surface, player) -> None:
-        """Draws the scene with the player, using Y-sorting for layering."""
-        screen.blit(self.background, (0, 0))
-        
-        drawable_objects = []
-        
-        for item in self.obstacles:
-            if 'image' in item and 'position' in item:
-                y_pos = item['position'][1] + item['rect'].height
-                drawable_objects.append({'type': 'object', 'y': y_pos, 'item': item})
-        
-        # Thêm woodpad (nếu chưa nhặt)
-        if self.woodpad_data and not self.woodpad_collected:
-            woodpad_y = self.woodpad_data['position'][1] + self.woodpad_data['rect'].height
-            drawable_objects.append({'type': 'woodpad', 'y': woodpad_y, 'item': self.woodpad_data})
-        
-        # Thêm NPCs
-        for npc in self.npcs:
-            npc_y = npc['position'][1] + npc['rect'].height
-            drawable_objects.append({'type': 'npc', 'y': npc_y, 'item': npc})
-        
-        player_y = player.rect.y + player.rect.height
-        drawable_objects.append({'type': 'player', 'y': player_y, 'item': player})
-        
-        drawable_objects.sort(key=lambda obj: obj['y'])
-        
-        for obj in drawable_objects:
-            if obj['type'] == 'object':
-                screen.blit(obj['item']['image'], obj['item']['position'])
-            elif obj['type'] == 'woodpad':
-                screen.blit(obj['item']['image'], obj['item']['position'])
-            elif obj['type'] == 'npc':
-                screen.blit(obj['item']['image'], obj['item']['position'])
-            elif obj['type'] == 'player':
-                player.draw(screen)
-
-        for area in self.interaction_areas:
-            area.draw(screen, player.rect)
-        
-        if self.debug_mode:
-            for rect in self.collision_rects:
-                debug_surface = pygame.Surface(rect.size, pygame.SRCALPHA)
-                debug_surface.fill((255, 0, 0, 100))
-                screen.blit(debug_surface, rect.topleft)
-                pygame.draw.rect(screen, (255, 0, 0), rect, 2)
-            
-            if self.wall_mask:
-                outline = self.wall_mask.outline()
-                if outline:
-                    pygame.draw.lines(screen, (0, 0, 255), True, outline, 2)
-
-            for area in self.interaction_areas:
-                area.draw_debug(screen)
-            for i in self.npc_interaction_areas:
-                i.draw_debug(screen)
-
-            font = pygame.font.Font(None, 24)
-            text = f"Masks: ON | Rects: {len(self.collision_rects)} | Interact: {len(self.interaction_areas)} | F3"
-            debug_text = font.render(text, True, (255, 255, 0))
-            screen.blit(debug_text, (10, 10))
+        """Specific set_player override to set start position."""
+        super().set_player(player, start_pos=(900, 400))
 
 
