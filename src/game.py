@@ -13,13 +13,10 @@ import src.inventory.GUI_Func as InventoryUI
 from src.inventory.Item import item_list
 from src.player import Player
 from src.scenes.greed_case import GreedCaseScene
-<<<<<<< HEAD
-from src.scenes.gluttony_case import GluttonyScene
-from src.scenes.lust_case import LustScene
-from src.scenes.pride_case import PrideScene # Import new scene
-=======
+from src.scenes.gluttony_case import GluttonyCaseScene
+from src.scenes.lust_case import LustCaseScene
+from src.scenes.pride_case import PrideCaseScene # Import new scene
 from src.scenes.sloth_case import SlothCaseScene
->>>>>>> origin/feature/collision-v2
 
 class GameState(Enum):
     MENU = 0
@@ -84,7 +81,7 @@ class Game:
             "lust_case": LustCaseScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
             "pride_case": PrideCaseScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
         }
-        self.current_scene = self.scenes["pride"] # Start in Pride scene for testing
+        self.current_scene = self.scenes["gluttony_case"] # Start in Pride scene for testing
         
         # Set player reference for collision detection
         if hasattr(self.current_scene, 'set_player'):

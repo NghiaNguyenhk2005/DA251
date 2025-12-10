@@ -3,7 +3,7 @@ from typing import List, Optional, Dict, Any
 from .i_scene import IScene
 from src.utils.interaction_area import InteractionArea
 
-class LustScene(IScene):
+class LustCaseScene(IScene):
     """
     Scene for the Lust case.
     Uses a combination of a wall collision mask and rectangle-based obstacles.
@@ -19,6 +19,10 @@ class LustScene(IScene):
         self.interaction_areas: List[InteractionArea] = []
         self.wall_mask: Optional[pygame.mask.Mask] = None
         
+        # NPCs data
+        self.npcs: List[Dict[str, Any]] = []
+        self.npc_interaction_areas: List[InteractionArea] = []
+        
         self.player: Optional[object] = None
         self.debug_mode = True
 
@@ -26,6 +30,7 @@ class LustScene(IScene):
         self._load_background()
         self._load_wall_mask()
         self._load_obstacles()
+        self._load_npcs()
         self._setup_collision_rects()
         self._setup_interaction_areas()
 
@@ -97,6 +102,30 @@ class LustScene(IScene):
                 print(f"⚠️  Could not load obstacle {obs_def['name']}: {e}")
                 continue
 
+    def _load_npcs(self) -> None:
+        """Loads NPCs for interaction (no collision)."""
+        npc_definitions = [
+            {"name": "NPC_Lust_Witness", "pos": (800, 250), "color": (255, 100, 180)},
+        ]
+        
+        for npc_def in npc_definitions:
+            npc_size = (60, 80)
+            npc_surface = pygame.Surface(npc_size, pygame.SRCALPHA)
+            pygame.draw.ellipse(npc_surface, npc_def["color"], (10, 10, 40, 50))
+            pygame.draw.rect(npc_surface, npc_def["color"], (15, 55, 30, 25))
+            
+            npc_rect = pygame.Rect(npc_def["pos"][0], npc_def["pos"][1], npc_size[0], npc_size[1])
+            
+            self.npcs.append({
+                'image': npc_surface,
+                'position': npc_def["pos"],
+                'rect': npc_rect,
+                'name': npc_def["name"],
+                'color': npc_def["color"]
+            })
+        
+        print(f"✅ Loaded {len(self.npcs)} NPCs (no collision)")
+
     def _setup_collision_rects(self) -> None:
         """Builds a simple list of rects for collision checking."""
         self.collision_rects.clear()
@@ -110,13 +139,26 @@ class LustScene(IScene):
         if npc_body:
             interaction_rect = npc_body['rect'].inflate(50, 50)
             self.interaction_areas.append(
-                InteractionArea(rect=interaction_rect, callback=self._on_npc_interact)
+                InteractionArea(rect=interaction_rect, callback=self._on_body_interact)
             )
             print("✅ Created interaction area around 'npc_death'.")
 
-    def _on_npc_interact(self) -> None:
+        # Create interaction areas for each NPC
+        for npc in self.npcs:
+            interaction_rect = npc['rect'].inflate(100, 100)
+            callback = lambda npc_name=npc['name']: self._on_npc_interact(npc_name)
+            npc_area = InteractionArea(rect=interaction_rect, callback=callback)
+            self.npc_interaction_areas.append(npc_area)
+            self.interaction_areas.append(npc_area)
+            print(f"✅ Created interaction area for {npc['name']} at {npc['position']}")
+
+    def _on_body_interact(self) -> None:
         """Callback for when the player interacts with the body."""
         print("!! Player interacted with the body in the Lust scene!")
+    
+    def _on_npc_interact(self, npc_name: str) -> None:
+        """Callback khi người chơi tương tác với NPC."""
+        print(f"💬 Đang nói chuyện với {npc_name}...")
 
     def set_player(self, player: object) -> None:
         """Sets the player and their starting position for this scene."""
@@ -175,11 +217,17 @@ class LustScene(IScene):
         drawable_objects = [{'type': 'player', 'y': player.rect.bottom, 'item': player}]
         for item in self.obstacles:
             drawable_objects.append({'type': 'object', 'y': item['rect'].bottom, 'item': item})
+
+        # Add NPCs
+        for npc in self.npcs:
+            drawable_objects.append({'type': 'npc', 'y': npc['rect'].bottom, 'item': npc})
         
         drawable_objects.sort(key=lambda obj: obj['y'])
         
         for obj in drawable_objects:
             if obj['type'] == 'object':
+                screen.blit(obj['item']['image'], obj['item']['position'])
+            elif obj['type'] == 'npc':
                 screen.blit(obj['item']['image'], obj['item']['position'])
             elif obj['type'] == 'player':
                 player.draw(screen)

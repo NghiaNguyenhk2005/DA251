@@ -3,7 +3,7 @@ from typing import List, Optional, Dict, Any
 from .i_scene import IScene
 from src.utils.interaction_area import InteractionArea
 
-class PrideScene(IScene):
+class PrideCaseScene(IScene):
     """
     Scene for the Pride case, set on a rainy city street.
     """
@@ -17,12 +17,17 @@ class PrideScene(IScene):
         self.interaction_areas: List[InteractionArea] = []
         self.wall_mask: Optional[pygame.mask.Mask] = None
         
+        # NPCs data
+        self.npcs: List[Dict[str, Any]] = []
+        self.npc_interaction_areas: List[InteractionArea] = []
+
         self.player: Optional[object] = None
         self.debug_mode = True
 
         self._load_background()
         self._load_wall_mask()
         self._load_obstacles()
+        self._load_npcs()
         self._setup_collision_rects()
         self._setup_interaction_areas()
 
@@ -54,9 +59,9 @@ class PrideScene(IScene):
     def _load_obstacles(self) -> None:
         """Loads drawable obstacles for the scene."""
         obstacle_definitions = [
-            { "name": "car", "path": "assets/images/scenes/pride-item-car.png", "pos": (400, 450), "scale": 1.2, "rect_offset": (0, 30), "rect_modifier": (0, -60) },
-            { "name": "npc_death", "path": "assets/images/scenes/pride-item-npc-death.png", "pos": (800, 500), "scale": 1.0, "rect_offset": (0, 0), "rect_modifier": (0, 0) },
-            { "name": "broken_image", "path": "assets/images/scenes/pride-item-broken-image.png", "pos": (950, 450), "scale": 1.0, "rect_offset": (0, 0), "rect_modifier": (0, 0) },
+            { "name": "car", "path": "assets/images/scenes/pride-item-car.png", "pos": (200, 620), "scale": 1.5, "rect_offset": (0, 40), "rect_modifier": (0, -80) },
+            { "name": "npc_death", "path": "assets/images/scenes/pride-item-npc-death.png", "pos": (500, 630), "scale": 1.0, "rect_offset": (50, 50), "rect_modifier": (-100, -100), "scale": 1.0,  },
+            { "name": "broken_image", "path": "assets/images/scenes/pride-item-broken-image.png", "pos": (800, 650), "rect_offset": (50, 50), "rect_modifier": (-100, -100) },
         ]
         
         for obs_def in obstacle_definitions:
@@ -90,6 +95,30 @@ class PrideScene(IScene):
                 print(f"⚠️  Could not load obstacle {obs_def['name']}: {e}")
                 continue
 
+    def _load_npcs(self) -> None:
+        """Loads NPCs for interaction (no collision)."""
+        npc_definitions = [
+            {"name": "NPC_Pride_Witness", "pos": (600, 300), "color": (100, 100, 255)},
+        ]
+        
+        for npc_def in npc_definitions:
+            npc_size = (60, 80)
+            npc_surface = pygame.Surface(npc_size, pygame.SRCALPHA)
+            pygame.draw.ellipse(npc_surface, npc_def["color"], (10, 10, 40, 50))
+            pygame.draw.rect(npc_surface, npc_def["color"], (15, 55, 30, 25))
+            
+            npc_rect = pygame.Rect(npc_def["pos"][0], npc_def["pos"][1], npc_size[0], npc_size[1])
+            
+            self.npcs.append({
+                'image': npc_surface,
+                'position': npc_def["pos"],
+                'rect': npc_rect,
+                'name': npc_def["name"],
+                'color': npc_def["color"]
+            })
+        
+        print(f"✅ Loaded {len(self.npcs)} NPCs (no collision)")
+
     def _setup_collision_rects(self) -> None:
         """Builds a simple list of rects for collision checking."""
         self.collision_rects.clear()
@@ -102,18 +131,27 @@ class PrideScene(IScene):
         npc_body = next((obs for obs in self.obstacles if obs['name'] == 'npc_death'), None)
         if npc_body:
             self.interaction_areas.append(
-                InteractionArea(rect=npc_body['rect'].inflate(40, 40), callback=self._on_npc_interact)
+                InteractionArea(rect=npc_body['rect'].inflate(80, 80), callback=self._on_body_interact)
             )
             print("✅ Created interaction area around 'npc_death'.")
         
         broken_image = next((obs for obs in self.obstacles if obs['name'] == 'broken_image'), None)
         if broken_image:
             self.interaction_areas.append(
-                InteractionArea(rect=broken_image['rect'].inflate(30, 30), callback=self._on_image_interact)
+                InteractionArea(rect=broken_image['rect'].inflate(60, 60), callback=self._on_image_interact)
             )
             print("✅ Created interaction area around 'broken_image'.")
 
-    def _on_npc_interact(self) -> None:
+        # Create interaction areas for each NPC
+        for npc in self.npcs:
+            interaction_rect = npc['rect'].inflate(100, 100)
+            callback = lambda npc_name=npc['name']: self._on_npc_interact(npc_name)
+            npc_area = InteractionArea(rect=interaction_rect, callback=callback)
+            self.npc_interaction_areas.append(npc_area)
+            self.interaction_areas.append(npc_area)
+            print(f"✅ Created interaction area for {npc['name']} at {npc['position']}")
+
+    def _on_body_interact(self) -> None:
         """Callback for when the player interacts with the body."""
         print("!! Player interacted with the body in the Pride scene!")
 
@@ -121,12 +159,16 @@ class PrideScene(IScene):
         """Callback for when the player interacts with the broken image."""
         print("🖼️ Player interacted with the broken image.")
 
+    def _on_npc_interact(self, npc_name: str) -> None:
+        """Callback khi người chơi tương tác với NPC."""
+        print(f"💬 Đang nói chuyện với {npc_name}...")
+
     def set_player(self, player: object) -> None:
         """Sets the player and their starting position for this scene."""
         self.player = player
         if self.player:
-            start_x = 150
-            start_y = 500
+            start_x = self.screen_width - 200
+            start_y = self.screen_height - 300
             self.player.x, self.player.y = start_x, start_y
             self.player.rect.topleft = (start_x, start_y)
             print(f"✅ Player position set to ({start_x}, {start_y}) for PrideScene.")
@@ -178,11 +220,17 @@ class PrideScene(IScene):
         drawable_objects = [{'type': 'player', 'y': player.rect.bottom, 'item': player}]
         for item in self.obstacles:
             drawable_objects.append({'type': 'object', 'y': item['rect'].bottom, 'item': item})
+
+        # Add NPCs
+        for npc in self.npcs:
+            drawable_objects.append({'type': 'npc', 'y': npc['rect'].bottom, 'item': npc})
         
         drawable_objects.sort(key=lambda obj: obj['y'])
         
         for obj in drawable_objects:
             if obj['type'] == 'object':
+                screen.blit(obj['item']['image'], obj['item']['position'])
+            elif obj['type'] == 'npc':
                 screen.blit(obj['item']['image'], obj['item']['position'])
             elif obj['type'] == 'player':
                 player.draw(screen)

@@ -3,7 +3,7 @@ from typing import List, Optional, Dict, Any
 from .i_scene import IScene
 from src.utils.interaction_area import InteractionArea
 
-class GluttonyScene(IScene):
+class GluttonyCaseScene(IScene):
     """
     Scene for the Gluttony case, featuring a dining hall.
     It uses a combination of a wall collision mask and rectangle-based obstacles.
@@ -19,6 +19,10 @@ class GluttonyScene(IScene):
         self.interaction_areas: List[InteractionArea] = []
         self.wall_mask: Optional[pygame.mask.Mask] = None
         
+        # NPCs data
+        self.npcs: List[Dict[str, Any]] = []
+        self.npc_interaction_areas: List[InteractionArea] = []
+        
         self.player: Optional[object] = None
         self.debug_mode = True
 
@@ -26,6 +30,7 @@ class GluttonyScene(IScene):
         self._load_background()
         self._load_wall_mask()
         self._load_obstacles()
+        self._load_npcs()
         self._setup_collision_rects()
         self._setup_interaction_areas()
 
@@ -61,16 +66,16 @@ class GluttonyScene(IScene):
             {
                 "name": "dining_table",
                 "path": "assets/images/scenes/gluttony-item-table.png",
-                "pos": (self.screen_width // 2, self.screen_height // 2 - 50), # Centered
-                "scale": 1.0,
-                "rect_offset": (50, 100),       # (dx, dy)
-                "rect_modifier": (-100, -160)     # (dw, dh)
+                "pos": (self.screen_width // 2, self.screen_height // 2+70), # Centered
+                "scale": 1.75,
+                "rect_offset": (140, 100),       # (dx, dy)
+                "rect_modifier": (-280, -160)     # (dw, dh)
             },
             {
                 "name": "evidence_cake",
                 "path": "assets/images/scenes/gluttony-item-vatchung.png",
-                "pos": (self.screen_width // 2 - 10, self.screen_height // 2 + 30),
-                "scale": 0.5,
+                "pos": (self.screen_width // 2, self.screen_height // 2 + 170),
+                "scale": 1,
                 "rect_offset": (0, 0),
                 "rect_modifier": (0, 0)
             }
@@ -112,6 +117,30 @@ class GluttonyScene(IScene):
                 print(f"⚠️  Could not load obstacle {obs_def['name']}: {e}")
                 continue
 
+    def _load_npcs(self) -> None:
+        """Loads NPCs for interaction (no collision)."""
+        npc_definitions = [
+            {"name": "NPC_Gluttony_Chef", "pos": (200, 400), "color": (150, 75, 0)},
+        ]
+        
+        for npc_def in npc_definitions:
+            npc_size = (60, 80)
+            npc_surface = pygame.Surface(npc_size, pygame.SRCALPHA)
+            pygame.draw.ellipse(npc_surface, npc_def["color"], (10, 10, 40, 50))
+            pygame.draw.rect(npc_surface, npc_def["color"], (15, 55, 30, 25))
+            
+            npc_rect = pygame.Rect(npc_def["pos"][0], npc_def["pos"][1], npc_size[0], npc_size[1])
+            
+            self.npcs.append({
+                'image': npc_surface,
+                'position': npc_def["pos"],
+                'rect': npc_rect,
+                'name': npc_def["name"],
+                'color': npc_def["color"]
+            })
+        
+        print(f"✅ Loaded {len(self.npcs)} NPCs (no collision)")
+
     def _setup_collision_rects(self) -> None:
         """Builds a simple list of rects for collision checking."""
         self.collision_rects.clear()
@@ -123,11 +152,24 @@ class GluttonyScene(IScene):
         """Creates interaction areas, e.g., for the cake evidence."""
         cake = next((obs for obs in self.obstacles if obs['name'] == 'evidence_cake'), None)
         if cake:
-            interaction_rect = cake['rect'].inflate(40, 40)
+            interaction_rect = cake['rect'].inflate(350, 40)
             self.interaction_areas.append(
                 InteractionArea(rect=interaction_rect, callback=self._on_cake_interact)
             )
             print("✅ Created interaction area around 'evidence_cake'.")
+
+        # Create interaction areas for each NPC
+        for npc in self.npcs:
+            interaction_rect = npc['rect'].inflate(100, 100)
+            callback = lambda npc_name=npc['name']: self._on_npc_interact(npc_name)
+            npc_area = InteractionArea(rect=interaction_rect, callback=callback)
+            self.npc_interaction_areas.append(npc_area)
+            self.interaction_areas.append(npc_area)
+            print(f"✅ Created interaction area for {npc['name']} at {npc['position']}")
+
+    def _on_npc_interact(self, npc_name: str) -> None:
+        """Callback khi người chơi tương tác với NPC."""
+        print(f"💬 Đang nói chuyện với {npc_name}...")
 
     def _on_cake_interact(self) -> None:
         """Callback for when the player interacts with the cake."""
@@ -137,8 +179,8 @@ class GluttonyScene(IScene):
         """Sets the player and their starting position for this scene."""
         self.player = player
         if self.player:
-            start_x = self.screen_width // 2
-            start_y = self.screen_height - 150
+            start_x = 0
+            start_y = self.screen_height - 50
             self.player.x, self.player.y = start_x, start_y
             self.player.rect.topleft = (start_x, start_y)
             print(f"✅ Player position set to ({start_x}, {start_y}) for GluttonyScene.")
@@ -193,11 +235,17 @@ class GluttonyScene(IScene):
         drawable_objects = [{'type': 'player', 'y': player.rect.bottom, 'item': player}]
         for item in self.obstacles:
             drawable_objects.append({'type': 'object', 'y': item['rect'].bottom, 'item': item})
+
+        # Add NPCs
+        for npc in self.npcs:
+            drawable_objects.append({'type': 'npc', 'y': npc['rect'].bottom, 'item': npc})
         
         drawable_objects.sort(key=lambda obj: obj['y'])
         
         for obj in drawable_objects:
             if obj['type'] == 'object':
+                screen.blit(obj['item']['image'], obj['item']['position'])
+            elif obj['type'] == 'npc':
                 screen.blit(obj['item']['image'], obj['item']['position'])
             elif obj['type'] == 'player':
                 player.draw(screen)

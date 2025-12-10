@@ -235,7 +235,7 @@ class MapPopup:
             buttons.append(sloth_button)
         
         # GLUTTONY CASE
-        gluttony_button = create_button(GLUTTONY_ICON, (700, 200), 0.5, "gluttony case", "gluttony case")
+        gluttony_button = create_button(GLUTTONY_ICON, (700, 200), 0.5, "gluttony_case", "gluttony case")
         if gluttony_button:
             buttons.append(gluttony_button)
         
