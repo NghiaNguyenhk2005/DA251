@@ -1,14 +1,4 @@
-"""
-Wrath Case Scene
-================
-Scene điều tra vụ án thịnh nộ - scene top-down với hệ thống va chạm.
-Người chơi có thể di chuyển tự do để khám phá hiện trường vụ án.
-
-Collision System:
-- Sử dụng AABB (Axis-Aligned Bounding Box) collision detection
-- Các vùng va chạm được định nghĩa dựa trên bố cục hiện trường
-- Obstacles bao gồm: tường, đồ vật bằng chứng, khu vực bị phong tỏa
-"""
+"""\nSloth Case Scene\n===============\nScene điều tra vụ án lười biếng - scene top-down với hệ thống va chạm.\nNgười chơi có thể di chuyển tự do để khám phá hiện trường vụ án.\n\nCollision System:\n- Sử dụng AABB (Axis-Aligned Bounding Box) collision detection\n- Các vùng va chạm được định nghĩa dựa trên bố cục hiện trường\n- Obstacles bao gồm: tường, đồ vật bằng chứng, khu vực bị phong tỏa\n"""
 
 import pygame
 from typing import List, Optional, Tuple, Dict, Any
@@ -18,14 +8,14 @@ from .i_scene import IScene
 from src.utils.interaction_area import InteractionArea
 
 
-class WrathCaseScene(IScene):
+class SlothCaseScene(IScene):
     """
-    Wrath Case scene using a collision mask for walls and rects for other obstacles.
+    Sloth Case scene using a collision mask for walls and rects for other obstacles.
     """
     
     def __init__(self, screen_width: int = 1280, screen_height: int = 720) -> None:
         """
-        Initializes the Wrath Case Scene.
+        Initializes the Sloth Case Scene.
         """
         self.screen_width = screen_width
         self.screen_height = screen_height
@@ -35,10 +25,10 @@ class WrathCaseScene(IScene):
         self.interaction_areas: List[InteractionArea] = []
         self.wall_mask: Optional[pygame.mask.Mask] = None
         
-        # Woodpad state (vật thể có thể nhặt)
-        self.woodpad_collected: bool = False
-        self.woodpad_data: Optional[Dict[str, Any]] = None
-        self.woodpad_interaction_area: Optional[InteractionArea] = None
+        # Clock state (vật thể có thể nhặt)
+        self.clock_collected: bool = False
+        self.clock_data: Optional[Dict[str, Any]] = None
+        self.clock_interaction_area: Optional[InteractionArea] = None
         
         # NPCs data
         self.npcs: List[Dict[str, Any]] = []
@@ -56,28 +46,29 @@ class WrathCaseScene(IScene):
 
     def _load_background(self) -> None:
         """Loads the background image for the scene."""
-        bg_paths = ["assets/images/scenes/wrath-bg.png"]
+        bg_paths = ["assets/images/scenes/sloth-bg.jpg", "assets/images/scenes/sloth-bg.png"]
         self.background = None
         for bg_path in bg_paths:
             try:
                 self.background = pygame.image.load(bg_path).convert()
                 self.background = pygame.transform.scale(self.background, (self.screen_width, self.screen_height))
-                print(f"✅ Loaded wrath background: {bg_path}")
+                print(f"✅ Loaded sloth background: {bg_path}")
                 break
             except (pygame.error, FileNotFoundError):
                 continue
         
         if self.background is None:
-            print("⚠️  Could not load wrath background. Using placeholder.")
+            print("⚠️  Could not load sloth background. Using placeholder.")
             self.background = pygame.Surface((self.screen_width, self.screen_height))
-            self.background.fill((40, 20, 20))  # Dark red theme
+            self.background.fill((30, 30, 40))
 
     def _load_wall_mask(self) -> None:
         """Loads the wall collision mask from an image."""
         try:
-            path = "assets/images/scenes/wrath-walls.png"
+            path = "assets/images/scenes/sloth-walls.png"
             mask_image = pygame.image.load(path).convert()
             mask_image = pygame.transform.scale(mask_image, (self.screen_width, self.screen_height))
+            # Set black pixels to be transparent, so the mask is only for the walls.
             mask_image.set_colorkey((0, 0, 0))
             self.wall_mask = pygame.mask.from_surface(mask_image)
             print(f"✅ Loaded wall collision mask from {path}.")
@@ -86,56 +77,93 @@ class WrathCaseScene(IScene):
             self.wall_mask = pygame.mask.Mask((self.screen_width, self.screen_height), fill=False)
 
     def _load_obstacles(self) -> None:
-        """Loads obstacles with collision (wrath-npc image)."""
-        # Load wrath-npc.png làm obstacle - Có COLLISION
+        """Loads obstacles with collision (all sloth items except clock)."""
+        # Load sloth-item-book-shelf.png làm obstacle - Có COLLISION
         try:
-            npc_obstacle_img = pygame.image.load("assets/images/scenes/wrath-npc.png").convert_alpha()
-            npc_obstacle_pos = (500, 500)
-            npc_obstacle_scale = 1
-            original_size = npc_obstacle_img.get_size()
-            new_size = (int(original_size[0] * npc_obstacle_scale), int(original_size[1] * npc_obstacle_scale))
-            npc_obstacle_img_scaled = pygame.transform.scale(npc_obstacle_img, new_size)
-            
-            # Tạo collision rect cho NPC obstacle
-            npc_obstacle_rect = pygame.Rect(npc_obstacle_pos[0], npc_obstacle_pos[1] + 20, 
-                                           new_size[0] - 20, new_size[1] - 40)
+            img = pygame.image.load("assets/images/scenes/sloth-item-book-shelf.png").convert_alpha()
+            pos = (280, 200)
+            scale = 1.2
+            original_size = img.get_size()
+            new_size = (int(original_size[0] * scale), int(original_size[1] * scale))
+            img_scaled = pygame.transform.scale(img, new_size)
+            collision_rect = pygame.Rect(pos[0], pos[1] + 20, new_size[0] - 20, new_size[1] - 40)
             
             self.obstacles.append({
-                'image': npc_obstacle_img_scaled,
-                'position': npc_obstacle_pos,
-                'rect': npc_obstacle_rect,
-                'name': 'wrath_npc_obstacle'
+                'image': img_scaled,
+                'position': pos,
+                'rect': collision_rect,
+                'name': 'book_shelf'
             })
-            print(f"✅ Loaded wrath-npc obstacle at {npc_obstacle_pos} (WITH collision)")
+            print(f"✅ Loaded book shelf obstacle at {pos} (WITH collision)")
         except (pygame.error, FileNotFoundError) as e:
-            print(f"⚠️  Could not load wrath-npc obstacle: {e}")
+            print(f"⚠️  Could not load book shelf: {e}")
         
-        # Load wrath-woodpad.png - KHÔNG collision (có thể nhặt)
+        # Load sloth-item-lamp.png làm obstacle - Có COLLISION
         try:
-            woodpad_img = pygame.image.load("assets/images/scenes/wrath-woodpad.png").convert_alpha()
-            woodpad_pos = (700, 500)
-            woodpad_scale = 0.5
-            original_size = woodpad_img.get_size()
-            new_size = (int(original_size[0] * woodpad_scale), int(original_size[1] * woodpad_scale))
-            woodpad_img_scaled = pygame.transform.scale(woodpad_img, new_size)
+            img = pygame.image.load("assets/images/scenes/sloth-item-lamp.png").convert_alpha()
+            pos = (1100, 500)
+            scale = 1.3
+            original_size = img.get_size()
+            new_size = (int(original_size[0] * scale), int(original_size[1] * scale))
+            img_scaled = pygame.transform.scale(img, new_size)
+            collision_rect = pygame.Rect(pos[0], pos[1] + 20, new_size[0] - 20, new_size[1] - 40)
             
-            woodpad_rect = pygame.Rect(woodpad_pos[0], woodpad_pos[1], new_size[0], new_size[1])
-            
-            self.woodpad_data = {
-                'image': woodpad_img_scaled,
-                'position': woodpad_pos,
-                'rect': woodpad_rect,
-                'name': 'wrath_woodpad'
-            }
-            print(f"✅ Loaded woodpad at {woodpad_pos} (no collision - can pickup)")
+            self.obstacles.append({
+                'image': img_scaled,
+                'position': pos,
+                'rect': collision_rect,
+                'name': 'lamp'
+            })
+            print(f"✅ Loaded lamp obstacle at {pos} (WITH collision)")
         except (pygame.error, FileNotFoundError) as e:
-            print(f"⚠️  Could not load woodpad: {e}")
-            self.woodpad_data = None
+            print(f"⚠️  Could not load lamp: {e}")
+        
+        # Load sloth-item-npc-death.png làm obstacle - Có COLLISION
+        try:
+            img = pygame.image.load("assets/images/scenes/sloth-item-npc-death.png").convert_alpha()
+            pos = (550, 200)
+            scale = 1.2
+            original_size = img.get_size()
+            new_size = (int(original_size[0] * scale), int(original_size[1] * scale))
+            img_scaled = pygame.transform.scale(img, new_size)
+            collision_rect = pygame.Rect(pos[0], pos[1] + 20, new_size[0] - 20, new_size[1] - 40)
+            
+            self.obstacles.append({
+                'image': img_scaled,
+                'position': pos,
+                'rect': collision_rect,
+                'name': 'npc_death'
+            })
+            print(f"✅ Loaded npc death obstacle at {pos} (WITH collision)")
+        except (pygame.error, FileNotFoundError) as e:
+            print(f"⚠️  Could not load npc death: {e}")
+        
+        # Load sloth-item-clock.png - KHÔNG collision (có thể nhặt)
+        try:
+            clock_img = pygame.image.load("assets/images/scenes/sloth-item-clock.png").convert_alpha()
+            clock_pos = (950, 200)
+            clock_scale = 1
+            original_size = clock_img.get_size()
+            new_size = (int(original_size[0] * clock_scale), int(original_size[1] * clock_scale))
+            clock_img_scaled = pygame.transform.scale(clock_img, new_size)
+            
+            clock_rect = pygame.Rect(clock_pos[0], clock_pos[1], new_size[0], new_size[1])
+            
+            self.clock_data = {
+                'image': clock_img_scaled,
+                'position': clock_pos,
+                'rect': clock_rect,
+                'name': 'sloth_clock'
+            }
+            print(f"✅ Loaded clock at {clock_pos} (no collision - can pickup)")
+        except (pygame.error, FileNotFoundError) as e:
+            print(f"⚠️  Could not load clock: {e}")
+            self.clock_data = None
     
     def _load_npcs(self) -> None:
         """Loads NPCs for interaction (no collision)."""
         npc_definitions = [
-            {"name": "NPC_Angry_Victim", "pos": (100, 500), "color": (255, 100, 100)},
+            {"name": "NPC_Lazy_Witness", "pos": (100, 500), "color": (150, 150, 255)},
         ]
         
         for npc_def in npc_definitions:
@@ -162,49 +190,47 @@ class WrathCaseScene(IScene):
         for obj in self.obstacles:
             if 'rect' in obj:
                 self.collision_rects.append(obj['rect'])
-        # Woodpad KHÔNG được thêm vào collision (có thể nhặt)
-        # wrath-npc.png đã được thêm vào obstacles nên có collision
-        print(f"✅ Built {len(self.collision_rects)} collision rects (wrath-npc HAS collision, woodpad excluded)")
+        print(f"✅ Built {len(self.collision_rects)} collision rects from obstacles.")
 
     def _setup_interaction_areas(self) -> None:
         """Creates all interaction areas for this scene."""
-        # Tạo interaction area cho woodpad
-        if self.woodpad_data:
-            interaction_rect = self.woodpad_data['rect'].inflate(80, 80)
-            self.woodpad_interaction_area = InteractionArea(rect=interaction_rect, callback=self._on_woodpad_pickup)
-            self.interaction_areas.append(self.woodpad_interaction_area)
-            print(f"✅ Created interaction area around woodpad at {self.woodpad_data['position']}")
+        # Interaction area cho clock (vật phẩm nhặt được)
+        if self.clock_data and not self.clock_collected:
+            interaction_rect = self.clock_data['rect'].inflate(60, 60)
+            self.clock_interaction_area = InteractionArea(
+                rect=interaction_rect, 
+                callback=self._on_clock_pickup
+            )
+            self.interaction_areas.append(self.clock_interaction_area)
+            print(f"✅ Created interaction area for clock pickup")
         
-        # Tạo interaction areas cho từng NPC
+        # Interaction areas cho NPCs
         for npc in self.npcs:
-            interaction_rect = npc['rect'].inflate(100, 100)
-            callback = lambda npc_name=npc['name']: self._on_npc_interact(npc_name)
-            npc_area = InteractionArea(rect=interaction_rect, callback=callback)
-            self.npc_interaction_areas.append(npc_area)
-            self.interaction_areas.append(npc_area)
-            print(f"✅ Created interaction area for {npc['name']} at {npc['position']}")
-
-    def _on_woodpad_pickup(self) -> None:
-        """Callback khi người chơi nhặt woodpad."""
-        if not self.woodpad_collected:
-            self.woodpad_collected = True
-            print("🪵 Đã nhặt được tấm gỗ! (Woodpad collected)")
-            
-            if self.woodpad_interaction_area in self.interaction_areas:
-                self.interaction_areas.remove(self.woodpad_interaction_area)
-                print("✅ Woodpad interaction area removed (other areas unaffected)")
-    
-    def _on_npc_interact(self, npc_name: str) -> None:
-        """Callback khi người chơi tương tác với NPC."""
-        print(f"💬 Đang nói chuyện với {npc_name}...")
+            interaction_rect = npc['rect'].inflate(60, 60)
+            area = InteractionArea(
+                rect=interaction_rect,
+                callback=lambda n=npc: self._on_npc_interact(n)
+            )
+            self.interaction_areas.append(area)
+            self.npc_interaction_areas.append(area)
         
-        if npc_name == "NPC_Angry_Victim":
-            print("   😡 Angry Victim: 'Hắn ta đã phá hủy mọi thứ của tôi! Tôi sẽ không tha thứ!'")
-            print("   📝 TODO: Mở dialogue về nạn nhân và động cơ")
-        elif npc_name == "NPC_Witness":
-            print("   👁️ Witness: 'Tôi đã thấy một người đàn ông rất tức giận ở đây...'")
-            print("   📝 TODO: Mở dialogue nhân chứng")
+        print(f"✅ Created {len(self.npc_interaction_areas)} NPC interaction areas")
 
+    def _on_clock_pickup(self) -> None:
+        """Callback khi nhặt đồng hồ."""
+        if not self.clock_collected:
+            self.clock_collected = True
+            print("🕐 Nhặt được chiếc đồng hồ!")
+            
+            # Xóa interaction area của clock
+            if self.clock_interaction_area in self.interaction_areas:
+                self.interaction_areas.remove(self.clock_interaction_area)
+                print("✅ Removed clock interaction area")
+    
+    def _on_npc_interact(self, npc: Dict[str, Any]) -> None:
+        """Callback khi tương tác với NPC."""
+        print(f"💬 Đang nói chuyện với {npc['name']}...")
+        # TODO: Implement dialogue system
 
     def set_player(self, player: object) -> None:
         """Sets the player reference and positions them for this scene."""
@@ -213,14 +239,16 @@ class WrathCaseScene(IScene):
             start_x, start_y = (900, 400)
             self.player.x, self.player.y = start_x, start_y
             self.player.rect.topleft = (start_x, start_y)
-            print(f"✅ Player position set to ({start_x}, {start_y}) for WrathCaseScene.")
+            print(f"✅ Player position set to ({start_x}, {start_y}) for SlothCaseScene.")
 
     def check_collision(self, rect: pygame.Rect) -> bool:
         """Checks if a rect collides with obstacle rects OR the wall mask."""
+        # 1. Check against furniture rects
         for obstacle_rect in self.collision_rects:
             if rect.colliderect(obstacle_rect):
                 return True
         
+        # 2. Check against the wall mask
         if self.wall_mask:
             player_mask = pygame.mask.Mask(rect.size, fill=True)
             offset = (rect.x, rect.y)
@@ -266,17 +294,20 @@ class WrathCaseScene(IScene):
         """Renders the background and debug info."""
         screen.blit(self.background, (0, 0))
         if self.debug_mode:
+            # Draw obstacle rects in RED
             for rect in self.collision_rects:
                 debug_surface = pygame.Surface(rect.size, pygame.SRCALPHA)
                 debug_surface.fill((255, 0, 0, 100))
                 screen.blit(debug_surface, rect.topleft)
                 pygame.draw.rect(screen, (255, 0, 0), rect, 2)
             
+            # Draw wall mask outline in BLUE
             if self.wall_mask:
                 outline = self.wall_mask.outline()
                 if outline:
                     pygame.draw.lines(screen, (0, 0, 255), True, outline, 2)
 
+            # Draw interaction area rects in CYAN
             for area in self.interaction_areas:
                 area.draw_debug(screen)
 
@@ -290,59 +321,64 @@ class WrathCaseScene(IScene):
         
         drawable_objects = []
         
+        # Thêm obstacles (book shelf, lamp, npc death) vào danh sách vẽ
         for item in self.obstacles:
             if 'image' in item and 'position' in item:
                 y_pos = item['position'][1] + item['rect'].height
                 drawable_objects.append({'type': 'object', 'y': y_pos, 'item': item})
         
-        # Thêm woodpad (nếu chưa nhặt)
-        if self.woodpad_data and not self.woodpad_collected:
-            woodpad_y = self.woodpad_data['position'][1] + self.woodpad_data['rect'].height
-            drawable_objects.append({'type': 'woodpad', 'y': woodpad_y, 'item': self.woodpad_data})
+        # Thêm clock nếu chưa nhặt
+        if self.clock_data and not self.clock_collected:
+            y_pos = self.clock_data['position'][1] + self.clock_data['rect'].height
+            drawable_objects.append({'type': 'clock', 'y': y_pos, 'item': self.clock_data})
         
         # Thêm NPCs
         for npc in self.npcs:
-            npc_y = npc['position'][1] + npc['rect'].height
-            drawable_objects.append({'type': 'npc', 'y': npc_y, 'item': npc})
+            y_pos = npc['position'][1] + npc['rect'].height
+            drawable_objects.append({'type': 'npc', 'y': y_pos, 'item': npc})
         
+        # Thêm player
         player_y = player.rect.y + player.rect.height
         drawable_objects.append({'type': 'player', 'y': player_y, 'item': player})
         
+        # Sắp xếp theo Y-coordinate
         drawable_objects.sort(key=lambda obj: obj['y'])
         
+        # Vẽ tất cả theo thứ tự
         for obj in drawable_objects:
             if obj['type'] == 'object':
                 screen.blit(obj['item']['image'], obj['item']['position'])
-            elif obj['type'] == 'woodpad':
+            elif obj['type'] == 'clock':
                 screen.blit(obj['item']['image'], obj['item']['position'])
             elif obj['type'] == 'npc':
                 screen.blit(obj['item']['image'], obj['item']['position'])
             elif obj['type'] == 'player':
                 player.draw(screen)
 
+        # Vẽ interaction areas
         for area in self.interaction_areas:
             area.draw(screen, player.rect)
         
+        # Debug mode
         if self.debug_mode:
+            # Draw RED rects for obstacles
             for rect in self.collision_rects:
                 debug_surface = pygame.Surface(rect.size, pygame.SRCALPHA)
                 debug_surface.fill((255, 0, 0, 100))
                 screen.blit(debug_surface, rect.topleft)
                 pygame.draw.rect(screen, (255, 0, 0), rect, 2)
             
+            # Draw BLUE outline for wall mask
             if self.wall_mask:
                 outline = self.wall_mask.outline()
                 if outline:
                     pygame.draw.lines(screen, (0, 0, 255), True, outline, 2)
 
+            # Draw CYAN rects for interaction areas
             for area in self.interaction_areas:
                 area.draw_debug(screen)
-            for i in self.npc_interaction_areas:
-                i.draw_debug(screen)
 
             font = pygame.font.Font(None, 24)
-            text = f"Masks: ON | Rects: {len(self.collision_rects)} | Interact: {len(self.interaction_areas)} | F3"
+            text = f"Sloth | Obstacles: {len(self.collision_rects)} | NPCs: {len(self.npcs)} | Clock: {'Collected' if self.clock_collected else 'Available'} | F3"
             debug_text = font.render(text, True, (255, 255, 0))
             screen.blit(debug_text, (10, 10))
-
-

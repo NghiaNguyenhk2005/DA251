@@ -13,9 +13,13 @@ import src.inventory.GUI_Func as InventoryUI
 from src.inventory.Item import item_list
 from src.player import Player
 from src.scenes.greed_case import GreedCaseScene
+<<<<<<< HEAD
 from src.scenes.gluttony_case import GluttonyScene
 from src.scenes.lust_case import LustScene
 from src.scenes.pride_case import PrideScene # Import new scene
+=======
+from src.scenes.sloth_case import SlothCaseScene
+>>>>>>> origin/feature/collision-v2
 
 class GameState(Enum):
     MENU = 0
@@ -65,13 +69,20 @@ class Game:
         )
 
     def init_scenes(self):
+        # Initialize all scenes
         self.scenes = {
             "office": OfficeScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
             "interrogation_room": InterrogationRoomScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
-            "toa_thi_chinh": InterrogationRoomScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT), # Placeholder
-            "gluttony": GluttonyScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
-            "lust": LustScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
-            "pride": PrideScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT) # New Pride Scene
+            "toa_thi_chinh": InterrogationRoomScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),  # Placeholder
+            
+            # 7 Deadly Sins Cases
+            "greed_case": GreedCaseScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
+            "envy_case": EnvyCaseScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
+            "wrath_case": WrathCaseScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
+            "sloth_case": SlothCaseScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
+            "gluttony_case": GluttonyCaseScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
+            "lust_case": LustCaseScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
+            "pride_case": PrideCaseScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
         }
         self.current_scene = self.scenes["pride"] # Start in Pride scene for testing
         

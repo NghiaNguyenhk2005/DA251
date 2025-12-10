@@ -7,319 +7,352 @@ Người chơi có thể di chuyển tự do để khám phá hiện trường v
 Collision System:
 - Sử dụng AABB (Axis-Aligned Bounding Box) collision detection
 - Các vùng va chạm được định nghĩa dựa trên bố cục hiện trường
-- Obstacles bao gồm: tường, đồ vật, khu vực bị phong tỏa
+- Obstacles bao gồm: tường, đồ vật bằng chứng, khu vực bị phong tỏa
 """
 
 import pygame
-from typing import List, Optional
+from typing import List, Optional, Tuple, Dict, Any
 from .i_scene import IScene
+
+
+from src.utils.interaction_area import InteractionArea
 
 
 class EnvyCaseScene(IScene):
     """
-    Envy Case scene với top-down movement và collision detection
-    
-    Features:
-    - Background rendering từ assets (envy-bg.png)
-    - Collision detection với obstacles (AABB)
-    - Integration với Player entity từ game.py
-    - Khu vực điều tra vụ án ganh tỵ
+    Envy Case scene using a collision mask for walls and rects for other obstacles.
     """
     
     def __init__(self, screen_width: int = 1280, screen_height: int = 720) -> None:
         """
-        Khởi tạo Envy Case Scene
-        
-        Args:
-            screen_width: Chiều rộng màn hình (default: 1280)
-            screen_height: Chiều cao màn hình (default: 720)
+        Initializes the Envy Case Scene.
         """
         self.screen_width = screen_width
         self.screen_height = screen_height
         
-        # Khởi tạo obstacles list
-        self.obstacles: List[pygame.Rect] = []
+        self.obstacles: List[Dict[str, Any]] = []
+        self.collision_rects: List[pygame.Rect] = []
+        self.interaction_areas: List[InteractionArea] = []
+        self.wall_mask: Optional[pygame.mask.Mask] = None
         
-        # Load background
+        # Mask state (vật thể có thể nhặt)
+        self.mask_collected: bool = False
+        self.mask_data: Optional[Dict[str, Any]] = None
+        self.mask_interaction_area: Optional[InteractionArea] = None
+        
+        # NPCs data
+        self.npcs: List[Dict[str, Any]] = []
+        self.npc_interaction_areas: List[InteractionArea] = []
+
         self._load_background()
+        self._load_wall_mask()
+        self._load_obstacles()
+        self._load_npcs()
+        self._setup_collision_rects()
+        self._setup_interaction_areas()
         
-        # Setup collision obstacles
-        self._setup_obstacles()
-        
-        # Player reference (sẽ được set từ game.py)
         self.player: Optional[object] = None
-        
-        # Debug mode để hiển thị collision boxes
         self.debug_mode: bool = False
-    
+
     def _load_background(self) -> None:
-        """
-        Load background image và các layer cho scene envy case
-        Composite: background -> mask -> NPC
-        """
-        # Tạo surface tổng hợp
-        self.background = pygame.Surface((self.screen_width, self.screen_height))
+        """Loads the background image for the scene."""
+        bg_paths = ["assets/images/scenes/envy-bg.png"]
+        self.background = None
+        for bg_path in bg_paths:
+            try:
+                self.background = pygame.image.load(bg_path).convert()
+                self.background = pygame.transform.scale(self.background, (self.screen_width, self.screen_height))
+                print(f"✅ Loaded envy background: {bg_path}")
+                break
+            except (pygame.error, FileNotFoundError):
+                continue
         
-        # Load background chính
-        bg_loaded = False
+        if self.background is None:
+            print("⚠️  Could not load envy background. Using placeholder.")
+            self.background = pygame.Surface((self.screen_width, self.screen_height))
+            self.background.fill((25, 35, 25))  # Dark green theme
+
+    def _load_wall_mask(self) -> None:
+        """Loads the wall collision mask from an image."""
         try:
-            bg_img = pygame.image.load("assets/images/scenes/envy-bg.png").convert()
-            bg_img = pygame.transform.scale(bg_img, (self.screen_width, self.screen_height))
-            self.background.blit(bg_img, (0, 0))
-            bg_loaded = True
-            print("✅ Loaded envy-bg.png")
+            path = "assets/images/scenes/envy-walls.png"
+            mask_image = pygame.image.load(path).convert()
+            mask_image = pygame.transform.scale(mask_image, (self.screen_width, self.screen_height))
+            # Set black pixels to be transparent, so the mask is only for the walls.
+            mask_image.set_colorkey((0, 0, 0))
+            self.wall_mask = pygame.mask.from_surface(mask_image)
+            print(f"✅ Loaded wall collision mask from {path}.")
         except (pygame.error, FileNotFoundError) as e:
-            print(f"⚠️  Could not load envy-bg.png: {e}")
+            print(f"⚠️  Could not load wall collision mask: {e}")
+            self.wall_mask = pygame.mask.Mask((self.screen_width, self.screen_height), fill=False)
+
+    def _load_obstacles(self) -> None:
+        """Loads obstacles with collision (envy-npc image)."""
+        # Load envy-npc.png làm obstacle - Có COLLISION
+        try:
+            npc_obstacle_img = pygame.image.load("assets/images/scenes/envy-npc.png").convert_alpha()
+            npc_obstacle_pos = (550, 380)
+            npc_obstacle_scale = 0.4
+            original_size = npc_obstacle_img.get_size()
+            new_size = (int(original_size[0] * npc_obstacle_scale), int(original_size[1] * npc_obstacle_scale))
+            npc_obstacle_img_scaled = pygame.transform.scale(npc_obstacle_img, new_size)
+            
+            # Tạo collision rect cho NPC obstacle
+            npc_obstacle_rect = pygame.Rect(npc_obstacle_pos[0], npc_obstacle_pos[1] + 20, 
+                                           new_size[0] - 20, new_size[1] - 40)
+            
+            self.obstacles.append({
+                'image': npc_obstacle_img_scaled,
+                'position': npc_obstacle_pos,
+                'rect': npc_obstacle_rect,
+                'name': 'envy_npc_obstacle'
+            })
+            print(f"✅ Loaded envy-npc obstacle at {npc_obstacle_pos} (WITH collision)")
+        except (pygame.error, FileNotFoundError) as e:
+            print(f"⚠️  Could not load envy-npc obstacle: {e}")
         
-        # Load mask layer (scale nhỏ lại và căn giữa)
+        # Load envy-mask.png - KHÔNG collision (có thể nhặt)
         try:
             mask_img = pygame.image.load("assets/images/scenes/envy-mask.png").convert_alpha()
-            # Scale nhỏ lại 50% kích thước gốc
+            mask_pos = (700, 420)
+            mask_scale = 0.3
             original_size = mask_img.get_size()
-            new_size = (original_size[0] // 3, original_size[1] // 3)
-            mask_img = pygame.transform.scale(mask_img, new_size)
-            # Tính toán vị trí để căn giữa
-            mask_x = (self.screen_width - new_size[0]) // 2 + 50
-            mask_y = (self.screen_height - new_size[1]) // 2 + 80
-            self.background.blit(mask_img, (mask_x, mask_y))
-            print(f"✅ Loaded envy-mask.png (scaled to {new_size}, centered at {mask_x}, {mask_y})")
-        except (pygame.error, FileNotFoundError) as e:
-            print(f"⚠️  Could not load envy-mask.png: {e}")
-        
-        # Load NPC layer (scale nhỏ lại và căn giữa)
-        try:
-            npc_img = pygame.image.load("assets/images/scenes/envy-npc.png").convert_alpha()
-            # Scale nhỏ lại 50% kích thước gốc
-            original_size = npc_img.get_size()
-            new_size = (original_size[0] // 2, original_size[1] // 2)
-            npc_img = pygame.transform.scale(npc_img, new_size)
-            # Tính toán vị trí để căn giữa
-            npc_x = (self.screen_width - new_size[0] ) // 2
-            npc_y = (self.screen_height - new_size[1]) // 2 + 30
-            self.background.blit(npc_img, (npc_x, npc_y))
-            print(f"✅ Loaded envy-npc.png (scaled to {new_size}, centered at {npc_x}, {npc_y})")
-        except (pygame.error, FileNotFoundError) as e:
-            print(f"⚠️  Could not load envy-npc.png: {e}")
-        
-        # Fallback: tạo background placeholder nếu không load được gì
-        if not bg_loaded:
-            print("⚠️  Using placeholder background for envy case")
-            self.background.fill((25, 35, 25))  # Dark green crime scene
+            new_size = (int(original_size[0] * mask_scale), int(original_size[1] * mask_scale))
+            mask_img_scaled = pygame.transform.scale(mask_img, new_size)
             
-            # Vẽ grid pattern
-            grid_color = (35, 45, 35)
-            for x in range(0, self.screen_width, 64):
-                pygame.draw.line(self.background, grid_color, (x, 0), (x, self.screen_height))
-            for y in range(0, self.screen_height, 64):
-                pygame.draw.line(self.background, grid_color, (0, y), (self.screen_width, y))
+            mask_rect = pygame.Rect(mask_pos[0], mask_pos[1], new_size[0], new_size[1])
             
-            # Vẽ text "CRIME SCENE - ENVY CASE"
-            try:
-                font = pygame.font.Font(None, 48)
-                text = font.render("CRIME SCENE - ENVY CASE", True, (150, 200, 150))
-                text_rect = text.get_rect(center=(self.screen_width // 2, 50))
-                self.background.blit(text, text_rect)
-            except:
-                pass
+            self.mask_data = {
+                'image': mask_img_scaled,
+                'position': mask_pos,
+                'rect': mask_rect,
+                'name': 'envy_mask'
+            }
+            print(f"✅ Loaded mask at {mask_pos} (no collision - can pickup)")
+        except (pygame.error, FileNotFoundError) as e:
+            print(f"⚠️  Could not load mask: {e}")
+            self.mask_data = None
     
-    def _setup_obstacles(self) -> None:
-        """
-        Setup collision obstacles cho envy crime scene
+    def _load_npcs(self) -> None:
+        """Loads NPCs for interaction (no collision)."""
+        npc_definitions = [
+            {"name": "NPC_Jealous_Suspect", "pos": (700, 200), "color": (100, 255, 100)},
+        ]
         
-        Các vùng va chạm bao gồm:
-        - Tường xung quanh
-        - Đồ đạc trong phòng
-        - Khu vực bị phá hoại
-        - Các vật thể cản trở
-        """
-        # === TƯỜNG XUNG QUANH (Boundaries) ===
-        wall_thickness = 40
+        for npc_def in npc_definitions:
+            npc_size = (60, 80)
+            npc_surface = pygame.Surface(npc_size, pygame.SRCALPHA)
+            pygame.draw.ellipse(npc_surface, npc_def["color"], (10, 10, 40, 50))
+            pygame.draw.rect(npc_surface, npc_def["color"], (15, 55, 30, 25))
+            
+            npc_rect = pygame.Rect(npc_def["pos"][0], npc_def["pos"][1], npc_size[0], npc_size[1])
+            
+            self.npcs.append({
+                'image': npc_surface,
+                'position': npc_def["pos"],
+                'rect': npc_rect,
+                'name': npc_def["name"],
+                'color': npc_def["color"]
+            })
         
-        # Tường trên
-        self.obstacles.append(pygame.Rect(0, 0, self.screen_width, wall_thickness))
+        print(f"✅ Loaded {len(self.npcs)} NPCs (no collision)")
+
+    def _setup_collision_rects(self) -> None:
+        """Creates a list of pygame.Rects for efficient collision checking."""
+        self.collision_rects.clear()
+        for obj in self.obstacles:
+            if 'rect' in obj:
+                self.collision_rects.append(obj['rect'])
+        print(f"✅ Built {len(self.collision_rects)} collision rects from obstacles.")
+
+    def _setup_interaction_areas(self) -> None:
+        """Creates all interaction areas for this scene."""
+        # Interaction area cho mask (vật phẩm nhặt được)
+        if self.mask_data and not self.mask_collected:
+            interaction_rect = self.mask_data['rect'].inflate(60, 60)
+            self.mask_interaction_area = InteractionArea(
+                rect=interaction_rect, 
+                callback=self._on_mask_pickup
+            )
+            self.interaction_areas.append(self.mask_interaction_area)
+            print(f"✅ Created interaction area for mask pickup")
         
-        # Tường dưới
-        self.obstacles.append(pygame.Rect(0, self.screen_height - wall_thickness, 
-                                         self.screen_width, wall_thickness))
+        # Interaction areas cho NPCs
+        for npc in self.npcs:
+            interaction_rect = npc['rect'].inflate(60, 60)
+            area = InteractionArea(
+                rect=interaction_rect,
+                callback=lambda n=npc: self._on_npc_interact(n)
+            )
+            self.interaction_areas.append(area)
+            self.npc_interaction_areas.append(area)
         
-        # Tường trái
-        self.obstacles.append(pygame.Rect(0, 0, wall_thickness, self.screen_height))
-        
-        # Tường phải
-        self.obstacles.append(pygame.Rect(self.screen_width - wall_thickness, 0, 
-                                         wall_thickness, self.screen_height))
-        
-        # === BÀN LÀM VIỆC (Desks) ===
-        # Bàn chính - bàn của nạn nhân
-        victim_desk_x = 200
-        victim_desk_y = 120
-        self.obstacles.append(pygame.Rect(victim_desk_x, victim_desk_y, 200, 120))
-        
-        # Bàn đối thủ - bàn của nghi phạm
-        rival_desk_x = self.screen_width - 400
-        rival_desk_y = 120
-        self.obstacles.append(pygame.Rect(rival_desk_x, rival_desk_y, 200, 120))
-        
-        # === TỦ HỒ SƠ VÀ KỆ SÁCH (Cabinets & Shelves) ===
-        # Tủ hồ sơ bên trái
-        self.obstacles.append(pygame.Rect(80, 300, 120, 100))
-        
-        # Tủ hồ sơ bên phải
-        self.obstacles.append(pygame.Rect(self.screen_width - 200, 300, 120, 100))
-        
-        # Kệ sách tường trái
-        self.obstacles.append(pygame.Rect(60, self.screen_height - 180, 100, 120))
-        
-        # Kệ sách tường phải
-        self.obstacles.append(pygame.Rect(self.screen_width - 160, 
-                                         self.screen_height - 180, 100, 120))
-        
-        # === GHẾ (Chairs) ===
-        # Ghế bàn nạn nhân
-        self.obstacles.append(pygame.Rect(victim_desk_x + 210, victim_desk_y + 30, 60, 60))
-        
-        # Ghế bàn đối thủ
-        self.obstacles.append(pygame.Rect(rival_desk_x - 70, rival_desk_y + 30, 60, 60))
-        
-        # Ghế giữa phòng (khu vực nghỉ)
-        self.obstacles.append(pygame.Rect(self.screen_width // 2 - 150, 
-                                         self.screen_height // 2 + 80, 60, 60))
-        self.obstacles.append(pygame.Rect(self.screen_width // 2 + 90, 
-                                         self.screen_height // 2 + 80, 60, 60))
-        
-        # === BÀN TRUNG TÂM (Center Table) ===
-        # Bàn họp/bàn trà
-        center_table_x = self.screen_width // 2 - 100
-        center_table_y = self.screen_height // 2 - 60
-        self.obstacles.append(pygame.Rect(center_table_x, center_table_y, 200, 120))
-        
-        # === KHU VỰC ĐÃ BỊ PHÁ HOẠI (Damaged Areas) ===
-        # Đống giấy tờ bị xé - bên trái
-        self.obstacles.append(pygame.Rect(250, self.screen_height // 2, 80, 80))
-        
-        # Tủ bị lật đổ - góc dưới trái
-        fallen_cabinet_x = 300
-        fallen_cabinet_y = self.screen_height - 200
-        self.obstacles.append(pygame.Rect(fallen_cabinet_x, fallen_cabinet_y, 140, 90))
-        
-        # Khu vực vỡ vụn - giữa phòng phía dưới
-        self.obstacles.append(pygame.Rect(self.screen_width // 2 - 50, 
-                                         self.screen_height - 180, 100, 100))
-        
-        # === CÂY VÀ ĐỒ TRANG TRÍ (Plants & Decorations) ===
-        # Chậu cây 1 - góc trên trái
-        self.obstacles.append(pygame.Rect(100, 80, 50, 50))
-        
-        # Chậu cây 2 - góc trên phải
-        self.obstacles.append(pygame.Rect(self.screen_width - 150, 80, 50, 50))
-        
-        # Chậu cây 3 - bên tường trái
-        self.obstacles.append(pygame.Rect(60, self.screen_height // 2 - 100, 50, 50))
-        
-        # Chậu cây 4 - bên tường phải
-        self.obstacles.append(pygame.Rect(self.screen_width - 110, 
-                                         self.screen_height // 2 - 100, 50, 50))
-        
-        # === ĐỒ VẬT KHÁC (Other Objects) ===
-        # Thùng rác bị đổ
-        self.obstacles.append(pygame.Rect(self.screen_width - 250, 
-                                         self.screen_height - 150, 40, 50))
-        
-        # Khung ảnh bị rơi
-        self.obstacles.append(pygame.Rect(500, self.screen_height - 120, 60, 40))
-        
-        print(f"\n✅ Setup {len(self.obstacles)} total collision obstacles in envy case scene")
+        print(f"✅ Created {len(self.npc_interaction_areas)} NPC interaction areas")
+
+    def _on_mask_pickup(self) -> None:
+        """Callback khi nhặt mask."""
+        if not self.mask_collected:
+            self.mask_collected = True
+            print("🎭 Nhặt được chiếc mặt nạ!")
+            
+            # Xóa interaction area của mask
+            if self.mask_interaction_area in self.interaction_areas:
+                self.interaction_areas.remove(self.mask_interaction_area)
+                print("✅ Removed mask interaction area")
     
+    def _on_npc_interact(self, npc: Dict[str, Any]) -> None:
+        """Callback khi tương tác với NPC."""
+        print(f"💬 Đang nói chuyện với {npc['name']}...")
+        # TODO: Implement dialogue system
+
     def set_player(self, player: object) -> None:
-        """
-        Set player reference
-        
-        Args:
-            player: Player object từ game.py
-        """
+        """Sets the player reference and positions them for this scene."""
         self.player = player
-    
+        if self.player:
+            start_x, start_y = (900, 400)
+            self.player.x, self.player.y = start_x, start_y
+            self.player.rect.topleft = (start_x, start_y)
+            print(f"✅ Player position set to ({start_x}, {start_y}) for EnvyCaseScene.")
+
     def check_collision(self, rect: pygame.Rect) -> bool:
-        """
-        Kiểm tra va chạm giữa một rect với các obstacles
-        
-        Args:
-            rect: pygame.Rect cần kiểm tra
-            
-        Returns:
-            True nếu có va chạm, False nếu không
-        """
-        for obstacle in self.obstacles:
-            if rect.colliderect(obstacle):
+        """Checks if a rect collides with obstacle rects OR the wall mask."""
+        # 1. Check against furniture rects
+        for obstacle_rect in self.collision_rects:
+            if rect.colliderect(obstacle_rect):
                 return True
+        
+        # 2. Check against the wall mask
+        if self.wall_mask:
+            player_mask = pygame.mask.Mask(rect.size, fill=True)
+            offset = (rect.x, rect.y)
+            if self.wall_mask.overlap(player_mask, offset):
+                return True
+
         return False
     
-    def prevent_collision(self, player_rect: pygame.Rect, 
-                         old_x: float, old_y: float) -> tuple:
-        """
-        Ngăn player đi xuyên qua obstacles bằng cách revert position
-        
-        Args:
-            player_rect: Current player rect
-            old_x: Previous x position
-            old_y: Previous y position
-            
-        Returns:
-            tuple (new_x, new_y): Vị trí hợp lệ
-        """
+    def prevent_collision(self, player_rect: pygame.Rect, old_x: float, old_y: float) -> tuple:
+        """Prevents the player from moving through obstacles using sliding collision."""
         if not self.check_collision(player_rect):
             return player_rect.x, player_rect.y
         
-        # Sliding collision
         test_rect = player_rect.copy()
-        test_rect.x = old_x
+        test_rect.x = int(old_x)
         if not self.check_collision(test_rect):
             return old_x, player_rect.y
         
         test_rect = player_rect.copy()
-        test_rect.y = old_y
+        test_rect.y = int(old_y)
         if not self.check_collision(test_rect):
             return player_rect.x, old_y
         
         return old_x, old_y
     
     def handle_event(self, event: pygame.event.Event) -> None:
-        """
-        Xử lý events cho scene
-        
-        Args:
-            event: Pygame event
-        """
+        """Handles scene-specific events."""
         if event.type == pygame.KEYDOWN:
-            # Toggle debug mode với F3
             if event.key == pygame.K_F3:
                 self.debug_mode = not self.debug_mode
                 print(f"Debug mode: {'ON' if self.debug_mode else 'OFF'}")
-            
-            # ESC để quay về
-            if event.key == pygame.K_ESCAPE:
-                pass  # Game.py sẽ handle
-    
-    def update(self, dt: float) -> None:
-        """
-        Update scene logic
         
-        Args:
-            dt: Delta time (seconds)
-        """
-        pass  # Có thể thêm animation hoặc effects sau
+        for area in self.interaction_areas:
+            area.handle_event(event)
+    
+    def update(self) -> None:
+        """Updates scene logic."""
+        if self.player:
+            for area in self.interaction_areas:
+                area.update(self.player.rect)
     
     def draw(self, screen: pygame.Surface) -> None:
-        """
-        Vẽ scene lên screen
-        
-        Args:
-            screen: Pygame display surface
-        """
-        # Vẽ background
+        """Renders the background and debug info."""
+        screen.blit(self.background, (0, 0))
+        if self.debug_mode:
+            # Draw obstacle rects in RED
+            for rect in self.collision_rects:
+                debug_surface = pygame.Surface(rect.size, pygame.SRCALPHA)
+                debug_surface.fill((255, 0, 0, 100))
+                screen.blit(debug_surface, rect.topleft)
+                pygame.draw.rect(screen, (255, 0, 0), rect, 2)
+            
+            # Draw wall mask outline in BLUE
+            if self.wall_mask:
+                outline = self.wall_mask.outline()
+                if outline:
+                    pygame.draw.lines(screen, (0, 0, 255), True, outline, 2)
+
+            # Draw interaction area rects in CYAN
+            for area in self.interaction_areas:
+                area.draw_debug(screen)
+
+            font = pygame.font.Font(None, 24)
+            debug_text = font.render(f"Rect Obstacles: {len(self.collision_rects)} | F3 to toggle", True, (255, 255, 0))
+            screen.blit(debug_text, (10, 10))
+    
+    def draw_with_player(self, screen: pygame.Surface, player) -> None:
+        """Draws the scene with the player, using Y-sorting for layering."""
         screen.blit(self.background, (0, 0))
         
-        # Vẽ collision boxes nếu debug mode bật
+        drawable_objects = []
+        
+        # Thêm obstacles (envy-npc) vào danh sách vẽ
+        for item in self.obstacles:
+            if 'image' in item and 'position' in item:
+                y_pos = item['position'][1] + item['rect'].height
+                drawable_objects.append({'type': 'object', 'y': y_pos, 'item': item})
+        
+        # Thêm mask nếu chưa nhặt
+        if self.mask_data and not self.mask_collected:
+            y_pos = self.mask_data['position'][1] + self.mask_data['rect'].height
+            drawable_objects.append({'type': 'mask', 'y': y_pos, 'item': self.mask_data})
+        
+        # Thêm NPCs
+        for npc in self.npcs:
+            y_pos = npc['position'][1] + npc['rect'].height
+            drawable_objects.append({'type': 'npc', 'y': y_pos, 'item': npc})
+        
+        # Thêm player
+        player_y = player.rect.y + player.rect.height
+        drawable_objects.append({'type': 'player', 'y': player_y, 'item': player})
+        
+        # Sắp xếp theo Y-coordinate
+        drawable_objects.sort(key=lambda obj: obj['y'])
+        
+        # Vẽ tất cả theo thứ tự
+        for obj in drawable_objects:
+            if obj['type'] == 'object':
+                screen.blit(obj['item']['image'], obj['item']['position'])
+            elif obj['type'] == 'mask':
+                screen.blit(obj['item']['image'], obj['item']['position'])
+            elif obj['type'] == 'npc':
+                screen.blit(obj['item']['image'], obj['item']['position'])
+            elif obj['type'] == 'player':
+                player.draw(screen)
+
+        # Vẽ interaction areas
+        for area in self.interaction_areas:
+            area.draw(screen, player.rect)
+        
+        # Debug mode
         if self.debug_mode:
-            for obstacle in self.obstacles:
-                pygame.draw.rect(screen, (255, 0, 0), obstacle, 2)
+            # Draw RED rects for obstacles
+            for rect in self.collision_rects:
+                debug_surface = pygame.Surface(rect.size, pygame.SRCALPHA)
+                debug_surface.fill((255, 0, 0, 100))
+                screen.blit(debug_surface, rect.topleft)
+                pygame.draw.rect(screen, (255, 0, 0), rect, 2)
+            
+            # Draw BLUE outline for wall mask
+            if self.wall_mask:
+                outline = self.wall_mask.outline()
+                if outline:
+                    pygame.draw.lines(screen, (0, 0, 255), True, outline, 2)
+
+            # Draw CYAN rects for interaction areas
+            for area in self.interaction_areas:
+                area.draw_debug(screen)
+
+            font = pygame.font.Font(None, 24)
+            text = f"Envy | Obstacles: {len(self.collision_rects)} | NPCs: {len(self.npcs)} | Mask: {'Collected' if self.mask_collected else 'Available'} | F3"
+            debug_text = font.render(text, True, (255, 255, 0))
+            screen.blit(debug_text, (10, 10))
+
