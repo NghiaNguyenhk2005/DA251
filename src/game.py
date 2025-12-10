@@ -13,6 +13,9 @@ import src.inventory.GUI_Func as InventoryUI
 from src.inventory.Item import item_list
 from src.player import Player
 from src.scenes.greed_case import GreedCaseScene
+from src.scenes.gluttony_case import GluttonyCaseScene
+from src.scenes.lust_case import LustCaseScene
+from src.scenes.pride_case import PrideCaseScene # Import new scene
 from src.scenes.sloth_case import SlothCaseScene
 
 class GameState(Enum):
@@ -74,12 +77,11 @@ class Game:
             "envy_case": EnvyCaseScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
             "wrath_case": WrathCaseScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
             "sloth_case": SlothCaseScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
-            # TODO: Add remaining cases when implemented
-            # "gluttony_case": GluttonyCaseScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
-            # "lust_case": LustCaseScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
-            # "pride_case": PrideCaseScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
+            "gluttony_case": GluttonyCaseScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
+            "lust_case": LustCaseScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
+            "pride_case": PrideCaseScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
         }
-        self.current_scene = self.scenes["office"]
+        self.current_scene = self.scenes["gluttony_case"] # Start in Pride scene for testing
         
         # Set player reference for collision detection
         if hasattr(self.current_scene, 'set_player'):
