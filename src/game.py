@@ -70,7 +70,6 @@ class Game:
         self.scenes = {
             "office": OfficeScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
             "interrogation_room": InterrogationRoomScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
-            "toa_thi_chinh": InterrogationRoomScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),  # Placeholder
             
             # 7 Deadly Sins Cases
             "greed_case": GreedCaseScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
@@ -81,7 +80,7 @@ class Game:
             "lust_case": LustCaseScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
             "pride_case": PrideCaseScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
         }
-        self.current_scene = self.scenes["gluttony_case"] # Start in Pride scene for testing
+        self.current_scene = self.scenes["office"] # Start in Pride scene for testing
         
         # Set player reference for collision detection
         if hasattr(self.current_scene, 'set_player'):

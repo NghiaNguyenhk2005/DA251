@@ -1,11 +1,9 @@
 import pygame
 from .button import Button
-# Đảm bảo MapPopup và MenuPopup được import từ cùng một thư mục hoặc thư mục cha
-# Tôi giả định chúng nằm trong .popups
-from .popups import MenuPopup, MapPopup # Thêm MapPopup
-from typing import Optional, Callable, Any, Union
+from .map_button import MapButton
+from .popups import MenuPopup
+from typing import Optional, Callable
 
-# Giữ nguyên các hằng số
 MAIN_MENU_IMG = "assets/images/ui/menu-button.png"
 MAP_IMG = "assets/images/ui/map-button.png"
 JOURNAL_IMG = "assets/images/ui/journal-button.png"
@@ -13,136 +11,94 @@ MAP_SCENE_IMG = "assets/images/ui/map_scene.png"
 OFFICE_MAP_SCENE_IMG = "assets/images/ui/office-map-scene.png"
 TOA_THI_CHINH_IMG = "assets/images/ui/toa-chi-chinh.png"
 
-# Thêm interface nếu cần, nhưng tôi loại bỏ chúng để đơn giản hóa như file gốc của bạn.
-# class MainSceneUi(Updatable, Drawable): 
+
 class MainSceneUi:
-    """UI chính cho các scene trong game, bao gồm các buttons và popups"""
-    
-    def __init__(
-        self,
-        screen_width: int = 800,
-        screen_height: int = 600,
-        on_building_click: Optional[Callable[[str], Any]] = None
-    ) -> None:
+    def __init__(self, screen_width: int = 800, screen_height: int = 600,
+                 on_building_click: Optional[Callable[[str], None]] = None) -> None:
         """
-        Khởi tạo UI chính với các buttons (Menu, Map, Journal) và popups
-        
         Args:
             screen_width: Chiều rộng màn hình
             screen_height: Chiều cao màn hình
-            on_building_click: Hàm callback khi click vào tòa nhà trên bản đồ
+            on_building_click: Callback khi click vào tòa nhà (nhận building_id: str)
+                              Ví dụ: lambda building_id: print(f"Chuyển đến scene: {building_id}")
         """
-        # load image for buttons
+        # Import MapButton ở đây để tránh circular import
+        
         menu_img = pygame.image.load(MAIN_MENU_IMG)
         journal_img = pygame.image.load(JOURNAL_IMG)
         map_img = pygame.image.load(MAP_IMG)
-
-        # init popups
-        # Sử dụng on_building_click handler trực tiếp trong MapPopup
-        self.menu_popup: MenuPopup = MenuPopup(screen_width=screen_width, screen_height=screen_height)
-        self.map_popup: MapPopup = MapPopup(
-            screen_width=screen_width,
-            screen_height=screen_height,
-            # Nếu on_building_click không được cung cấp, sử dụng handler mặc định
-            on_building_click=on_building_click or self._default_building_click_handler
-        )
-
-        # init buttons
+        
+        self.menu_popup = MenuPopup(screen_width, screen_height)
         self.menu_button = Button(
-            position=(10, 10),
-            image=menu_img,
-            scale=2,
+            position=(10, 10), 
+            image=menu_img, 
+            scale=2, 
             split=3,
             on_click=lambda: self.menu_popup.toggle()
         )
-        # MapButton đã được thay thế bằng Button
-        self.map_button = Button(
+        self.map_button = MapButton(
             position=(10, self.menu_button.rect.bottom + 10), 
-            image=map_img,
-            scale=2,
+            image=map_img, 
+            screen_width=screen_width, 
+            screen_height=screen_height,
+            scale=2, 
             split=3,
-            on_click=lambda: self.map_popup.toggle() # Bật/tắt MapPopup
+            on_building_click=on_building_click or self._default_building_click_handler
         )
-        self.journal_button = Button(
-            position=(10, self.map_button.rect.bottom + 10),
-            image=journal_img,
-            scale=2,
-            split=3
-        )
-        
-        # init dict for popups and buttons for easier management
-        # Dùng Union để định kiểu nếu không muốn import Updatable, Drawable
-        self.popups: dict[str, Union[MapPopup, MenuPopup]] = {
-            "Menu": self.menu_popup,
-            "Map": self.map_popup,
-        }
-
-        self.buttons: dict[str, Button] = {
-            "Menu": self.menu_button,
-            "Map": self.map_button,
-            "Journal": self.journal_button
-        }
+        self.journal_button = Button(position=(10, self.map_button.rect.bottom + 10), image=journal_img, scale=2, split=3)
     
     def _default_building_click_handler(self, building_id: str):
         """
         Handler mặc định khi click vào tòa nhà (nếu không có callback được cung cấp)
+        
+        Args:
+            building_id: ID của tòa nhà được click ("office", "toa_thi_chinh", etc.)
         """
         print(f"[MainSceneUi] Building clicked: {building_id}")
         print(f"[MainSceneUi] TODO: Implement scene transition to {building_id}")
-
+        # TODO: Thêm logic chuyển scene ở đây
+        # Ví dụ: self.game.change_scene(building_id)
+    
     def set_building_click_handler(self, handler: Callable[[str], None]):
         """
-        Thiết lập callback handler cho building clicks trong MapPopup.
+        Thiết lập callback handler cho building clicks
         
-        *Lưu ý: MapPopup cần có phương thức tương ứng để cập nhật handler.*
+        Args:
+            handler: Function nhận building_id và xử lý chuyển scene
         """
-        # Giả sử MapPopup có thuộc tính on_building_click để set
-        self.map_popup.on_building_click = handler 
-        # Tùy thuộc vào cách MapPopup quản lý BuildingButton, bạn có thể cần set
-        # cho từng button trong MapPopup (như cách bạn làm trong phiên bản cũ).
+        self.map_button.map_popup.building_buttons[0].on_click = handler
+        self.map_button.map_popup.building_buttons[1].on_click = handler
+    
 
     def handle_event(self, event):
-        """Xử lý sự kiện cho các button và popup"""
-        is_popup_open: bool = False
-
-        # Xử lý sự kiện cho tất cả các popups
-        for popup in self.popups.values():
-            popup.handle_event(event=event)
-            is_popup_open |= popup.is_open() # Kiểm tra xem có popup nào đang mở không
-
-        # Chỉ xử lí event button khi không có Popup Ui open
-        if is_popup_open: 
-            return
-    def update(self, delta_time: float = 0):
-        """
-        Cập nhật trạng thái UI
-        """
-        is_popup_open: bool = False
-        
-        # Cập nhật popups trước và kiểm tra trạng thái mở
-        for popup in self.popups.values():
-            popup.update()
-            is_popup_open |= popup.is_open()
-
-        # Nếu có popup mở, dừng cập nhật buttons
-        if is_popup_open: return
-
-        # Cập nhật buttons
-        for button in self.buttons.values():
-            button.update()
-
-    def draw(self, screen: pygame.Surface):
-        """
-        Vẽ UI lên màn hình
-        
-        Vẽ popup nếu đang mở (ưu tiên Menu > Map), nếu không thì vẽ các buttons
-        """
+        """Xử lý sự kiện cho các button"""
         if self.menu_popup.is_open():
-            self.menu_popup.draw(screen=screen)
-        elif self.map_popup.is_open():
-            self.map_popup.draw(screen=screen)
+            self.menu_popup.handle_event(event)
+            return
+
+        self.map_button.handle_event(event)
+    
+# main_scene.py (trong class MainSceneUi)
+    def update(self):
+        """Cập nhật trạng thái UI"""
+        # Cập nhật các nút toggle (Menu, Map) để cho phép đóng popup
+        self.menu_button.update()
+        self.map_button.update()
+        
+        is_menu_open = self.menu_popup.is_open()
+
+        if is_menu_open:
+            self.menu_popup.update()
+            # Các nút khác chỉ được cập nhật khi menu không mở
         else:
-            # Vẽ các buttons chỉ khi không có popup nào mở
-            self.menu_button.draw(screen)
-            self.journal_button.draw(screen)
-            self.map_button.draw(screen)
+            self.journal_button.update()
+            # self.map_button đã được update ở trên
+            
+    def draw(self, screen: pygame.Surface):
+
+        self.menu_button.draw(screen)
+        self.journal_button.draw(screen)
+        self.map_button.draw(screen)
+        
+        if self.menu_popup.is_open():
+            self.menu_popup.draw(screen)
