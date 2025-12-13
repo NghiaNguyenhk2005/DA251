@@ -232,11 +232,21 @@ class MapPopup(Drawable, Updatable):
 class MenuPopup(Updatable, Drawable):
     """Popup menu với các buttons Settings, Resume, và Quit"""
     
-    def __init__(self, screen_width: int = 800, screen_height: int = 600) -> None:
+    def __init__(self, screen_width: int = 800, screen_height: int = 600, 
+                 on_settings_click=None, on_quit_click=None) -> None:
         """
         Khởi tạo popup menu với các buttons Settings, Resume, và Quit
+        
+        Args:
+            screen_width: Chiều rộng màn hình
+            screen_height: Chiều cao màn hình
+            on_settings_click: Callback khi click Settings
+            on_quit_click: Callback khi click Quit
         """
         self._is_open: bool = False
+        self.on_settings_click = on_settings_click
+        self.on_quit_click = on_quit_click
+        
         # Calculate center position for buttons
         center_x = screen_width // 2 - 75
         start_y = screen_height // 2 - 60
@@ -258,7 +268,7 @@ class MenuPopup(Updatable, Drawable):
             on_click=lambda: self.toggle()
         )
         
-        # Resume button
+        # Settings button
         self.settings_button = TextButton(
             position=(center_x, start_y + 70),
             text="Settings",
@@ -271,7 +281,8 @@ class MenuPopup(Updatable, Drawable):
             click_bg=(65, 65, 65),
             click_text=(200, 200, 200),
             border_color=(200, 200, 200),
-            border_width=2
+            border_width=2,
+            on_click=self._handle_settings_click
         )
         
         # Quit button
@@ -287,8 +298,21 @@ class MenuPopup(Updatable, Drawable):
             click_bg=(80, 80, 80),
             click_text=(200, 200, 200),
             border_color=(200, 200, 200),
-            border_width=2
+            border_width=2,
+            on_click=self._handle_quit_click
         )
+    
+    def _handle_settings_click(self):
+        """Xử lý khi click Settings button"""
+        self.toggle()  # Đóng menu popup
+        if self.on_settings_click:
+            self.on_settings_click()
+    
+    def _handle_quit_click(self):
+        """Xử lý khi click Quit button"""
+        self.toggle()  # Đóng menu popup
+        if self.on_quit_click:
+            self.on_quit_click()
 
     def toggle(self):
         """Bật/tắt trạng thái mở của menu popup"""
