@@ -16,7 +16,7 @@ class InventoryManager:
             if self.items[i] is None:
                 self.items[i] = item
                 return True
-        return False  # Inventory full
+        return False
 
     def remove_item(self, index):
         """Remove item from a specific slot."""

@@ -28,13 +28,13 @@ class InventoryUI:
         self.SLOT_HOVERING = False
         self.ICON_HOVERING = False
         self.CLOSE_BTN_HOVERING = False
-
+        self.DELETE_BTN_HOVERING = False  # New state for delete button
         self.selected_index = -1
         self.inventory_rects = []
         self.inventory_logic = InventoryManager(self.ROWS, self.COLS)
 
         # Load item icon sheet (only once)
-        self.item_sheet = pygame.image.load("assets/images/tools/UI_Item_icon_temp.png").convert_alpha()
+        #self.item_sheet = pygame.image.load("assets/images/tools/UI_Item_icon_temp.png").convert_alpha()
 
         # Icon config
         self.ICON_SIZE = 32
@@ -42,16 +42,17 @@ class InventoryUI:
         self.ICON_GRID_SIZE = 340
     def initialize_inventory(self):
         self.inventory_logic = InventoryManager(self.ROWS, self.COLS)
-        for i, item in enumerate(item_list):
-            self.inventory_logic.add_item(item, i)
+        #for i, item in enumerate(item_list):
+            #self.inventory_logic.add_item(item, i)
 
-    def get_item_icon(self, item):
-        col = item.icon_id % self.ICONS_PER_ROW
-        row = item.icon_id // self.ICONS_PER_ROW
+    def get_item_icon(self, item_icon_path):
+        #col = item.icon_id % self.ICONS_PER_ROW
+        #row = item.icon_id // self.ICONS_PER_ROW
 
-        x = col * self.ICON_GRID_SIZE + 10
-        y = row * self.ICON_GRID_SIZE + 15
-        icon = get_sprite(self.item_sheet, x, y, self.ICON_GRID_SIZE, self.ICON_GRID_SIZE)
+        #x = col * self.ICON_GRID_SIZE + 10
+        #y = row * self.ICON_GRID_SIZE + 15
+        #icon = get_sprite(self.item_sheet, x, y, self.ICON_GRID_SIZE, self.ICON_GRID_SIZE)
+        icon = pygame.image.load(item_icon_path).convert_alpha()
         icon_scaled = pygame.transform.scale(icon, (self.ICON_SIZE, self.ICON_SIZE))
         return icon_scaled
 
@@ -87,6 +88,9 @@ class InventoryUI:
         CLOSE_BTN_SCALE = 2
         CLOSE_BTN_SIZE = 13 * CLOSE_BTN_SCALE  # 26x26
 
+        DELETE_BTN_SCALE = 2  # Use same scale for consistency
+        DELETE_BTN_SIZE = 13 * DELETE_BTN_SCALE # 26x26
+
         if not self.inventory_rects:
             for i in range(self.ROWS * self.COLS):
                 col = i % self.COLS
@@ -107,6 +111,10 @@ class InventoryUI:
         # Load and scale close button sprite
         close_button_sprite = get_sprite(button_sprite_sheet, 172, 1, 13, 13)
         close_button_scaled = pygame.transform.scale(close_button_sprite, (CLOSE_BTN_SIZE, CLOSE_BTN_SIZE))
+
+        # Load and scale delete button sprite (using a placeholder sprite at 186, 1)
+        delete_button_sprite = get_sprite(button_sprite_sheet, 172, 1, 13, 13)
+        delete_button_scaled = pygame.transform.scale(delete_button_sprite, (DELETE_BTN_SIZE, DELETE_BTN_SIZE))
 
         # Fonts
         title_font = pygame.font.SysFont("consolas", 28, bold=True)
@@ -143,7 +151,8 @@ class InventoryUI:
             # Draw item icon inside slot
             item = self.inventory_logic.get_item(i)
             if item:
-                icon = self.get_item_icon(item)
+                #icon = self.get_item_icon(item)
+                icon = self.get_item_icon(item.item_icon_path)
                 icon_x = slot.x + (self.SLOT_SIZE - self.ICON_SIZE) // 2
                 icon_y = slot.y + (self.SLOT_SIZE - self.ICON_SIZE) // 2
                 self.screen.blit(icon, (icon_x, icon_y))
@@ -158,6 +167,11 @@ class InventoryUI:
         panel_x = divider_x + 20
         panel_width = BOX_X + BOX_WIDTH - panel_x - 20
 
+        # Delete button position (bottom right of the right panel)
+        DELETE_BTN_X = panel_x + panel_width - DELETE_BTN_SIZE
+        DELETE_BTN_Y = BOX_Y + BOX_HEIGHT - DELETE_BTN_SIZE - 8
+        delete_button_rect = pygame.Rect(DELETE_BTN_X, DELETE_BTN_Y, DELETE_BTN_SIZE, DELETE_BTN_SIZE)
+
         # Draw close button
         self.screen.blit(close_button_scaled, (close_button_rect.x, close_button_rect.y))
         if close_button_rect.collidepoint(mouse_pos):
@@ -165,6 +179,7 @@ class InventoryUI:
             self.CLOSE_BTN_HOVERING = True
         else:
             self.CLOSE_BTN_HOVERING = False
+
         # Display selected item details
         item = self.inventory_logic.get_item(self.selected_index)
         if item:
@@ -184,6 +199,26 @@ class InventoryUI:
         item_code_x = panel_x + (panel_width - item_code.get_width()) // 2
         self.screen.blit(item_code, (item_code_x, GRID_Y + 40))
 
+        # NEW: Draw delete button (to the right of the item code)
+        if item:
+            DELETE_BTN_MARGIN = 10 
+            
+            # X: Start of code + Width of code + Margin
+            DELETE_BTN_X = item_code_x + item_code.get_width() + DELETE_BTN_MARGIN
+            
+            # Y: Center the button with the text. item_code_y is the top of the text.
+            DELETE_BTN_Y = GRID_Y + 40 + (item_code.get_height() - DELETE_BTN_SIZE) // 2
+
+            delete_button_rect = pygame.Rect(DELETE_BTN_X, DELETE_BTN_Y, DELETE_BTN_SIZE, DELETE_BTN_SIZE)
+
+            self.screen.blit(delete_button_scaled, (delete_button_rect.x, delete_button_rect.y))
+            if delete_button_rect.collidepoint(mouse_pos):
+                pygame.draw.rect(self.screen, self.HOVER_COLOR, delete_button_rect, 2)
+                self.DELETE_BTN_HOVERING = True
+            else:
+                self.DELETE_BTN_HOVERING = False
+        else:
+            self.DELETE_BTN_HOVERING = False # Reset if no item is selected
         # Divider line
         pygame.draw.line(self.screen, self.LINE_COLOR, (panel_x, GRID_Y + 65), (panel_x + panel_width, GRID_Y + 65), 2)
 
@@ -233,6 +268,13 @@ class InventoryUI:
             elif self.CLOSE_BTN_HOVERING:
                 self.state = "CLOSED"
                 self.CLOSE_BTN_HOVERING = False
+
+            elif self.DELETE_BTN_HOVERING and self.selected_index != -1: # Check if delete button is hovered AND a slot is selected
+                            # Delete item from inventory logic
+                            self.inventory_logic.remove_item(self.selected_index)
+                            # Keep selected index to allow immediate addition/selection of another item
+                            # Or set to -1 if you prefer to unselect after deletion: self.selected_index = -1
+                            self.DELETE_BTN_HOVERING = False
 
 
 

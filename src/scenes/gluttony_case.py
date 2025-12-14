@@ -2,6 +2,7 @@ import pygame
 from typing import List, Optional, Dict, Any
 from .base_scene import BaseScene
 from src.utils.interaction_area import InteractionArea
+from src.tools.Inventory_Item import envy_mask, Item # <--- NEW IMPORT
 
 class GluttonyCaseScene(BaseScene):
     """
@@ -9,9 +10,9 @@ class GluttonyCaseScene(BaseScene):
     It uses a combination of a wall collision mask and rectangle-based obstacles.
     """
     
-    def __init__(self, screen_width: int, screen_height: int):
+    def __init__(self, screen_width: int = 1280, screen_height: int = 720, game_system=None) -> None:
         super().__init__(screen_width, screen_height)
-        
+        self.game_system = game_system # <--- STORE REFERENCE
         self.debug_mode = True # Original had this True by default? Or maybe just leftover debug. BaseScene defaults False.
 
         # Setup standard assets

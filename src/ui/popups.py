@@ -115,37 +115,37 @@ class MapPopup(Drawable, Updatable):
         #     buttons.append(toa_thi_chinh_button)
         
         # GREED CASE - KHÔI PHỤC SCALE 0.5, POS (650, 100)
-        greed_button = create_button(GREED_ICON, (650, 100), 0.5, "greed_case", "Greed Case - Tội Tham Lam", on_click)
+        greed_button = create_button(GREED_ICON, (650, 100), 0.5, "greed_case", "Greed Case", on_click)
         if greed_button:
             buttons.append(greed_button)
         
         # ENVY CASE - KHÔI PHỤC SCALE 0.5, POS (500, 180)
-        envy_button = create_button(ENVY_ICON, (500, 180), 0.5, "envy_case", "Envy Case - Tội Ganh Tị", on_click)
+        envy_button = create_button(ENVY_ICON, (500, 180), 0.5, "envy_case", "Envy Case", on_click)
         if envy_button:
             buttons.append(envy_button)
         
         # WRATH CASE - KHÔI PHỤC SCALE 0.5, POS (400, 300)
-        wrath_button = create_button(WRATH_ICON, (400, 300), 0.5, "wrath_case", "Wrath Case - Tội Phẫn Nộ", on_click)
+        wrath_button = create_button(WRATH_ICON, (400, 300), 0.5, "wrath_case", "Wrath Case", on_click)
         if wrath_button:
             buttons.append(wrath_button)
         
         # SLOTH CASE - KHÔI PHỤC SCALE 0.5, POS (250, 350)
-        sloth_button = create_button(SLOTH_ICON, (250, 350), 0.5, "sloth_case", "Sloth Case - Tội Lười Biếng", on_click)
+        sloth_button = create_button(SLOTH_ICON, (250, 350), 0.5, "sloth_case", "Sloth Case", on_click)
         if sloth_button:
             buttons.append(sloth_button)
         
         # GLUTTONY CASE - KHÔI PHỤC SCALE 0.5, POS (700, 200)
-        gluttony_button = create_button(GLUTTONY_ICON, (700, 200), 0.5, "gluttony_case", "Gluttony Case - Tội Tham Ăn", on_click)
+        gluttony_button = create_button(GLUTTONY_ICON, (700, 200), 0.5, "gluttony_case", "Gluttony Case", on_click)
         if gluttony_button:
             buttons.append(gluttony_button)
         
         # LUST CASE - KHÔI PHỤC SCALE 0.5, POS (100, 100)
-        lust_button = create_button(LUST_ICON, (100, 100), 0.5, "lust_case", "Lust Case - Tội Dâm Dục", on_click)
+        lust_button = create_button(LUST_ICON, (100, 100), 0.5, "lust_case", "Lust Case", on_click)
         if lust_button:
             buttons.append(lust_button)
         
         # PRIDE CASE - KHÔI PHỤC SCALE 0.5, POS (700, 400)
-        pride_button = create_button(PRIDE_ICON, (700, 400), 0.5, "pride_case", "Pride Case - Tội Kiêu Ngạo", on_click)
+        pride_button = create_button(PRIDE_ICON, (700, 400), 0.5, "pride_case", "Pride Case", on_click)
         if pride_button:
             buttons.append(pride_button)
         return buttons

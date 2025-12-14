@@ -31,7 +31,7 @@ class Game:
         self.SCREEN_WIDTH = 1280
         self.SCREEN_HEIGHT = 720
         self.screen = pygame.display.set_mode((self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
-        pygame.display.set_caption("The Se7enth Code")
+        pygame.display.set_caption("Seven Deadly Sins")
         self.clock = pygame.time.Clock()
         self.running = True
         self.state = GameState.PLAYING 
@@ -43,8 +43,8 @@ class Game:
         # Systems
         self.init_player()  # Initialize player first
         self.init_ui()
-        self.init_scenes()  # Then scenes (which may reference player)
         self.init_inventory() # FIX: Ensure this initializes the instance
+        self.init_scenes()  # Then scenes (which may reference player)
         self.init_notebook()
     
     def set_game_manager(self, game_manager):
@@ -116,13 +116,13 @@ class Game:
             ),
             
             # 7 Deadly Sins Cases
-            "greed_case": GreedCaseScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
-            "envy_case": EnvyCaseScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
-            "wrath_case": WrathCaseScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
-            "sloth_case": SlothCaseScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
-            "gluttony_case": GluttonyCaseScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
-            "lust_case": LustCaseScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
-            "pride_case": PrideCaseScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT),
+            "greed_case": GreedCaseScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT, game_system=self),
+            "envy_case": EnvyCaseScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT, game_system=self),
+            "wrath_case": WrathCaseScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT, game_system=self),
+            "sloth_case": SlothCaseScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT, game_system=self),
+            "gluttony_case": GluttonyCaseScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT, game_system=self),
+            "lust_case": LustCaseScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT, game_system=self),
+            "pride_case": PrideCaseScene(self.SCREEN_WIDTH, self.SCREEN_HEIGHT, game_system=self),
         }
         self.current_scene = self.scenes["office"] # Start in Pride scene for testing
         
@@ -135,6 +135,46 @@ class Game:
         self.inventory_ui = InventoryUI(self.screen)
         self.inventory_ui.initialize_inventory()
 
+    def add_item_to_inventory(self, item) -> bool:
+        """
+        Adds an item instance (from Inventory_Item.py) to the inventory.
+        Returns True if successful, False if inventory is full.
+        """
+        # inventory_ui is assumed to be an attribute of the Game class
+        if self.inventory_ui and self.inventory_ui.inventory_logic:
+            success = self.inventory_ui.inventory_logic.add_item(item)
+            
+            if success:
+                print(f"📦 Collected: {item.name}")
+            else:
+                print(f"❌ Inventory is full. Could not collect: {item.name}")
+                
+            return success
+        return False
+
+    def remove_item_from_inventory(self, item) -> bool:
+        """
+        Removes an item instance (from Inventory_Item.py) from the inventory.
+        Returns True if successful (item was found and removed), False otherwise.
+        """
+        # inventory_ui is assumed to be an attribute of the Game class
+        if self.inventory_ui and self.inventory_ui.inventory_logic:
+            
+            # Assume inventory_logic has a method 'remove_item'
+            # which takes the item object and returns True on success, False otherwise.
+            success = self.inventory_ui.inventory_logic.remove_item(item)
+            
+            if success:
+                print(f"🗑️ Removed: {item.name}")
+            else:
+                # This usually means the item was not found in the inventory
+                print(f"⚠️ Cannot remove: {item.name}. Item not found in inventory.")
+                
+            return success
+        
+        # Return False if the inventory system is not initialized
+        return False
+    
     def init_notebook(self):
         fonts = self.load_notebook_fonts()
         self.notebook = Notebook(
@@ -565,7 +605,7 @@ class Game:
         # Draw Inventory (Overlay)
         if self.state == GameState.INVENTORY:
             # FIX: Call initialize before drawing open inventory, and use instance method
-            self.inventory_ui.initialize_inventory()
+            #self.inventory_ui.initialize_inventory()
             self.inventory_ui.draw_inventory(mouse_pos)
 
         pygame.display.flip()

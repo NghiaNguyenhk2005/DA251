@@ -20,7 +20,7 @@ def main():
     SCREEN_WIDTH = 1280
     SCREEN_HEIGHT = 720
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-    pygame.display.set_caption("The Se7enth Code")
+    pygame.display.set_caption("Seven Deadly Sins")
     clock = pygame.time.Clock()
     
     # Initialize game manager

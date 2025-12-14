@@ -9,11 +9,11 @@ class LustCaseScene(BaseScene):
     Uses a combination of a wall collision mask and rectangle-based obstacles.
     """
     
-    def __init__(self, screen_width: int, screen_height: int):
+    def __init__(self, screen_width: int = 1280, screen_height: int = 720, game_system=None) -> None:
         super().__init__(screen_width, screen_height)
         
         self.debug_mode = True
-
+        self.game_system = game_system
         # Setup standard assets
         self.setup_scene(
             background_path="assets/images/scenes/lust-bg.png",

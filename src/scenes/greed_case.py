@@ -8,9 +8,8 @@ Người chơi có thể di chuyển tự do để khám phá hiện trường v
 import pygame
 from typing import List, Optional, Tuple, Dict, Any
 from .base_scene import BaseScene
-
-
 from src.utils.interaction_area import InteractionArea
+from src.tools.Inventory_Item import greed_coin, Item # <--- NEW IMPORT
 
 
 class GreedCaseScene(BaseScene):
@@ -18,12 +17,13 @@ class GreedCaseScene(BaseScene):
     Greed Case scene using BaseScene for core functionality.
     """
     
-    def __init__(self, screen_width: int = 1280, screen_height: int = 720) -> None:
+    def __init__(self, screen_width: int = 1280, screen_height: int = 720, game_system=None) -> None:
         """
         Initializes the Greed Case Scene.
         """
         super().__init__(screen_width, screen_height)
-        
+        self.game_system = game_system # <--- STORE REFERENCE
+
         self.debug_mode = True # Keep preference
         
         # Coin state
@@ -110,18 +110,29 @@ class GreedCaseScene(BaseScene):
             self.interaction_areas.append(InteractionArea(rect=interaction_rect, callback=callback))
 
     def _on_coin_pickup(self) -> None:
-        """Callback giả khi người chơi nhặt coin."""
-        if not self.coin_collected:
-            self.coin_collected = True
-            print("💰 Đã nhặt được đồng xu tham lam! (Coin collected)")
+            """Callback khi người chơi nhặt coin."""
             
-            # Remove interaction area
-            if hasattr(self, 'coin_interaction_area') and self.coin_interaction_area in self.interaction_areas:
-                self.interaction_areas.remove(self.coin_interaction_area)
-            
-            # Remove visual
-            self.collectible_items = [item for item in self.collectible_items if item['name'] != 'greed_coin']
-    
+            if not self.coin_collected:
+
+                # 1. Attempt to add the item to the central inventory
+                if self.game_system and self.game_system.add_item_to_inventory(greed_coin):
+
+                    # 2. If collection was successful, remove the item from the scene
+                    self.coin_collected = True
+                    print("💰 Đã nhặt được đồng xu tham lam! (Coin collected)")
+
+                    # Remove interaction area
+                    if hasattr(self, 'coin_interaction_area') and self.coin_interaction_area in self.interaction_areas:
+                        self.interaction_areas.remove(self.coin_interaction_area)
+
+                    # Remove visual
+                    # Filter the item out of the list of visible/collectible items
+                    self.collectible_items = [item for item in self.collectible_items if item['name'] != 'greed_coin']
+
+                else:
+                    # Optionally show a message that inventory is full
+                    # In thông báo nếu không thể nhặt (ví dụ: kho đồ đầy)
+                    print("❌ Cannot collect item. Inventory is full!")
     def _on_npc_interact(self, npc_name: str) -> None:
         """Callback giả khi người chơi tương tác với NPC."""
         print(f"💬 Đang nói chuyện với {npc_name}...")

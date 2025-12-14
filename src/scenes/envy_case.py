@@ -9,18 +9,19 @@ import pygame
 from typing import List, Optional, Tuple, Dict, Any
 from .base_scene import BaseScene
 from src.utils.interaction_area import InteractionArea
+from src.tools.Inventory_Item import envy_mask, Item # <--- NEW IMPORT
 
 class EnvyCaseScene(BaseScene):
     """
     Envy Case scene using BaseScene for core functionality.
     """
     
-    def __init__(self, screen_width: int = 1280, screen_height: int = 720) -> None:
+    def __init__(self, screen_width: int = 1280, screen_height: int = 720, game_system=None) -> None:
         """
         Initializes the Envy Case Scene.
         """
         super().__init__(screen_width, screen_height)
-        
+        self.game_system = game_system # <--- STORE REFERENCE
         # Mask state (collectible specific to this scene)
         self.mask_collected: bool = False
         
@@ -134,17 +135,26 @@ class EnvyCaseScene(BaseScene):
 
     def _on_mask_pickup(self) -> None:
         """Callback khi nhặt mask."""
+        
         if not self.mask_collected:
-            self.mask_collected = True
-            print("🎭 Nhặt được chiếc mặt nạ!")
             
-            # Remove interaction area
-            if hasattr(self, 'mask_interaction_area') and self.mask_interaction_area in self.interaction_areas:
-                self.interaction_areas.remove(self.mask_interaction_area)
+            # 1. Attempt to add the item to the central inventory
+            if self.game_system and self.game_system.add_item_to_inventory(envy_mask):
+                
+                # 2. If collection was successful, remove the item from the scene
+                self.mask_collected = True
+                
+                # Remove interaction area
+                if hasattr(self, 'mask_interaction_area') and self.mask_interaction_area in self.interaction_areas:
+                    self.interaction_areas.remove(self.mask_interaction_area)
+                
+                # Remove visual
+                # Filter the item out of the list of visible/collectible items
+                self.collectible_items = [item for item in self.collectible_items if item['name'] != 'envy_mask']
             
-            # Remove visual
-            self.collectible_items = [item for item in self.collectible_items if item['name'] != 'envy_mask']
-    
+            else:
+                # Optionally show a message that inventory is full
+                print("❌ Cannot collect item. Inventory is full!")
     def _on_npc_interact(self, npc: Dict[str, Any]) -> None:
         """Callback khi tương tác với NPC."""
         print(f"💬 Đang nói chuyện với {npc['name']}...")
