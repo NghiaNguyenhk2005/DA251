@@ -4,91 +4,39 @@
 # InventoryUI will load the sprite sheet and extract icons.
 
 class Item:
-    def __init__(self, name, code, description, icon_id):
+    def __init__(self, name, code, description, item_icon_path):
         self.name = name
         self.code = code
         self.description = description
-        self.icon_id = icon_id   # used later by InventoryUI
-
+        #self.icon_id = icon_id   # used later by InventoryUI
+        self.item_icon_path = item_icon_path
     def __repr__(self):
         return f"Item({self.name}, {self.code})"
 
-
-# ---- DETECTIVE GAME ITEMS (9 total) ---------------------------------------
-
-magnifying_glass = Item(
-    name="Magnifying Glass",
-    code="MAG2",
-    description="Useful for spotting small details others overlook.",
-    icon_id=0
+envy_mask = Item(
+    name="Envy Mask",
+    code="EMASK1",
+    description="A distinctive green mask found at the crime scene. A key piece of evidence.",
+    #icon_id=1 # Use an available icon ID (assuming one is available)
+    item_icon_path="assets/inventory/UI_Item_Icon/envy-mask.png"
 )
 
-crime_scene_tape = Item(
-    name="Crime Scene Tape",
-    code="CST3",
-    description="Bright yellow tape used to secure areas. Smells like cheap plastic.",
-    icon_id=1
+greed_coin = Item(
+    name="Greed Coin",
+    code="GCOIN1",
+    description="A shiny gold coin symbolizing greed. Found in the Greed Case scene.",
+    #icon_id=2 # Use an available icon ID (assuming one is available)
+    item_icon_path="assets/inventory/UI_Item_Icon/greed-coin.png"
 )
 
-evidence_bag = Item(
-    name="Evidence Bag",
-    code="EVD4",
-    description="A sealed bag containing an unidentified object. Do not tamper.",
-    icon_id=2
-)
-
-fingerprint_duster = Item(
-    name="Fingerprint Duster",
-    code="FPD5",
-    description="Used to reveal fingerprints. Leaves black powder everywhere.",
-    icon_id=3
-)
-
-voice_recorder = Item(
-    name="Voice Recorder",
-    code="REC6",
-    description="Used to interview suspects. Battery life: unpredictable.",
-    icon_id=4
-)
-
-old_key = Item(
-    name="Rusty Key",
-    code="KEY7",
-    description="Found at a crime scene. Belongs to a lock long forgotten.",
-    icon_id=5
-)
-
-pocket_watch = Item(
-    name="Stopped Pocket Watch",
-    code="PW8",
-    description="Stopped at 11:47 PM. Possible time of crime?",
-    icon_id=6
-)
-
-cigarette_butt = Item(
-    name="Cigarette Butt",
-    code="CB9",
-    description="Left behind by someone at the scene. Menthol — unusual choice.",
-    icon_id=7
-)
-
-mysterious_letter = Item(
-    name="Mysterious Letter",
-    code="LTRX",
-    description="A handwritten note with no signature. The ink is still wet.",
-    icon_id=8
+wrath_woodpad = Item(
+    name="Woodpad",
+    code="WDPAD1",
+    description="A wooden notepad used by the victim to jot down clues. Found in the Wrath Case scene.",
+    #icon_id=3 # Use an available icon ID (assuming one is available)    
+    item_icon_path="assets/inventory/UI_Item_Icon/wrath-woodpad.png"
 )
 
 # ---- Registry --------------------------------------------------------------
 
-item_list = [
-    magnifying_glass,
-    crime_scene_tape,
-    evidence_bag,
-    fingerprint_duster,
-    voice_recorder,
-    old_key,
-    pocket_watch,
-    cigarette_butt,
-    mysterious_letter
-]
+item_list = []

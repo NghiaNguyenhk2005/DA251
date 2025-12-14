@@ -16,8 +16,8 @@ settings (e.g., volume, keybinds) elsewhere later.
 # ---------------------------------------------------------------------------
 # Screen / Window settings
 # ---------------------------------------------------------------------------
-SCREEN_WIDTH = 1024
-SCREEN_HEIGHT = 768
+SCREEN_WIDTH = 1280
+SCREEN_HEIGHT = 720
 FPS = 60
 TITLE = "Se7en Detective"
 
@@ -32,6 +32,31 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
+
+# Color dictionary for easy access
+COLORS = {
+    'BLACK': BLACK,
+    'WHITE': WHITE,
+    'GRAY': GRAY,
+    'DARK_GRAY': DARK_GRAY,
+    'RED': RED,
+    'GREEN': GREEN,
+    'BLUE': BLUE,
+    'YELLOW': YELLOW,
+}
+
+# ---------------------------------------------------------------------------
+# Menu settings
+# ---------------------------------------------------------------------------
+MENU_FONT_SIZE = 48
+BUTTON_FONT_SIZE = 28
+
+# ---------------------------------------------------------------------------
+# Assets directories
+# ---------------------------------------------------------------------------
+IMAGES_DIR = "assets/images"
+FONTS_DIR = "assets/fonts"
+SOUNDS_DIR = "assets/sounds"
 
 # ---------------------------------------------------------------------------
 # Player settings

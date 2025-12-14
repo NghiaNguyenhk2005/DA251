@@ -8,9 +8,9 @@ class PrideCaseScene(BaseScene):
     Scene for the Pride case, set on a rainy city street.
     """
     
-    def __init__(self, screen_width: int, screen_height: int):
+    def __init__(self, screen_width: int = 1280, screen_height: int = 720, game_system=None) -> None:
         super().__init__(screen_width, screen_height)
-        
+        self.game_system = game_system
         self.debug_mode = True
 
         # Setup standard assets

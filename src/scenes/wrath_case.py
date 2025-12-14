@@ -9,18 +9,19 @@ import pygame
 from typing import List, Optional, Tuple, Dict, Any
 from .base_scene import BaseScene
 from src.utils.interaction_area import InteractionArea
+from src.tools.Inventory_Item import wrath_woodpad, Item # <--- NEW IMPORT
 
 class WrathCaseScene(BaseScene):
     """
     Wrath Case scene using BaseScene for core functionality.
     """
     
-    def __init__(self, screen_width: int = 1280, screen_height: int = 720) -> None:
+    def __init__(self, screen_width: int = 1280, screen_height: int = 720, game_system=None) -> None:
         """
         Initializes the Wrath Case Scene.
         """
         super().__init__(screen_width, screen_height)
-        
+        self.game_system = game_system # <--- STORE REFERENCE
         # Woodpad state (collectible specific to this scene)
         self.woodpad_collected: bool = False
         
@@ -132,19 +133,30 @@ class WrathCaseScene(BaseScene):
             self.interaction_areas.append(InteractionArea(rect=interaction_rect, callback=callback))
 
     def _on_woodpad_pickup(self) -> None:
-        """Callback khi người chơi nhặt woodpad."""
-        if not self.woodpad_collected:
-            self.woodpad_collected = True
-            print("🪵 Đã nhặt được tấm gỗ! (Woodpad collected)")
-            
-            # Remove from scene
-            # 1. Remove interaction area
-            if hasattr(self, 'woodpad_interaction_area') and self.woodpad_interaction_area in self.interaction_areas:
-                self.interaction_areas.remove(self.woodpad_interaction_area)
-            
-            # 2. Remove visual item
-            self.collectible_items = [item for item in self.collectible_items if item['name'] != 'wrath_woodpad']
-    
+            """Callback khi người chơi nhặt woodpad."""
+            if not self.woodpad_collected:
+                
+                # 1. Attempt to add the item to the central inventory
+                # Thử thêm tấm gỗ vào kho đồ qua game_system
+                if self.game_system and self.game_system.add_item_to_inventory(wrath_woodpad):
+                    
+                    # 2. If collection was successful, remove the item from the scene
+                    self.woodpad_collected = True
+                    print("🪵 Đã nhặt được tấm gỗ! (Woodpad collected)")
+
+                    # Remove from scene
+                    # A. Remove interaction area
+                    if hasattr(self, 'woodpad_interaction_area') and self.woodpad_interaction_area in self.interaction_areas:
+                        self.interaction_areas.remove(self.woodpad_interaction_area)
+                    
+                    # B. Remove visual item
+                    # Filter the item out of the list of visible/collectible items
+                    self.collectible_items = [item for item in self.collectible_items if item['name'] != 'wrath_woodpad']
+                
+                else:
+                    # Optionally show a message that inventory is full
+                    # In thông báo nếu không thể nhặt (ví dụ: kho đồ đầy)
+                    print("❌ Cannot collect item. Inventory is full!")
     def _on_npc_interact(self, npc_name: str) -> None:
         """Callback khi người chơi tương tác với NPC."""
         print(f"💬 Đang nói chuyện với {npc_name}...")

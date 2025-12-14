@@ -9,19 +9,26 @@ import pygame
 from typing import List, Optional, Tuple, Dict, Any
 from .base_scene import BaseScene
 from src.utils.interaction_area import InteractionArea
+from src.ui.suspect_selection_popup import SuspectSelectionPopup
 
 class OfficeScene(BaseScene):
     """
     Office scene using BaseScene for core functionality.
     """
     
-    def __init__(self, screen_width: int = 1280, screen_height: int = 720) -> None:
+    def __init__(self, screen_width: int = 1280, screen_height: int = 720, on_scene_change=None) -> None:
         """
         Initializes the Office Scene.
+        
+        Args:
+            screen_width: Width of the screen
+            screen_height: Height of the screen
+            on_scene_change: Callback function to change scenes (receives scene_id: str)
         """
         super().__init__(screen_width, screen_height)
         
         self.debug_mode = True
+        self.on_scene_change = on_scene_change  # Store callback for scene changes
 
         # Setup standard assets
         self.setup_scene(
@@ -39,6 +46,9 @@ class OfficeScene(BaseScene):
         # Build Standard Components
         self.rebuild_collision_rects()
         self._setup_interaction_areas()
+        
+        # Suspect selection popup
+        self.suspect_popup = SuspectSelectionPopup(screen_width, screen_height, self._on_suspect_selected)
 
     def _load_obstacles(self) -> None:
         """Loads the drawable obstacle objects (chairs)."""
@@ -83,8 +93,35 @@ class OfficeScene(BaseScene):
 
     def _on_chair_interact(self) -> None:
         """Callback for when the player interacts with a chair."""
-        print("💡 Player pressed [F] near the chair. Time to investigate!")
+        print("💡 Player pressed [F] near the chair. Showing suspect selection...")
+        self.suspect_popup.show()
+    
+    def _on_suspect_selected(self, bg_scene: str) -> None:
+        """Callback when a suspect is selected from the popup."""
+        print(f"✅ Suspect selected with background: {bg_scene}")
+        # Store the selected background to pass to interrogation
+        self.selected_interrogation_bg = bg_scene
+        if self.on_scene_change:
+            self.on_scene_change("interrogation_room")
 
     def set_player(self, player: object) -> None:
         """Sets the player reference and positions them for this scene."""
         super().set_player(player, start_pos=(900, 400))
+    
+    def handle_event(self, event: pygame.event.Event) -> None:
+        """Handle events, including popup."""
+        # If popup is visible, let it handle events first
+        if self.suspect_popup.visible:
+            if self.suspect_popup.handle_event(event):
+                return  # Event consumed by popup
+        
+        # Otherwise, handle normal scene events
+        super().handle_event(event)
+    
+    def draw_with_player(self, screen: pygame.Surface, player: object) -> None:
+        """Draw scene and popup."""
+        # Draw normal scene
+        super().draw_with_player(screen, player)
+        
+        # Draw popup on top
+        self.suspect_popup.draw(screen)

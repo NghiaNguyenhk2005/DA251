@@ -14,13 +14,16 @@ TOA_THI_CHINH_IMG = "assets/images/ui/toa-chi-chinh.png"
 
 class MainSceneUi:
     def __init__(self, screen_width: int = 800, screen_height: int = 600,
-                 on_building_click: Optional[Callable[[str], None]] = None) -> None:
+                 on_building_click: Optional[Callable[[str], None]] = None,
+                 on_settings_click: Optional[Callable[[], None]] = None,
+                 on_quit_click: Optional[Callable[[], None]] = None) -> None:
         """
         Args:
             screen_width: Chiều rộng màn hình
             screen_height: Chiều cao màn hình
             on_building_click: Callback khi click vào tòa nhà (nhận building_id: str)
-                              Ví dụ: lambda building_id: print(f"Chuyển đến scene: {building_id}")
+            on_settings_click: Callback khi click Settings trong menu popup
+            on_quit_click: Callback khi click Quit trong menu popup
         """
         # Import MapButton ở đây để tránh circular import
         
@@ -28,7 +31,9 @@ class MainSceneUi:
         journal_img = pygame.image.load(JOURNAL_IMG)
         map_img = pygame.image.load(MAP_IMG)
         
-        self.menu_popup = MenuPopup(screen_width, screen_height)
+        self.menu_popup = MenuPopup(screen_width, screen_height, 
+                                    on_settings_click=on_settings_click,
+                                    on_quit_click=on_quit_click)
         self.menu_button = Button(
             position=(10, 10), 
             image=menu_img, 
