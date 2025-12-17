@@ -211,19 +211,27 @@ class Game:
 
     def change_scene(self, scene_id):
         if scene_id in self.scenes:
-            # Special handling for interrogation room - use custom background if available
+            # Special handling for interrogation room - use custom background and suspect if available
             if scene_id == "interrogation_room":
                 office_scene = self.scenes.get("office")
+                bg_path = None
+                suspect_index = 0
+                
                 if hasattr(office_scene, 'selected_interrogation_bg'):
                     bg_path = office_scene.selected_interrogation_bg
-                    # Recreate interrogation scene with custom background
-                    self.scenes["interrogation_room"] = InterrogationRoomScene(
-                        self.SCREEN_WIDTH,
-                        self.SCREEN_HEIGHT,
-                        on_interrogation_complete=self.open_accusation_system,
-                        background_path=bg_path
-                    )
-                    print(f"🎬 Created interrogation room with background: {bg_path}")
+                if hasattr(office_scene, 'selected_suspect_index'):
+                    suspect_index = office_scene.selected_suspect_index
+                    
+                # Recreate interrogation scene with custom background and suspect
+                self.scenes["interrogation_room"] = InterrogationRoomScene(
+                    self.SCREEN_WIDTH,
+                    self.SCREEN_HEIGHT,
+                    on_interrogation_complete=self.open_accusation_system,
+                    background_path=bg_path,
+                    suspect_index=suspect_index,
+                    on_back=lambda: self.change_scene("office")
+                )
+                print(f"🎬 Created interrogation room with suspect {suspect_index}, background: {bg_path}")
             
             self.current_scene = self.scenes[scene_id]
             

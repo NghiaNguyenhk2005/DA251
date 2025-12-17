@@ -96,11 +96,12 @@ class OfficeScene(BaseScene):
         print("💡 Player pressed [F] near the chair. Showing suspect selection...")
         self.suspect_popup.show()
     
-    def _on_suspect_selected(self, bg_scene: str) -> None:
+    def _on_suspect_selected(self, suspect_index: int, bg_scene: str) -> None:
         """Callback when a suspect is selected from the popup."""
-        print(f"✅ Suspect selected with background: {bg_scene}")
-        # Store the selected background to pass to interrogation
+        print(f"✅ Suspect {suspect_index} selected with background: {bg_scene}")
+        # Store the selected info to pass to interrogation
         self.selected_interrogation_bg = bg_scene
+        self.selected_suspect_index = suspect_index
         if self.on_scene_change:
             self.on_scene_change("interrogation_room")
 
