@@ -57,7 +57,7 @@ class SuspectOption:
 class SuspectSelectionPopup:
     """Popup để chọn nghi phạm trước khi vào interrogation"""
     
-    def __init__(self, screen_width: int, screen_height: int, on_select: Optional[Callable[[str], None]] = None):
+    def __init__(self, screen_width: int, screen_height: int, on_select: Optional[Callable[[int, str], None]] = None):
         self.screen_width = screen_width
         self.screen_height = screen_height
         self.on_select = on_select
@@ -151,7 +151,7 @@ class SuspectSelectionPopup:
                 selected_suspect = self.suspects_data[self.selected_index]
                 self.hide()
                 if self.on_select:
-                    self.on_select(selected_suspect["bg_scene"])
+                    self.on_select(self.selected_index, selected_suspect["bg_scene"])
                 return True
             elif event.key == pygame.K_ESCAPE:
                 # Cancel
