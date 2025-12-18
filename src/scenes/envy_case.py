@@ -158,7 +158,13 @@ class EnvyCaseScene(BaseScene):
     def _on_npc_interact(self, npc: Dict[str, Any]) -> None:
         """Callback khi tương tác với NPC."""
         print(f"💬 Đang nói chuyện với {npc['name']}...")
-        # TODO: Implement dialogue system
+        
+        if npc['name'] == "NPC_Jealous_Suspect":
+            if self.game_system:
+                # Gọi hội thoại Envy
+                self.game_system.start_dialogue("Envy_Suspect_Talk")
+            else:
+                print("⚠️ Game system not connected!")
 
     def set_player(self, player: object) -> None:
         """Sets the player reference and positions them."""

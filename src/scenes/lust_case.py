@@ -117,10 +117,28 @@ class LustCaseScene(BaseScene):
     def _on_body_interact(self) -> None:
         """Callback for when the player interacts with the body."""
         print("!! Player interacted with the body in the Lust scene!")
+        if self.game_system:
+            self.game_system.start_dialogue("Lust_Body_Exam")
     
     def _on_npc_interact(self, npc_name: str) -> None:
         """Callback khi người chơi tương tác với NPC."""
         print(f"💬 Đang nói chuyện với {npc_name}...")
+        
+        # Nếu đã kết nối với Game System, kích hoạt hội thoại
+        if self.game_system:
+            # Map tên NPC với ID hội thoại trong dialogue_data.py
+            dialogue_map = {
+                "NPC_Lust_Witness": "Lust_Witness_Talk" 
+            }
+            
+            dialogue_id = dialogue_map.get(npc_name)
+            
+            if dialogue_id:
+                self.game_system.start_dialogue(dialogue_id)
+            else:
+                print(f"⚠️ Chưa setup hội thoại cho NPC: {npc_name}")
+        else:
+            print("ERROR: game_system chưa được truyền vào Scene!")
 
     def set_player(self, player: object) -> None:
         """Sets the player and their starting position for this scene."""
