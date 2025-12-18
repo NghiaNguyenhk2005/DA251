@@ -162,8 +162,13 @@ class WrathCaseScene(BaseScene):
         print(f"💬 Đang nói chuyện với {npc_name}...")
         
         if npc_name == "NPC_Angry_Victim":
-            print("   😡 Angry Victim: 'Hắn ta đã phá hủy mọi thứ của tôi! Tôi sẽ không tha thứ!'")
-            print("   📝 TODO: Mở dialogue về nạn nhân và động cơ")
+            # --- SỬA LẠI ĐOẠN NÀY ---
+            # Thay vì gọi trực tiếp dialogue_ui, hãy gọi qua start_dialogue
+            if self.game_system:
+                self.game_system.start_dialogue("Wrath_Angry_Victim")
+            else:
+                print("⚠️ Error: Game system not connected")
+        
         elif npc_name == "NPC_Witness":
             print("   👁️ Witness: 'Tôi đã thấy một người đàn ông rất tức giận ở đây...'")
 
