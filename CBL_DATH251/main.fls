@@ -473,24 +473,17 @@ INPUT .\image\logo.png
 INPUT .\image\logo.png
 INPUT .\Introduction_Acknowledge.tex
 INPUT .\Introduction_Acknowledge.tex
+INPUT .\image\logo.png
+INPUT .\image\logo.png
+INPUT .\image\logo.png
+INPUT .\image\logo.png
 OUTPUT Introduction_Acknowledge.aux
+INPUT .\image\logo.png
 INPUT .\Introduction_Acknowledge.tex
 INPUT .\Introduction_Acknowledge.tex
 INPUT Introduction_Acknowledge.tex
 INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\fonts\tfm\vntex\vnr\vnbx12.tfm
 INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\fonts\tfm\jknappen\ec\tcrm1000.tfm
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
 INPUT .\image\logo.png
 INPUT .\image\logo.png
 INPUT .\image\logo.png
@@ -501,23 +494,11 @@ INPUT .\DevelopmentOrientation.tex
 INPUT .\DevelopmentOrientation.tex
 INPUT DevelopmentOrientation.tex
 INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
 INPUT .\Requirement.tex
 INPUT .\Requirement.tex
 INPUT .\Requirement.tex
 INPUT .\Requirement.tex
 INPUT Requirement.tex
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
 INPUT .\image\logo.png
 INPUT .\image\logo.png
 INPUT .\image\logo.png
@@ -527,9 +508,6 @@ INPUT .\Usecase.tex
 INPUT .\Usecase.tex
 INPUT Usecase.tex
 INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
 INPUT .\image\UC Diagram\FR_UI.drawio.png
 INPUT .\image\UC Diagram\FR_UI.drawio.png
 INPUT .\image\UC Diagram\FR_UI.drawio.png
@@ -537,12 +515,6 @@ INPUT .\image\UC Diagram\FR_UI.drawio.png
 INPUT .\image\UC Diagram\FR_UI.drawio.png
 INPUT .\image\UC Diagram\FR_UI.drawio.png
 INPUT .\image\UC Diagram\FR_UI.drawio.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
 INPUT .\image\logo.png
 INPUT .\image\logo.png
 INPUT .\image\UC Diagram\FR_MENU.drawio.png
@@ -555,15 +527,6 @@ INPUT .\image\UC Diagram\FR_MENU.drawio.png
 INPUT .\image\logo.png
 INPUT .\image\logo.png
 INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
 INPUT .\image\UC Diagram\FR_GAME.drawio.png
 INPUT .\image\UC Diagram\FR_GAME.drawio.png
 INPUT .\image\UC Diagram\FR_GAME.drawio.png
@@ -571,12 +534,6 @@ INPUT .\image\UC Diagram\FR_GAME.drawio.png
 INPUT .\image\UC Diagram\FR_GAME.drawio.png
 INPUT .\image\UC Diagram\FR_GAME.drawio.png
 INPUT .\image\UC Diagram\FR_GAME.drawio.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
 INPUT .\image\logo.png
 INPUT .\image\logo.png
 INPUT .\image\UC Diagram\FR_INTERACTION.drawio.png
@@ -588,12 +545,6 @@ INPUT .\image\UC Diagram\FR_INTERACTION.drawio.png
 INPUT .\image\UC Diagram\FR_INTERACTION.drawio.png
 INPUT .\image\logo.png
 INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
 INPUT .\image\UC Diagram\FR_NPC.drawio.png
 INPUT .\image\UC Diagram\FR_NPC.drawio.png
 INPUT .\image\UC Diagram\FR_NPC.drawio.png
@@ -601,12 +552,6 @@ INPUT .\image\UC Diagram\FR_NPC.drawio.png
 INPUT .\image\UC Diagram\FR_NPC.drawio.png
 INPUT .\image\UC Diagram\FR_NPC.drawio.png
 INPUT .\image\UC Diagram\FR_NPC.drawio.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
 INPUT .\image\logo.png
 INPUT .\image\logo.png
 INPUT .\image\UC Diagram\FR_NOTEBOOK.drawio.png
@@ -619,15 +564,6 @@ INPUT .\image\UC Diagram\FR_NOTEBOOK.drawio.png
 INPUT .\image\logo.png
 INPUT .\image\logo.png
 INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
 INPUT .\image\UC Diagram\FR_INVENTORY.drawio.png
 INPUT .\image\UC Diagram\FR_INVENTORY.drawio.png
 INPUT .\image\UC Diagram\FR_INVENTORY.drawio.png
@@ -635,12 +571,6 @@ INPUT .\image\UC Diagram\FR_INVENTORY.drawio.png
 INPUT .\image\UC Diagram\FR_INVENTORY.drawio.png
 INPUT .\image\UC Diagram\FR_INVENTORY.drawio.png
 INPUT .\image\UC Diagram\FR_INVENTORY.drawio.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
 INPUT .\image\logo.png
 INPUT .\image\logo.png
 INPUT .\image\UC Diagram\FR_INTERR.drawio.png
@@ -652,12 +582,6 @@ INPUT .\image\UC Diagram\FR_INTERR.drawio.png
 INPUT .\image\UC Diagram\FR_INTERR.drawio.png
 INPUT .\image\logo.png
 INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
 INPUT .\image\UC Diagram\FR_ACCUSE.drawio.png
 INPUT .\image\UC Diagram\FR_ACCUSE.drawio.png
 INPUT .\image\UC Diagram\FR_ACCUSE.drawio.png
@@ -667,12 +591,6 @@ INPUT .\image\UC Diagram\FR_ACCUSE.drawio.png
 INPUT .\image\UC Diagram\FR_ACCUSE.drawio.png
 INPUT .\image\logo.png
 INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
 INPUT .\image\UC Diagram\FR_PRO.drawio.png
 INPUT .\image\UC Diagram\FR_PRO.drawio.png
 INPUT .\image\UC Diagram\FR_PRO.drawio.png
@@ -680,25 +598,12 @@ INPUT .\image\UC Diagram\FR_PRO.drawio.png
 INPUT .\image\UC Diagram\FR_PRO.drawio.png
 INPUT .\image\UC Diagram\FR_PRO.drawio.png
 INPUT .\image\UC Diagram\FR_PRO.drawio.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
 INPUT .\image\logo.png
 INPUT .\image\logo.png
 INPUT .\image\logo.png
 INPUT .\Diagram.tex
 INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
 OUTPUT Diagram.aux
-INPUT .\image\logo.png
 INPUT .\Diagram.tex
 INPUT .\Diagram.tex
 INPUT Diagram.tex
