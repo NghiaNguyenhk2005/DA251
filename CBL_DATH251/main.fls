@@ -1,6 +1,6 @@
-PWD d:\DA 251\Final\DA251\CBL_DATH251
+PWD c:\Users\nghia\Downloads\EEE\DA251\CBL_DATH251
 INPUT C:\Users\nghia\AppData\Local\MiKTeX\miktex\data\le\pdftex\pdflatex.fmt
-INPUT d:\DA 251\Final\DA251\CBL_DATH251\main.tex
+INPUT c:\Users\nghia\Downloads\EEE\DA251\CBL_DATH251\main.tex
 OUTPUT main.log
 INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex\latex\base\article.cls
 INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex\latex\base\article.cls
@@ -225,6 +225,16 @@ INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex\latex\cite\cite.sty
 INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex\latex\cite\cite.sty
 INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex\latex\enumitem\enumitem.sty
 INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex\latex\enumitem\enumitem.sty
+INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex\latex\parskip\parskip.sty
+INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex\latex\parskip\parskip.sty
+INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex\latex\kvoptions\kvoptions.sty
+INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex\latex\kvoptions\kvoptions.sty
+INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex\generic\ltxcmds\ltxcmds.sty
+INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex\generic\ltxcmds\ltxcmds.sty
+INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex\latex\kvsetkeys\kvsetkeys.sty
+INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex\latex\kvsetkeys\kvsetkeys.sty
+INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex\latex\etoolbox\etoolbox.sty
+INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex\latex\etoolbox\etoolbox.sty
 INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex\latex\graphics\lscape.sty
 INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex\latex\graphics\lscape.sty
 INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex\latex\pdflscape\pdflscape.sty
@@ -233,14 +243,10 @@ INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex\latex\pdflscape\pdflscape
 INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex\latex\pdflscape\pdflscape-nometadata.sty
 INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex\latex\hyperref\hyperref.sty
 INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex\latex\hyperref\hyperref.sty
-INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex\latex\kvsetkeys\kvsetkeys.sty
-INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex\latex\kvsetkeys\kvsetkeys.sty
 INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex\generic\kvdefinekeys\kvdefinekeys.sty
 INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex\generic\kvdefinekeys\kvdefinekeys.sty
 INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex\generic\pdfescape\pdfescape.sty
 INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex\generic\pdfescape\pdfescape.sty
-INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex\generic\ltxcmds\ltxcmds.sty
-INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex\generic\ltxcmds\ltxcmds.sty
 INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex\generic\pdftexcmds\pdftexcmds.sty
 INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex\generic\pdftexcmds\pdftexcmds.sty
 INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex\generic\infwarerr\infwarerr.sty
@@ -253,10 +259,6 @@ INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex\latex\refcount\refcount.s
 INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex\latex\refcount\refcount.sty
 INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex\generic\gettitlestring\gettitlestring.sty
 INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex\generic\gettitlestring\gettitlestring.sty
-INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex\latex\kvoptions\kvoptions.sty
-INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex\latex\kvoptions\kvoptions.sty
-INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex\latex\etoolbox\etoolbox.sty
-INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex\latex\etoolbox\etoolbox.sty
 INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex\generic\stringenc\stringenc.sty
 INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex\generic\stringenc\stringenc.sty
 INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex\latex\hyperref\pd1enc.def
@@ -383,39 +385,9 @@ INPUT main.aux
 INPUT .\Introduction_Acknowledge.aux
 INPUT .\Introduction_Acknowledge.aux
 INPUT Introduction_Acknowledge.aux
-INPUT .\DevelopmentOrientation.aux
-INPUT .\DevelopmentOrientation.aux
-INPUT DevelopmentOrientation.aux
-INPUT .\Requirement.aux
-INPUT .\Requirement.aux
-INPUT Requirement.aux
-INPUT .\Device.aux
-INPUT .\Device.aux
-INPUT Device.aux
-INPUT .\Usecase.aux
-INPUT .\Usecase.aux
-INPUT Usecase.aux
-INPUT .\Mockup.aux
-INPUT .\Mockup.aux
-INPUT Mockup.aux
-INPUT .\Database.aux
-INPUT .\Database.aux
-INPUT Database.aux
-INPUT .\SoftwareArchitecture.aux
-INPUT .\SoftwareArchitecture.aux
-INPUT SoftwareArchitecture.aux
-INPUT .\ClassDiagram.aux
-INPUT .\ClassDiagram.aux
-INPUT ClassDiagram.aux
-INPUT .\DesignPattern.aux
-INPUT .\DesignPattern.aux
-INPUT DesignPattern.aux
-INPUT .\Github.aux
-INPUT .\Github.aux
-INPUT Github.aux
-INPUT .\Conclusion.aux
-INPUT .\Conclusion.aux
-INPUT Conclusion.aux
+INPUT .\Diagram.aux
+INPUT .\Diagram.aux
+INPUT Diagram.aux
 OUTPUT main.aux
 INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex\context\base\mkii\supp-pdf.mkii
 INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex\context\base\mkii\supp-pdf.mkii
@@ -525,7 +497,6 @@ INPUT .\image\logo.png
 INPUT .\image\logo.png
 INPUT .\DevelopmentOrientation.tex
 INPUT .\DevelopmentOrientation.tex
-OUTPUT DevelopmentOrientation.aux
 INPUT .\DevelopmentOrientation.tex
 INPUT .\DevelopmentOrientation.tex
 INPUT DevelopmentOrientation.tex
@@ -533,13 +504,8 @@ INPUT .\image\logo.png
 INPUT .\image\logo.png
 INPUT .\image\logo.png
 INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
 INPUT .\Requirement.tex
 INPUT .\Requirement.tex
-OUTPUT Requirement.aux
 INPUT .\Requirement.tex
 INPUT .\Requirement.tex
 INPUT Requirement.tex
@@ -555,10 +521,8 @@ INPUT .\image\logo.png
 INPUT .\image\logo.png
 INPUT .\image\logo.png
 INPUT .\image\logo.png
-OUTPUT Device.aux
 INPUT .\Usecase.tex
 INPUT .\Usecase.tex
-OUTPUT Usecase.aux
 INPUT .\Usecase.tex
 INPUT .\Usecase.tex
 INPUT Usecase.tex
@@ -709,10 +673,6 @@ INPUT .\image\logo.png
 INPUT .\image\logo.png
 INPUT .\image\logo.png
 INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
-INPUT .\image\logo.png
 INPUT .\image\UC Diagram\FR_PRO.drawio.png
 INPUT .\image\UC Diagram\FR_PRO.drawio.png
 INPUT .\image\UC Diagram\FR_PRO.drawio.png
@@ -732,54 +692,135 @@ INPUT .\image\logo.png
 INPUT .\image\logo.png
 INPUT .\image\logo.png
 INPUT .\image\logo.png
+INPUT .\Diagram.tex
 INPUT .\image\logo.png
 INPUT .\image\logo.png
 INPUT .\image\logo.png
 INPUT .\image\logo.png
-OUTPUT Mockup.aux
-OUTPUT Database.aux
-OUTPUT SoftwareArchitecture.aux
-OUTPUT ClassDiagram.aux
-OUTPUT DesignPattern.aux
-OUTPUT Github.aux
-OUTPUT Conclusion.aux
+OUTPUT Diagram.aux
+INPUT .\image\logo.png
+INPUT .\Diagram.tex
+INPUT .\Diagram.tex
+INPUT Diagram.tex
+INPUT .\image\Diagram\Class.png
+INPUT .\image\Diagram\Class.png
+INPUT .\image\Diagram\Class.png
+INPUT .\image\Diagram\Class.png
+INPUT .\image\Diagram\Class.png
+INPUT .\image\Diagram\Class.png
+INPUT .\image\Diagram\Class.png
+INPUT .\image\logo.png
+INPUT .\image\logo.png
+INPUT .\Mockup.tex
+INPUT .\Mockup.tex
+INPUT .\Mockup.tex
+INPUT .\Mockup.tex
+INPUT Mockup.tex
+INPUT .\image\Mockup UI\Main Menu.jpg
+INPUT .\image\Mockup UI\Main Menu.jpg
+INPUT .\image\Mockup UI\Main Menu.jpg
+INPUT .\image\Mockup UI\Main Menu.jpg
+INPUT .\image\Mockup UI\Main Menu.jpg
+INPUT .\image\Mockup UI\Main Menu.jpg
+INPUT .\image\Mockup UI\Main Menu.jpg
+INPUT .\image\Mockup UI\Scene.jpg
+INPUT .\image\Mockup UI\Scene.jpg
+INPUT .\image\Mockup UI\Scene.jpg
+INPUT .\image\Mockup UI\Scene.jpg
+INPUT .\image\Mockup UI\Scene.jpg
+INPUT .\image\Mockup UI\Scene.jpg
+INPUT .\image\Mockup UI\Scene.jpg
+INPUT .\image\Mockup UI\Office.jpg
+INPUT .\image\Mockup UI\Office.jpg
+INPUT .\image\Mockup UI\Office.jpg
+INPUT .\image\Mockup UI\Office.jpg
+INPUT .\image\Mockup UI\Office.jpg
+INPUT .\image\Mockup UI\Office.jpg
+INPUT .\image\Mockup UI\Office.jpg
+INPUT .\image\Mockup UI\Map.png
+INPUT .\image\Mockup UI\Map.png
+INPUT .\image\Mockup UI\Map.png
+INPUT .\image\Mockup UI\Map.png
+INPUT .\image\Mockup UI\Map.png
+INPUT .\image\Mockup UI\Map.png
+INPUT .\image\Mockup UI\Map.png
+INPUT .\image\logo.png
+INPUT .\image\Mockup UI\InventoryO.png
+INPUT .\image\Mockup UI\InventoryO.png
+INPUT .\image\Mockup UI\InventoryO.png
+INPUT .\image\Mockup UI\InventoryO.png
+INPUT .\image\Mockup UI\InventoryO.png
+INPUT .\image\Mockup UI\InventoryO.png
+INPUT .\image\Mockup UI\InventoryO.png
+INPUT .\image\Mockup UI\Inventory.png
+INPUT .\image\Mockup UI\Inventory.png
+INPUT .\image\Mockup UI\Inventory.png
+INPUT .\image\Mockup UI\Inventory.png
+INPUT .\image\Mockup UI\Inventory.png
+INPUT .\image\Mockup UI\Inventory.png
+INPUT .\image\Mockup UI\Inventory.png
+INPUT .\image\Mockup UI\Notebook.png
+INPUT .\image\Mockup UI\Notebook.png
+INPUT .\image\Mockup UI\Notebook.png
+INPUT .\image\Mockup UI\Notebook.png
+INPUT .\image\Mockup UI\Notebook.png
+INPUT .\image\Mockup UI\Notebook.png
+INPUT .\image\Mockup UI\Notebook.png
+INPUT .\image\Mockup UI\Iter.png
+INPUT .\image\Mockup UI\Iter.png
+INPUT .\image\Mockup UI\Iter.png
+INPUT .\image\Mockup UI\Iter.png
+INPUT .\image\Mockup UI\Iter.png
+INPUT .\image\Mockup UI\Iter.png
+INPUT .\image\Mockup UI\Iter.png
+INPUT .\image\logo.png
+INPUT .\image\Mockup UI\Player.png
+INPUT .\image\Mockup UI\Player.png
+INPUT .\image\Mockup UI\Player.png
+INPUT .\image\Mockup UI\Player.png
+INPUT .\image\Mockup UI\Player.png
+INPUT .\image\Mockup UI\Player.png
+INPUT .\image\Mockup UI\Player.png
+INPUT .\image\Mockup UI\Player in scene.png
+INPUT .\image\Mockup UI\Player in scene.png
+INPUT .\image\Mockup UI\Player in scene.png
+INPUT .\image\Mockup UI\Player in scene.png
+INPUT .\image\Mockup UI\Player in scene.png
+INPUT .\image\Mockup UI\Player in scene.png
+INPUT .\image\Mockup UI\Player in scene.png
+INPUT .\image\Mockup UI\Accuse.png
+INPUT .\image\Mockup UI\Accuse.png
+INPUT .\image\Mockup UI\Accuse.png
+INPUT .\image\Mockup UI\Accuse.png
+INPUT .\image\Mockup UI\Accuse.png
+INPUT .\image\Mockup UI\Accuse.png
+INPUT .\image\Mockup UI\Accuse.png
+INPUT .\image\Mockup UI\Button.png
+INPUT .\image\Mockup UI\Button.png
+INPUT .\image\Mockup UI\Button.png
+INPUT .\image\Mockup UI\Button.png
+INPUT .\image\Mockup UI\Button.png
+INPUT .\image\Mockup UI\Button.png
+INPUT .\image\Mockup UI\Button.png
+INPUT .\image\logo.png
+INPUT .\Demo.tex
+INPUT .\Demo.tex
+INPUT .\Demo.tex
+INPUT .\Demo.tex
+INPUT Demo.tex
+INPUT .\AI.tex
+INPUT .\AI.tex
+INPUT .\AI.tex
+INPUT .\AI.tex
+INPUT AI.tex
+INPUT .\image\logo.png
 INPUT main.aux
 INPUT .\Introduction_Acknowledge.aux
 INPUT .\Introduction_Acknowledge.aux
 INPUT Introduction_Acknowledge.aux
-INPUT .\DevelopmentOrientation.aux
-INPUT .\DevelopmentOrientation.aux
-INPUT DevelopmentOrientation.aux
-INPUT .\Requirement.aux
-INPUT .\Requirement.aux
-INPUT Requirement.aux
-INPUT .\Device.aux
-INPUT .\Device.aux
-INPUT Device.aux
-INPUT .\Usecase.aux
-INPUT .\Usecase.aux
-INPUT Usecase.aux
-INPUT .\Mockup.aux
-INPUT .\Mockup.aux
-INPUT Mockup.aux
-INPUT .\Database.aux
-INPUT .\Database.aux
-INPUT Database.aux
-INPUT .\SoftwareArchitecture.aux
-INPUT .\SoftwareArchitecture.aux
-INPUT SoftwareArchitecture.aux
-INPUT .\ClassDiagram.aux
-INPUT .\ClassDiagram.aux
-INPUT ClassDiagram.aux
-INPUT .\DesignPattern.aux
-INPUT .\DesignPattern.aux
-INPUT DesignPattern.aux
-INPUT .\Github.aux
-INPUT .\Github.aux
-INPUT Github.aux
-INPUT .\Conclusion.aux
-INPUT .\Conclusion.aux
-INPUT Conclusion.aux
+INPUT .\Diagram.aux
+INPUT .\Diagram.aux
+INPUT Diagram.aux
 INPUT .\main.out
 INPUT .\main.out
 INPUT C:\Users\nghia\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\tcrm1000.pk

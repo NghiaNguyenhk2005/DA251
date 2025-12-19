@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.9.21)  10 DEC 2025 16:31
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.9.21)  19 DEC 2025 09:29
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**"d:/DA 251/Final/DA251/CBL_DATH251/main.tex"
-(d:/DA 251/Final/DA251/CBL_DATH251/main.tex
+**c:/Users/nghia/Downloads/EEE/DA251/CBL_DATH251/main.tex
+(c:/Users/nghia/Downloads/EEE/DA251/CBL_DATH251/main.tex
 LaTeX2e <2025-06-01> patch level 1
 L3 programming layer <2025-08-13>
 (C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex/latex/base\article.cls
@@ -766,7 +766,18 @@ Package: enumitem 2025/02/06 v3.11 Customized lists
 \enit@inbox=\box125
 \enit@count@id=\count343
 \enitdp@description=\count344
-) (C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex/latex/graphics\lscape.sty
+) (C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex/latex/parskip\parskip.sty
+Package: parskip 2021-03-14 v2.0h non-zero parskip adjustments
+ (C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex/latex/kvoptions\kvoptions.sty
+Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
+ (C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex/generic/ltxcmds\ltxcmds.sty
+Package: ltxcmds 2023-12-04 v1.26 LaTeX kernel commands for general use (HO)
+) (C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex/latex/kvsetkeys\kvsetkeys.sty
+Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
+)) (C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex/latex/etoolbox\etoolbox.sty
+Package: etoolbox 2025/02/11 v2.5l e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count345
+)) (C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex/latex/graphics\lscape.sty
 Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
 ) (C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex/latex/pdflscape\pdflscape.sty
 Package: pdflscape 2022-10-27 v0.13 Display of landscape pages in PDF
@@ -775,15 +786,11 @@ Package: pdflscape-nometadata 2022-10-28 v0.13 Display of landscape pages in PDF
 Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
 )) (C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hyperref.sty
 Package: hyperref 2025-07-12 v7.01o Hypertext links for LaTeX
- (C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex/latex/kvsetkeys\kvsetkeys.sty
-Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
-) (C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex/generic/kvdefinekeys\kvdefinekeys.sty
+ (C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex/generic/kvdefinekeys\kvdefinekeys.sty
 Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
 ) (C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex/generic/pdfescape\pdfescape.sty
 Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
- (C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex/generic/ltxcmds\ltxcmds.sty
-Package: ltxcmds 2023-12-04 v1.26 LaTeX kernel commands for general use (HO)
-) (C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex/generic/pdftexcmds\pdftexcmds.sty
+ (C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex/generic/pdftexcmds\pdftexcmds.sty
 Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO)
  (C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex/generic/infwarerr\infwarerr.sty
 Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
@@ -799,13 +806,8 @@ Package: nameref 2025-06-21 v2.57 Cross-referencing by name of section
 Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 ) (C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex/generic/gettitlestring\gettitlestring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
- (C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex/latex/kvoptions\kvoptions.sty
-Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
-))
-\c@section@level=\count345
-) (C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex/latex/etoolbox\etoolbox.sty
-Package: etoolbox 2025/02/11 v2.5l e-TeX tools for LaTeX (JAW)
-\etb@tempcnta=\count346
+)
+\c@section@level=\count346
 ) (C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex/generic/stringenc\stringenc.sty
 Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO)
 )
@@ -866,14 +868,14 @@ File: hpdftex.def 2025-07-12 v7.01o Hyperref driver for pdfTeX
 \c@bookmark@seq@number=\count356
  (C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex/latex/rerunfilecheck\rerunfilecheck.sty
 Package: rerunfilecheck 2025-06-21 v1.11 Rerun checks for auxiliary files (HO)
- (C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex/generic/uniquecounter\uniquecounter.sty
+
+(C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex/generic/uniquecounter\uniquecounter.sty
 Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
 )
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 284.
 )
 \Hy@SectionHShift=\skip96
-)
-(C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex/latex/optidef\optidef.sty
+) (C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex/latex/optidef\optidef.sty
 Package: optidef 2019/04/23 - version=3.1, Package for defining optimization problems
  (C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex/latex/environ\environ.sty
 Package: environ 2014/05/04 v0.3 A new way to define environments
@@ -1081,7 +1083,7 @@ Package: glossaries-extra-stylemods 2025/08/13 v1.8 (NLCT)
 \glsxtrAltTreeIndent=\skip116
 \glsxtrtreetopindent=\skip117
 ))
-Package hyperref Info: Option `colorlinks' set `true' on input line 70.
+Package hyperref Info: Option `colorlinks' set `true' on input line 69.
  (C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz/libraries\tikzlibraryarrows.code.tex
 File: tikzlibraryarrows.code.tex 2025-08-29 v3.1.11a (3.1.11a)
  (C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries\pgflibraryarrows.code.tex
@@ -1114,29 +1116,29 @@ File: tikzlibrarybackgrounds.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 \c@proposition=\count406
 \c@subsubsubsection=\count407
 \indent@amount=\dimen359
- (main.aux (Introduction_Acknowledge.aux) (DevelopmentOrientation.aux) (Requirement.aux) (Device.aux) (Usecase.aux) (Mockup.aux) (Database.aux) (SoftwareArchitecture.aux) (ClassDiagram.aux) (DesignPattern.aux) (Github.aux) (Conclusion.aux))
+ (main.aux (Introduction_Acknowledge.aux) (Diagram.aux))
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 183.
-LaTeX Font Info:    ... okay on input line 183.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 183.
-LaTeX Font Info:    ... okay on input line 183.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 183.
-LaTeX Font Info:    ... okay on input line 183.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 183.
-LaTeX Font Info:    ... okay on input line 183.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 183.
-LaTeX Font Info:    ... okay on input line 183.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 183.
-LaTeX Font Info:    ... okay on input line 183.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 183.
-LaTeX Font Info:    ... okay on input line 183.
-LaTeX Font Info:    Checking defaults for T5/cmr/m/n on input line 183.
-LaTeX Font Info:    ... okay on input line 183.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 183.
-LaTeX Font Info:    ... okay on input line 183.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 183.
-LaTeX Font Info:    ... okay on input line 183.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 182.
+LaTeX Font Info:    ... okay on input line 182.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 182.
+LaTeX Font Info:    ... okay on input line 182.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 182.
+LaTeX Font Info:    ... okay on input line 182.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 182.
+LaTeX Font Info:    ... okay on input line 182.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 182.
+LaTeX Font Info:    ... okay on input line 182.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 182.
+LaTeX Font Info:    ... okay on input line 182.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 182.
+LaTeX Font Info:    ... okay on input line 182.
+LaTeX Font Info:    Checking defaults for T5/cmr/m/n on input line 182.
+LaTeX Font Info:    ... okay on input line 182.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 182.
+LaTeX Font Info:    ... okay on input line 182.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 182.
+LaTeX Font Info:    ... okay on input line 182.
  (C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count408
@@ -1200,32 +1202,32 @@ Package caption Info: End \AtBeginDocument code.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-Package hyperref Info: Link coloring ON on input line 183.
+Package hyperref Info: Link coloring ON on input line 182.
 (main.out) (main.out)
 \@outlinefile=\write5
 \openout5 = `main.out'.
 
-<image/logo.png, id=282, 438.9198pt x 418.6842pt>
+<image/logo.png, id=310, 438.9198pt x 418.6842pt>
 File: image/logo.png Graphic file (type png)
 <use image/logo.png>
-Package pdftex.def Info: image/logo.png  used on input line 197.
+Package pdftex.def Info: image/logo.png  used on input line 196.
 (pdftex.def)             Requested size: 85.35826pt x 81.42268pt.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 205.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 204.
  (C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 205.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 204.
  (C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Trying to load font information for U+lasy on input line 205.
+LaTeX Font Info:    Trying to load font information for U+lasy on input line 204.
  (C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex/latex/base\ulasy.fd
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
 )
 LaTeX Font Info:    Font shape `U/lasy/b/n' in size <7> not available
-(Font)              Font shape `U/lasy/m/n' tried instead on input line 205.
+(Font)              Font shape `U/lasy/m/n' tried instead on input line 204.
 LaTeX Font Info:    Font shape `U/lasy/b/n' in size <5> not available
-(Font)              Font shape `U/lasy/m/n' tried instead on input line 205.
+(Font)              Font shape `U/lasy/m/n' tried instead on input line 204.
 
 
 [1
@@ -1246,7 +1248,7 @@ LaTeX Font Info:    Font shape `T5/cmtt/bx/n' in size <10> not available
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.46 ...ame (Gameplay System)}{18}{subsection.4.4}
+l.46 ...ame (Gameplay System)}{17}{subsection.4.4}
                                                   % [1])
 \tf@toc=\write6
 \openout6 = `main.toc'.
@@ -1255,13 +1257,13 @@ l.46 ...ame (Gameplay System)}{18}{subsection.4.4}
 
 File: image/logo.png Graphic file (type png)
 <use image/logo.png>
-Package pdftex.def Info: image/logo.png  used on input line 262.
+Package pdftex.def Info: image/logo.png  used on input line 261.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
 [2]
 \openout2 = `Introduction_Acknowledge.aux'.
 
  (Introduction_Acknowledge.tex
-Overfull \hbox (19.51126pt too wide) in paragraph at lines 25--50
+Overfull \hbox (19.51126pt too wide) in paragraph at lines 29--54
  [][] 
  []
 
@@ -1269,7 +1271,7 @@ Overfull \hbox (19.51126pt too wide) in paragraph at lines 25--50
 
 File: image/logo.png Graphic file (type png)
 <use image/logo.png>
-Package pdftex.def Info: image/logo.png  used on input line 51.
+Package pdftex.def Info: image/logo.png  used on input line 55.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
 [3
 
@@ -1277,72 +1279,48 @@ Package pdftex.def Info: image/logo.png  used on input line 51.
 
 File: image/logo.png Graphic file (type png)
 <use image/logo.png>
-Package pdftex.def Info: image/logo.png  used on input line 91.
+Package pdftex.def Info: image/logo.png  used on input line 89.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
 [4]
 
 File: image/logo.png Graphic file (type png)
 <use image/logo.png>
-Package pdftex.def Info: image/logo.png  used on input line 140.
+Package pdftex.def Info: image/logo.png  used on input line 142.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
 [5])
 
 File: image/logo.png Graphic file (type png)
 <use image/logo.png>
-Package pdftex.def Info: image/logo.png  used on input line 268.
+Package pdftex.def Info: image/logo.png  used on input line 267.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
-[6]
-\openout2 = `DevelopmentOrientation.aux'.
-
- (DevelopmentOrientation.tex
-
-File: image/logo.png Graphic file (type png)
-<use image/logo.png>
-Package pdftex.def Info: image/logo.png  used on input line 41.
-(pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
-[7
-
-
-
-])
-
-File: image/logo.png Graphic file (type png)
-<use image/logo.png>
-Package pdftex.def Info: image/logo.png  used on input line 269.
-(pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
-[8]
-\openout2 = `Requirement.aux'.
-
- (Requirement.tex
+[6] (DevelopmentOrientation.tex
 
 File: image/logo.png Graphic file (type png)
 <use image/logo.png>
 Package pdftex.def Info: image/logo.png  used on input line 38.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
-[9
+[7
 
 
-
-]
-
-File: image/logo.png Graphic file (type png)
-<use image/logo.png>
-Package pdftex.def Info: image/logo.png  used on input line 79.
-(pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
-[10])
+]) (Requirement.tex
 
 File: image/logo.png Graphic file (type png)
 <use image/logo.png>
-Package pdftex.def Info: image/logo.png  used on input line 270.
+Package pdftex.def Info: image/logo.png  used on input line 5.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
-[11]
-\openout2 = `Device.aux'.
+[8]
 
+File: image/logo.png Graphic file (type png)
+<use image/logo.png>
+Package pdftex.def Info: image/logo.png  used on input line 38.
+(pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
+[9]
 
-No file Device.tex.
-\openout2 = `Usecase.aux'.
-
-(Usecase.tex
+File: image/logo.png Graphic file (type png)
+<use image/logo.png>
+Package pdftex.def Info: image/logo.png  used on input line 82.
+(pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
+[10]) (Usecase.tex
 Overfull \hbox (60.364pt too wide) in alignment at lines 5--63
  [] [] [] 
  []
@@ -1351,19 +1329,12 @@ File: image/logo.png Graphic file (type png)
 <use image/logo.png>
 Package pdftex.def Info: image/logo.png  used on input line 63.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
-[12
-
-
-
-
-
-
-]
-<image/UC Diagram/FR_UI.drawio.png, id=453, 859.21pt x 613.29124pt>
+[11]
+<image/UC Diagram/FR_UI.drawio.png, id=482, 859.21pt x 613.29124pt>
 File: image/UC Diagram/FR_UI.drawio.png Graphic file (type png)
 <use image/UC Diagram/FR_UI.drawio.png>
 Package pdftex.def Info: image/UC Diagram/FR_UI.drawio.png  used on input line 74.
-(pdftex.def)             Requested size: 418.25368pt x 298.55014pt.
+(pdftex.def)             Requested size: 334.60422pt x 238.83636pt.
 
 Overfull \hbox (5.28488pt too wide) in paragraph at lines 81--99
  [][] 
@@ -1375,7 +1346,7 @@ File: image/logo.png Graphic file (type png)
 <use image/logo.png>
 Package pdftex.def Info: image/logo.png  used on input line 100.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
-[13 <./image/UC Diagram/FR_UI.drawio.png>]
+[12 <./image/UC Diagram/FR_UI.drawio.png>]
 Overfull \hbox (5.28488pt too wide) in paragraph at lines 103--121
  [][] 
  []
@@ -1391,12 +1362,12 @@ File: image/logo.png Graphic file (type png)
 <use image/logo.png>
 Package pdftex.def Info: image/logo.png  used on input line 143.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
-[14]
+[13]
 Overfull \hbox (5.28488pt too wide) in paragraph at lines 146--164
  [][] 
  []
 
-<image/UC Diagram/FR_MENU.drawio.png, id=468, 788.9475pt x 522.95375pt>
+<image/UC Diagram/FR_MENU.drawio.png, id=498, 788.9475pt x 522.95375pt>
 File: image/UC Diagram/FR_MENU.drawio.png Graphic file (type png)
 <use image/UC Diagram/FR_MENU.drawio.png>
 Package pdftex.def Info: image/UC Diagram/FR_MENU.drawio.png  used on input line 175.
@@ -1407,7 +1378,7 @@ File: image/logo.png Graphic file (type png)
 <use image/logo.png>
 Package pdftex.def Info: image/logo.png  used on input line 177.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
-[15]
+[14]
 Overfull \hbox (5.28488pt too wide) in paragraph at lines 182--200
  [][] 
  []
@@ -1423,7 +1394,7 @@ File: image/logo.png Graphic file (type png)
 <use image/logo.png>
 Package pdftex.def Info: image/logo.png  used on input line 224.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
-[16 <./image/UC Diagram/FR_MENU.drawio.png>]
+[15 <./image/UC Diagram/FR_MENU.drawio.png>]
 Overfull \hbox (5.28488pt too wide) in paragraph at lines 228--246
  [][] 
  []
@@ -1439,8 +1410,8 @@ File: image/logo.png Graphic file (type png)
 <use image/logo.png>
 Package pdftex.def Info: image/logo.png  used on input line 271.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
-[17]
-<image/UC Diagram/FR_GAME.drawio.png, id=491, 958.58125pt x 613.29124pt>
+[16]
+<image/UC Diagram/FR_GAME.drawio.png, id=521, 958.58125pt x 613.29124pt>
 File: image/UC Diagram/FR_GAME.drawio.png Graphic file (type png)
 <use image/UC Diagram/FR_GAME.drawio.png>
 Package pdftex.def Info: image/UC Diagram/FR_GAME.drawio.png  used on input line 281.
@@ -1456,7 +1427,7 @@ File: image/logo.png Graphic file (type png)
 <use image/logo.png>
 Package pdftex.def Info: image/logo.png  used on input line 307.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
-[18 <./image/UC Diagram/FR_GAME.drawio.png>]
+[17 <./image/UC Diagram/FR_GAME.drawio.png>]
 Overfull \hbox (5.28488pt too wide) in paragraph at lines 311--330
  [][] 
  []
@@ -1472,12 +1443,12 @@ File: image/logo.png Graphic file (type png)
 <use image/logo.png>
 Package pdftex.def Info: image/logo.png  used on input line 355.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
-[19]
+[18]
 Overfull \hbox (5.28488pt too wide) in paragraph at lines 359--377
  [][] 
  []
 
-<image/UC Diagram/FR_INTERACTION.drawio.png, id=508, 1038.88126pt x 613.29124pt>
+<image/UC Diagram/FR_INTERACTION.drawio.png, id=538, 1038.88126pt x 613.29124pt>
 File: image/UC Diagram/FR_INTERACTION.drawio.png Graphic file (type png)
 <use image/UC Diagram/FR_INTERACTION.drawio.png>
 Package pdftex.def Info: image/UC Diagram/FR_INTERACTION.drawio.png  used on input line 388.
@@ -1488,7 +1459,7 @@ File: image/logo.png Graphic file (type png)
 <use image/logo.png>
 Package pdftex.def Info: image/logo.png  used on input line 390.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
-[20]
+[19]
 Overfull \hbox (5.28488pt too wide) in paragraph at lines 394--413
  [][] 
  []
@@ -1504,12 +1475,12 @@ File: image/logo.png Graphic file (type png)
 <use image/logo.png>
 Package pdftex.def Info: image/logo.png  used on input line 438.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
-[21 <./image/UC Diagram/FR_INTERACTION.drawio.png>]
+[20 <./image/UC Diagram/FR_INTERACTION.drawio.png>]
 Overfull \hbox (5.28488pt too wide) in paragraph at lines 442--460
  [][] 
  []
 
-<image/UC Diagram/FR_NPC.drawio.png, id=524, 1032.85875pt x 613.29124pt>
+<image/UC Diagram/FR_NPC.drawio.png, id=554, 1032.85875pt x 613.29124pt>
 File: image/UC Diagram/FR_NPC.drawio.png Graphic file (type png)
 <use image/UC Diagram/FR_NPC.drawio.png>
 Package pdftex.def Info: image/UC Diagram/FR_NPC.drawio.png  used on input line 471.
@@ -1520,7 +1491,7 @@ File: image/logo.png Graphic file (type png)
 <use image/logo.png>
 Package pdftex.def Info: image/logo.png  used on input line 473.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
-[22]
+[21]
 Overfull \hbox (5.28488pt too wide) in paragraph at lines 478--497
  [][] 
  []
@@ -1536,12 +1507,12 @@ File: image/logo.png Graphic file (type png)
 <use image/logo.png>
 Package pdftex.def Info: image/logo.png  used on input line 521.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
-[23 <./image/UC Diagram/FR_NPC.drawio.png>]
+[22 <./image/UC Diagram/FR_NPC.drawio.png>]
 Overfull \hbox (5.28488pt too wide) in paragraph at lines 524--542
  [][] 
  []
 
-<image/UC Diagram/FR_NOTEBOOK.drawio.png, id=540, 1038.88126pt x 532.99126pt>
+<image/UC Diagram/FR_NOTEBOOK.drawio.png, id=570, 1038.88126pt x 532.99126pt>
 File: image/UC Diagram/FR_NOTEBOOK.drawio.png Graphic file (type png)
 <use image/UC Diagram/FR_NOTEBOOK.drawio.png>
 Package pdftex.def Info: image/UC Diagram/FR_NOTEBOOK.drawio.png  used on input line 553.
@@ -1552,7 +1523,7 @@ File: image/logo.png Graphic file (type png)
 <use image/logo.png>
 Package pdftex.def Info: image/logo.png  used on input line 555.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
-[24]
+[23]
 Overfull \hbox (5.28488pt too wide) in paragraph at lines 560--579
  [][] 
  []
@@ -1568,7 +1539,7 @@ File: image/logo.png Graphic file (type png)
 <use image/logo.png>
 Package pdftex.def Info: image/logo.png  used on input line 604.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
-[25 <./image/UC Diagram/FR_NOTEBOOK.drawio.png>]
+[24 <./image/UC Diagram/FR_NOTEBOOK.drawio.png>]
 Overfull \hbox (5.28488pt too wide) in paragraph at lines 608--626
  [][] 
  []
@@ -1584,8 +1555,8 @@ File: image/logo.png Graphic file (type png)
 <use image/logo.png>
 Package pdftex.def Info: image/logo.png  used on input line 650.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
-[26]
-<image/UC Diagram/FR_INVENTORY.drawio.png, id=564, 1038.88126pt x 532.99126pt>
+[25]
+<image/UC Diagram/FR_INVENTORY.drawio.png, id=594, 1038.88126pt x 532.99126pt>
 File: image/UC Diagram/FR_INVENTORY.drawio.png Graphic file (type png)
 <use image/UC Diagram/FR_INVENTORY.drawio.png>
 Package pdftex.def Info: image/UC Diagram/FR_INVENTORY.drawio.png  used on input line 661.
@@ -1601,7 +1572,7 @@ File: image/logo.png Graphic file (type png)
 <use image/logo.png>
 Package pdftex.def Info: image/logo.png  used on input line 688.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
-[27 <./image/UC Diagram/FR_INVENTORY.drawio.png>]
+[26 <./image/UC Diagram/FR_INVENTORY.drawio.png>]
 Overfull \hbox (5.28488pt too wide) in paragraph at lines 692--711
  [][] 
  []
@@ -1617,12 +1588,12 @@ File: image/logo.png Graphic file (type png)
 <use image/logo.png>
 Package pdftex.def Info: image/logo.png  used on input line 736.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
-[28]
+[27]
 Overfull \hbox (5.28488pt too wide) in paragraph at lines 740--757
  [][] 
  []
 
-<image/UC Diagram/FR_INTERR.drawio.png, id=580, 1047.915pt x 532.99126pt>
+<image/UC Diagram/FR_INTERR.drawio.png, id=610, 1047.915pt x 532.99126pt>
 File: image/UC Diagram/FR_INTERR.drawio.png Graphic file (type png)
 <use image/UC Diagram/FR_INTERR.drawio.png>
 Package pdftex.def Info: image/UC Diagram/FR_INTERR.drawio.png  used on input line 768.
@@ -1633,7 +1604,7 @@ File: image/logo.png Graphic file (type png)
 <use image/logo.png>
 Package pdftex.def Info: image/logo.png  used on input line 770.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
-[29]
+[28]
 Overfull \hbox (5.28488pt too wide) in paragraph at lines 775--793
  [][] 
  []
@@ -1649,34 +1620,28 @@ File: image/logo.png Graphic file (type png)
 <use image/logo.png>
 Package pdftex.def Info: image/logo.png  used on input line 818.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
-[30 <./image/UC Diagram/FR_INTERR.drawio.png>]
+[29 <./image/UC Diagram/FR_INTERR.drawio.png>]
 Overfull \hbox (5.28488pt too wide) in paragraph at lines 822--841
  [][] 
  []
 
-<image/UC Diagram/FR_ACCUSE.drawio.png, id=597, 1042.89626pt x 532.99126pt>
+<image/UC Diagram/FR_ACCUSE.drawio.png, id=626, 1042.89626pt x 532.99126pt>
 File: image/UC Diagram/FR_ACCUSE.drawio.png Graphic file (type png)
 <use image/UC Diagram/FR_ACCUSE.drawio.png>
 Package pdftex.def Info: image/UC Diagram/FR_ACCUSE.drawio.png  used on input line 852.
-(pdftex.def)             Requested size: 418.25368pt x 213.75389pt.
+(pdftex.def)             Requested size: 334.60422pt x 171.00798pt.
 
 
 File: image/logo.png Graphic file (type png)
 <use image/logo.png>
 Package pdftex.def Info: image/logo.png  used on input line 854.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
-[31]
+[30]
 Overfull \hbox (5.28488pt too wide) in paragraph at lines 859--882
  [][] 
  []
 
 
-
-File: image/logo.png Graphic file (type png)
-<use image/logo.png>
-Package pdftex.def Info: image/logo.png  used on input line 883.
-(pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
-[32 <./image/UC Diagram/FR_ACCUSE.drawio.png>]
 Overfull \hbox (5.28488pt too wide) in paragraph at lines 886--911
  [][] 
  []
@@ -1687,8 +1652,8 @@ File: image/logo.png Graphic file (type png)
 <use image/logo.png>
 Package pdftex.def Info: image/logo.png  used on input line 912.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
-[33]
-<image/UC Diagram/FR_PRO.drawio.png, id=618, 1038.88126pt x 603.25375pt>
+[31 <./image/UC Diagram/FR_ACCUSE.drawio.png>]
+<image/UC Diagram/FR_PRO.drawio.png, id=643, 1038.88126pt x 603.25375pt>
 File: image/UC Diagram/FR_PRO.drawio.png Graphic file (type png)
 <use image/UC Diagram/FR_PRO.drawio.png>
 Package pdftex.def Info: image/UC Diagram/FR_PRO.drawio.png  used on input line 923.
@@ -1699,7 +1664,7 @@ File: image/logo.png Graphic file (type png)
 <use image/logo.png>
 Package pdftex.def Info: image/logo.png  used on input line 925.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
-[34]
+[32]
 Overfull \hbox (5.28488pt too wide) in paragraph at lines 930--947
  [][] 
  []
@@ -1715,7 +1680,7 @@ File: image/logo.png Graphic file (type png)
 <use image/logo.png>
 Package pdftex.def Info: image/logo.png  used on input line 971.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
-[35 <./image/UC Diagram/FR_PRO.drawio.png>]
+[33 <./image/UC Diagram/FR_PRO.drawio.png>]
 Overfull \hbox (5.28488pt too wide) in paragraph at lines 975--993
  [][] 
  []
@@ -1731,7 +1696,7 @@ File: image/logo.png Graphic file (type png)
 <use image/logo.png>
 Package pdftex.def Info: image/logo.png  used on input line 1016.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
-[36]
+[34]
 Overfull \hbox (5.28488pt too wide) in paragraph at lines 1020--1038
  [][] 
  []
@@ -1740,53 +1705,149 @@ Excluding 'comment' comment.)
 
 File: image/logo.png Graphic file (type png)
 <use image/logo.png>
-Package pdftex.def Info: image/logo.png  used on input line 272.
+Package pdftex.def Info: image/logo.png  used on input line 271.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
-[37]
-\openout2 = `Mockup.aux'.
+[35]
+\openout2 = `Diagram.aux'.
+
+ (Diagram.tex
+<image/Diagram/Class.png, id=672, 2157.05875pt x 2202.2275pt>
+File: image/Diagram/Class.png Graphic file (type png)
+<use image/Diagram/Class.png>
+Package pdftex.def Info: image/Diagram/Class.png  used on input line 5.
+(pdftex.def)             Requested size: 418.25368pt x 426.9964pt.
 
 
-No file Mockup.tex.
-\openout2 = `Database.aux'.
+File: image/logo.png Graphic file (type png)
+<use image/logo.png>
+Package pdftex.def Info: image/logo.png  used on input line 19.
+(pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
+[36
 
-No file Database.tex.
-\openout2 = `SoftwareArchitecture.aux'.
+ <./image/Diagram/Class.png>])
 
-No file SoftwareArchitecture.tex.
-\openout2 = `ClassDiagram.aux'.
+File: image/logo.png Graphic file (type png)
+<use image/logo.png>
+Package pdftex.def Info: image/logo.png  used on input line 271.
+(pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
+[37] (Mockup.tex
+<image/Mockup UI/Main Menu.jpg, id=686, 805.0075pt x 493.845pt>
+File: image/Mockup UI/Main Menu.jpg Graphic file (type jpg)
+<use image/Mockup UI/Main Menu.jpg>
+Package pdftex.def Info: image/Mockup UI/Main Menu.jpg  used on input line 10.
+(pdftex.def)             Requested size: 188.21288pt x 115.45828pt.
+<image/Mockup UI/Scene.jpg, id=687, 2826.56pt x 1541.76pt>
+File: image/Mockup UI/Scene.jpg Graphic file (type jpg)
+<use image/Mockup UI/Scene.jpg>
+Package pdftex.def Info: image/Mockup UI/Scene.jpg  used on input line 15.
+(pdftex.def)             Requested size: 188.21288pt x 102.64102pt.
+<image/Mockup UI/Office.jpg, id=688, 2794.44pt x 1541.76pt>
+File: image/Mockup UI/Office.jpg Graphic file (type jpg)
+<use image/Mockup UI/Office.jpg>
+Package pdftex.def Info: image/Mockup UI/Office.jpg  used on input line 23.
+(pdftex.def)             Requested size: 188.21288pt x 103.84082pt.
+<image/Mockup UI/Map.png, id=689, 840.89156pt x 477.28313pt>
+File: image/Mockup UI/Map.png Graphic file (type png)
+<use image/Mockup UI/Map.png>
+Package pdftex.def Info: image/Mockup UI/Map.png  used on input line 28.
+(pdftex.def)             Requested size: 188.21288pt x 106.82329pt.
 
-No file ClassDiagram.tex.
-\openout2 = `DesignPattern.aux'.
 
-No file DesignPattern.tex.
-\openout2 = `Github.aux'.
+File: image/logo.png Graphic file (type png)
+<use image/logo.png>
+Package pdftex.def Info: image/logo.png  used on input line 32.
+(pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
+[38
 
-No file Github.tex.
-\openout2 = `Conclusion.aux'.
 
-No file Conclusion.tex.
+ <./image/Mockup UI/Main Menu.jpg> <./image/Mockup UI/Scene.jpg> <./image/Mockup UI/Office.jpg> <./image/Mockup UI/Map.png>]
+<image/Mockup UI/InventoryO.png, id=697, 480.29437pt x 328.97906pt>
+File: image/Mockup UI/InventoryO.png Graphic file (type png)
+<use image/Mockup UI/InventoryO.png>
+Package pdftex.def Info: image/Mockup UI/InventoryO.png  used on input line 41.
+(pdftex.def)             Requested size: 188.21288pt x 128.91875pt.
+<image/Mockup UI/Inventory.png, id=698, 958.3303pt x 525.46312pt>
+File: image/Mockup UI/Inventory.png Graphic file (type png)
+<use image/Mockup UI/Inventory.png>
+Package pdftex.def Info: image/Mockup UI/Inventory.png  used on input line 46.
+(pdftex.def)             Requested size: 188.21288pt x 103.19853pt.
+<image/Mockup UI/Notebook.png, id=699, 928.97063pt x 506.6428pt>
+File: image/Mockup UI/Notebook.png Graphic file (type png)
+<use image/Mockup UI/Notebook.png>
+Package pdftex.def Info: image/Mockup UI/Notebook.png  used on input line 54.
+(pdftex.def)             Requested size: 188.21288pt x 102.64871pt.
+<image/Mockup UI/Iter.png, id=700, 949.29657pt x 544.28343pt>
+File: image/Mockup UI/Iter.png Graphic file (type png)
+<use image/Mockup UI/Iter.png>
+Package pdftex.def Info: image/Mockup UI/Iter.png  used on input line 59.
+(pdftex.def)             Requested size: 188.21288pt x 107.90797pt.
 
+
+File: image/logo.png Graphic file (type png)
+<use image/logo.png>
+Package pdftex.def Info: image/logo.png  used on input line 63.
+(pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
+[39
+
+ <./image/Mockup UI/InventoryO.png> <./image/Mockup UI/Inventory.png> <./image/Mockup UI/Notebook.png> <./image/Mockup UI/Iter.png>]
+<image/Mockup UI/Player.png, id=711, 1282.03969pt x 745.28438pt>
+File: image/Mockup UI/Player.png Graphic file (type png)
+<use image/Mockup UI/Player.png>
+Package pdftex.def Info: image/Mockup UI/Player.png  used on input line 72.
+(pdftex.def)             Requested size: 188.21288pt x 109.41106pt.
+<image/Mockup UI/Player in scene.png, id=712, 958.3303pt x 532.99126pt>
+File: image/Mockup UI/Player in scene.png Graphic file (type png)
+<use image/Mockup UI/Player in scene.png>
+Package pdftex.def Info: image/Mockup UI/Player in scene.png  used on input line 77.
+(pdftex.def)             Requested size: 188.21288pt x 104.67702pt.
+<image/Mockup UI/Accuse.png, id=713, 954.56625pt x 539.01375pt>
+File: image/Mockup UI/Accuse.png Graphic file (type png)
+<use image/Mockup UI/Accuse.png>
+Package pdftex.def Info: image/Mockup UI/Accuse.png  used on input line 85.
+(pdftex.def)             Requested size: 188.21288pt x 106.27104pt.
+<image/Mockup UI/Button.png, id=714, 511.15968pt x 515.67656pt>
+File: image/Mockup UI/Button.png Graphic file (type png)
+<use image/Mockup UI/Button.png>
+Package pdftex.def Info: image/Mockup UI/Button.png  used on input line 90.
+(pdftex.def)             Requested size: 188.21288pt x 189.87671pt.
+
+
+File: image/logo.png Graphic file (type png)
+<use image/logo.png>
+Package pdftex.def Info: image/logo.png  used on input line 94.
+(pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
+[40
+
+ <./image/Mockup UI/Player.png> <./image/Mockup UI/Player in scene.png> <./image/Mockup UI/Accuse.png> <./image/Mockup UI/Button.png>]) (Demo.tex) (AI.tex)
+
+File: image/logo.png Graphic file (type png)
+<use image/logo.png>
+Package pdftex.def Info: image/logo.png  used on input line 286.
+(pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
+[41
+
+] 
 enddocument/afterlastpage (AED): lastpage setting LastPage.
-(main.aux (Introduction_Acknowledge.aux) (DevelopmentOrientation.aux) (Requirement.aux) (Device.aux) (Usecase.aux) (Mockup.aux) (Database.aux) (SoftwareArchitecture.aux) (ClassDiagram.aux) (DesignPattern.aux) (Github.aux) (Conclusion.aux))
+(main.aux (Introduction_Acknowledge.aux) (Diagram.aux))
  ***********
 LaTeX2e <2025-06-01> patch level 1
 L3 programming layer <2025-08-13>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: D2EDAEB004EE3DB2BF5219D39D295148;15930.
+(rerunfilecheck)             Checksum: 9B009B217E9958D76D4A342D44DEE38D;17407.
  ) 
 Here is how much of TeX's memory you used:
- 38763 strings out of 468133
- 785452 string characters out of 5430712
- 1292461 words of memory out of 5000000
- 66511 multiletter control sequences out of 15000+600000
+ 38750 strings out of 468133
+ 784551 string characters out of 5430712
+ 1288093 words of memory out of 5000000
+ 66505 multiletter control sequences out of 15000+600000
  643120 words of font info for 75 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 84i,26n,87p,2538b,846s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 84i,26n,87p,2549b,820s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\nghia\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk><C:/Users/nghia/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/nghia/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vnbx10.pfb><C:/Users/nghia/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vnbx12.pfb><C:/Users/nghia/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vnbxti10.pfb><C:/Users/nghia/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vnr10.pfb><C:/Users/nghia/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vnr12.pfb><C:/Users/nghia/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vntt10.pfb><C:/Users/nghia/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vntt8.pfb>
-Output written on main.pdf (38 pages, 563739 bytes).
+Output written on main.pdf (42 pages, 10292716 bytes).
 PDF statistics:
- 726 PDF objects out of 1000 (max. 8388607)
- 176 named destinations out of 1000 (max. 500000)
- 620 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 826 PDF objects out of 1000 (max. 8388607)
+ 202 named destinations out of 1000 (max. 500000)
+ 741 words of extra memory for PDF output out of 10000 (max. 10000000)
 
