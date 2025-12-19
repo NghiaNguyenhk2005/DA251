@@ -31,39 +31,46 @@
 \contentsline {subsubsection}{\numberline {3.1.2}Quản lý trạng thái nhân vật và cốt truyện}{9}{subsubsection.3.1.2}%
 \contentsline {subsubsection}{\numberline {3.1.3}Giao diện người dùng}{9}{subsubsection.3.1.3}%
 \contentsline {subsubsection}{\numberline {3.1.4}Quản lý lưu và tải trò chơi}{9}{subsubsection.3.1.4}%
-\contentsline {subsubsection}{\numberline {3.1.5}Âm thanh và hiệu ứng}{10}{subsubsection.3.1.5}%
+\contentsline {subsubsection}{\numberline {3.1.5}Âm thanh và hiệu ứng}{9}{subsubsection.3.1.5}%
 \contentsline {subsubsection}{\numberline {3.1.6}Quản lý kịch bản và nội dung}{10}{subsubsection.3.1.6}%
 \contentsline {subsubsection}{\numberline {3.1.7}Hệ thống kết thúc đa dạng}{10}{subsubsection.3.1.7}%
 \contentsline {subsection}{\numberline {3.2}Yêu cầu phi chức năng (Non-functional requirements)}{10}{subsection.3.2}%
-\contentsline {section}{\numberline {4}Use-case}{12}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Tổng hợp Use Case toàn hệ thống}{12}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}FR-UI: Hệ thống giao diện người dùng (User Interface System)}{13}{subsection.4.2}%
-\contentsline {subsubsection}{\numberline {4.2.1}Lược đồ Use-case}{13}{subsubsection.4.2.1}%
-\contentsline {subsubsection}{\numberline {4.2.2}Đặc tả Use-case}{14}{subsubsection.4.2.2}%
-\contentsline {subsection}{\numberline {4.3}FR-MENU: Hệ thống Menu chính (Main Menu System)}{16}{subsection.4.3}%
-\contentsline {subsubsection}{\numberline {4.3.1}Lược đồ Use-case}{16}{subsubsection.4.3.1}%
-\contentsline {subsubsection}{\numberline {4.3.2}Đặc tả Use-case}{16}{subsubsection.4.3.2}%
-\contentsline {subsection}{\numberline {4.4}FR-GAME: Hệ thống chơi game (Gameplay System)}{18}{subsection.4.4}%
-\contentsline {subsubsection}{\numberline {4.4.1}Lược đồ Use-case}{18}{subsubsection.4.4.1}%
-\contentsline {subsubsection}{\numberline {4.4.2}Đặc tả Use-case}{19}{subsubsection.4.4.2}%
-\contentsline {subsection}{\numberline {4.5}FR-INTERACTION: Hệ thống tương tác vật phẩm (Item Interaction System)}{21}{subsection.4.5}%
-\contentsline {subsubsection}{\numberline {4.5.1}Lược đồ Use-case}{21}{subsubsection.4.5.1}%
-\contentsline {subsubsection}{\numberline {4.5.2}Đặc tả Use-case}{21}{subsubsection.4.5.2}%
-\contentsline {subsection}{\numberline {4.6}FR-NPC: Hệ thống tương tác NPC (NPC Interaction System)}{23}{subsection.4.6}%
-\contentsline {subsubsection}{\numberline {4.6.1}Lược đồ Use-case}{23}{subsubsection.4.6.1}%
-\contentsline {subsubsection}{\numberline {4.6.2}Đặc tả Use-case}{23}{subsubsection.4.6.2}%
-\contentsline {subsection}{\numberline {4.7}FR-NOTEBOOK: Hệ thống quản lý sổ tay (Notebook Management System)}{25}{subsection.4.7}%
-\contentsline {subsubsection}{\numberline {4.7.1}Lược đồ Use-case}{25}{subsubsection.4.7.1}%
-\contentsline {subsubsection}{\numberline {4.7.2}Đặc tả Use-case}{25}{subsubsection.4.7.2}%
-\contentsline {subsection}{\numberline {4.8}FR-INVENTORY: Hệ thống quản lý túi đồ (Inventory Management System)}{27}{subsection.4.8}%
-\contentsline {subsubsection}{\numberline {4.8.1}Lược đồ Use-case}{27}{subsubsection.4.8.1}%
-\contentsline {subsubsection}{\numberline {4.8.2}Đặc tả Use-case}{28}{subsubsection.4.8.2}%
-\contentsline {subsection}{\numberline {4.9}FR-INTERROGATION: Hệ thống thẩm vấn nghi phạm (Interrogation System)}{30}{subsection.4.9}%
-\contentsline {subsubsection}{\numberline {4.9.1}Lược đồ Use-case}{30}{subsubsection.4.9.1}%
-\contentsline {subsubsection}{\numberline {4.9.2}Đặc tả Use-case}{30}{subsubsection.4.9.2}%
-\contentsline {subsection}{\numberline {4.10}FR-ACCUSE: Hệ thống buộc tội (Accusation System)}{32}{subsection.4.10}%
-\contentsline {subsubsection}{\numberline {4.10.1}Lược đồ Use-case}{32}{subsubsection.4.10.1}%
-\contentsline {subsubsection}{\numberline {4.10.2}Đặc tả Use-case}{33}{subsubsection.4.10.2}%
-\contentsline {subsection}{\numberline {4.11}FR-PROGRESSION: Hệ thống quản lý tiến trình (Progression Management System)}{35}{subsection.4.11}%
-\contentsline {subsubsection}{\numberline {4.11.1}Lược đồ Use-case}{35}{subsubsection.4.11.1}%
-\contentsline {subsubsection}{\numberline {4.11.2}Đặc tả Use-case}{35}{subsubsection.4.11.2}%
+\contentsline {section}{\numberline {4}Use-case}{11}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Tổng hợp Use Case toàn hệ thống}{11}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}FR-UI: Hệ thống giao diện người dùng (User Interface System)}{12}{subsection.4.2}%
+\contentsline {subsubsection}{\numberline {4.2.1}Lược đồ Use-case}{12}{subsubsection.4.2.1}%
+\contentsline {subsubsection}{\numberline {4.2.2}Đặc tả Use-case}{13}{subsubsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.3}FR-MENU: Hệ thống Menu chính (Main Menu System)}{15}{subsection.4.3}%
+\contentsline {subsubsection}{\numberline {4.3.1}Lược đồ Use-case}{15}{subsubsection.4.3.1}%
+\contentsline {subsubsection}{\numberline {4.3.2}Đặc tả Use-case}{15}{subsubsection.4.3.2}%
+\contentsline {subsection}{\numberline {4.4}FR-GAME: Hệ thống chơi game (Gameplay System)}{17}{subsection.4.4}%
+\contentsline {subsubsection}{\numberline {4.4.1}Lược đồ Use-case}{17}{subsubsection.4.4.1}%
+\contentsline {subsubsection}{\numberline {4.4.2}Đặc tả Use-case}{18}{subsubsection.4.4.2}%
+\contentsline {subsection}{\numberline {4.5}FR-INTERACTION: Hệ thống tương tác vật phẩm (Item Interaction System)}{20}{subsection.4.5}%
+\contentsline {subsubsection}{\numberline {4.5.1}Lược đồ Use-case}{20}{subsubsection.4.5.1}%
+\contentsline {subsubsection}{\numberline {4.5.2}Đặc tả Use-case}{20}{subsubsection.4.5.2}%
+\contentsline {subsection}{\numberline {4.6}FR-NPC: Hệ thống tương tác NPC (NPC Interaction System)}{22}{subsection.4.6}%
+\contentsline {subsubsection}{\numberline {4.6.1}Lược đồ Use-case}{22}{subsubsection.4.6.1}%
+\contentsline {subsubsection}{\numberline {4.6.2}Đặc tả Use-case}{22}{subsubsection.4.6.2}%
+\contentsline {subsection}{\numberline {4.7}FR-NOTEBOOK: Hệ thống quản lý sổ tay (Notebook Management System)}{24}{subsection.4.7}%
+\contentsline {subsubsection}{\numberline {4.7.1}Lược đồ Use-case}{24}{subsubsection.4.7.1}%
+\contentsline {subsubsection}{\numberline {4.7.2}Đặc tả Use-case}{24}{subsubsection.4.7.2}%
+\contentsline {subsection}{\numberline {4.8}FR-INVENTORY: Hệ thống quản lý túi đồ (Inventory Management System)}{26}{subsection.4.8}%
+\contentsline {subsubsection}{\numberline {4.8.1}Lược đồ Use-case}{26}{subsubsection.4.8.1}%
+\contentsline {subsubsection}{\numberline {4.8.2}Đặc tả Use-case}{27}{subsubsection.4.8.2}%
+\contentsline {subsection}{\numberline {4.9}FR-INTERROGATION: Hệ thống thẩm vấn nghi phạm (Interrogation System)}{29}{subsection.4.9}%
+\contentsline {subsubsection}{\numberline {4.9.1}Lược đồ Use-case}{29}{subsubsection.4.9.1}%
+\contentsline {subsubsection}{\numberline {4.9.2}Đặc tả Use-case}{29}{subsubsection.4.9.2}%
+\contentsline {subsection}{\numberline {4.10}FR-ACCUSE: Hệ thống buộc tội (Accusation System)}{31}{subsection.4.10}%
+\contentsline {subsubsection}{\numberline {4.10.1}Lược đồ Use-case}{31}{subsubsection.4.10.1}%
+\contentsline {subsubsection}{\numberline {4.10.2}Đặc tả Use-case}{31}{subsubsection.4.10.2}%
+\contentsline {subsection}{\numberline {4.11}FR-PROGRESSION: Hệ thống quản lý tiến trình (Progression Management System)}{33}{subsection.4.11}%
+\contentsline {subsubsection}{\numberline {4.11.1}Lược đồ Use-case}{33}{subsubsection.4.11.1}%
+\contentsline {subsubsection}{\numberline {4.11.2}Đặc tả Use-case}{33}{subsubsection.4.11.2}%
+\contentsline {section}{\numberline {5}Lược đồ lớp hiện thực và đặc tả các lớp}{36}{section.5}%
+\contentsline {section}{\numberline {6}Mockup Giao Diện}{38}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Giao diện chính và Bối cảnh}{38}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Giao diện Chức năng (Gameplay UI)}{39}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}Nhân vật và tương tác}{40}{subsection.6.3}%
+\contentsline {section}{\numberline {7}Mã nguồn dự án}{41}{section.7}%
+\contentsline {section}{\numberline {8}Khai báo sử dụng AI trong dự án}{41}{section.8}%

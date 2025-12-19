@@ -31,8 +31,8 @@
 \usepackage{bm}
 \usepackage{cite}
 \usepackage{enumitem}
+\usepackage{parskip}
 % code
-
 
 % landscape page 
 \usepackage{lscape}
@@ -52,7 +52,6 @@
  stylemods,style=list, % set the default glossary style
  nogroupskip, nonumberlist, nomain
 ]{glossaries-extra}
-
 
 % FORMATTING
 % {
@@ -178,7 +177,7 @@ Nondeterministic polynomial time (Bất định trong thời gian đa thức)}
   \noindent\ignorespaces}{%
   \par\medskip
 }
-
+\setlength{\parindent}{0pt} % Forces no indent for the whole document
 % DOCUMENT
 \begin{document}
 
@@ -209,7 +208,7 @@ KHOA KHOA HỌC VÀ KỸ THUẬT MÁY TÍNH
 \\
 \multicolumn{1}{l}{\textbf{{Báo cáo Đồ án tổng hợp}}}\\
 \\
-\textbf{\textit{{\huge The Se7enth Code}}}\\
+\textbf{\textit{{\huge Seven Deadly Scene}}}\\
 \textbf{\textit{{\huge }}}\\
 \\
 \hline
@@ -266,17 +265,13 @@ Thành phố Hồ Chí Minh, năm 2025
 % }
 
 \include{Introduction_Acknowledge}
-\include{DevelopmentOrientation}
-\include{Requirement}
-\include{Device}
-\include{Usecase}
-\include{Mockup}
-\include{Database}
-\include{SoftwareArchitecture}
-\include{ClassDiagram}
-\include{DesignPattern}
-\include{Github}
-\include{Conclusion}
+\input{DevelopmentOrientation}
+\input{Requirement}
+\input{Usecase}
+\include{Diagram.tex}
+\input{Mockup}
+\input{Demo}
+\input{AI}
 
 % \include{References}
 % for testing
